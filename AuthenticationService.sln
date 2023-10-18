@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "AuthService\AuthService.csproj", "{842FC8DE-322B-49FD-B83D-EE2B6C0CE7AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Database", "Infra.Database\Infra.Database.csproj", "{F488A237-72F1-4EF2-B9D7-17BF0E6F1237}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.Database", "Infra.Database\Infra.Database.csproj", "{F488A237-72F1-4EF2-B9D7-17BF0E6F1237}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Scripts", "SQL Scripts", "{B68284DC-90D9-466E-8E53-30730B4BBD09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
