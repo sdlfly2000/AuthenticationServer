@@ -28,13 +28,11 @@ namespace AuthService.Controllers
                 UserName = request.UserName
             };
 
-            var createResult = await _userManager.CreateAsync(user);       
+            var result = await _userManager.CreateAsync(user, request.Password);
 
-            var addPwdResult = await _userManager.AddPasswordAsync(user, request.Password);
-
-            return createResult.Succeeded && addPwdResult.Succeeded
+            return result.Succeeded
                 ? Ok()
-                : BadRequest();
+                : BadRequest(String.Join(',', result.Errors.Select(e => e.Code + ": " + e.Description)));
         }
 
         [HttpGet("Users")]
@@ -42,6 +40,5 @@ namespace AuthService.Controllers
         {
             return _userManager.Users.ToList();
         }
-
     }
 }

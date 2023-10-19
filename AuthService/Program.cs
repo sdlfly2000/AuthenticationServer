@@ -1,4 +1,5 @@
 using AuthService;
+using AuthService.Actions;
 using Infra.Database;
 using Infra.Database.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,6 +45,7 @@ builder.Services.AddDbContext<IdDbContext>(
         b => b.MigrationsAssembly("Infra.Database"))
 );
 
+builder.Services.AddCors();
 builder.Services.AddDataProtection();
 builder.Services.AddIdentityCore<UserEntity>(options =>
 {
@@ -78,6 +80,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
+builder.Services.AddTransient<IGenerateJWTAction, GenerateJWTAction>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -92,6 +96,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseCors();
 app.MapControllers();
 
 app.Run();
