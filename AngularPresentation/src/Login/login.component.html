@@ -1,0 +1,8 @@
+<H1>{{ title }}</H1>
+<form #Login="ngForm" (ngSubmit)="OnSubmit(Login)">
+  <label for="UserName">User Name: </label>
+  <input type="text" id="UserName" name="userName" [(ngModel)]="loginRequest.UserName" />
+  <label for="Password">Password</label>
+  <input type="password" id="Password" name="password" [(ngModel)]="loginRequest.Password" />
+  <button type="submit" >Submit</button>
+</form>
