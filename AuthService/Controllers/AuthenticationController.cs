@@ -24,9 +24,14 @@ namespace AuthService.Controllers
         }
 
         [HttpPost]
-        [EnableCors]
-        public async Task<IActionResult> Authenticate([FromForm] AuthenticateRequest request)
+        [EnableCors("AllowAll")]
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _userManager.FindByNameAsync(request.UserName);
 
             if (user == null)
@@ -46,7 +51,10 @@ namespace AuthService.Controllers
             var redirectUrl = new StringBuilder();
             redirectUrl.Append(request.RedirectUrl).Append("/").Append(jwt);
 
-            return Redirect(redirectUrl.ToString());
+            return Ok(new AuthenticateResponse
+            {
+                redirecturl = redirectUrl.ToString()
+            });
         }
     }
 }

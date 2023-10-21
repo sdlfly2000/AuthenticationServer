@@ -45,7 +45,10 @@ builder.Services.AddDbContext<IdDbContext>(
         b => b.MigrationsAssembly("Infra.Database"))
 );
 
-builder.Services.AddCors();
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyHeader());
+});
 builder.Services.AddDataProtection();
 builder.Services.AddIdentityCore<UserEntity>(options =>
 {
@@ -96,7 +99,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors();
+app.UseCors("AllowAll");
 app.MapControllers();
 
 app.Run();
