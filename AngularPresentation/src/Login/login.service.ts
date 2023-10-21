@@ -4,8 +4,6 @@ import { LoginResponse } from "../Models/LoginResponse";
 import { Observable } from "rxjs";
 import { LoginRequest } from "../Models/LoginRequest";
 
-const headers = { 'Content-Type': 'application/json' };
-
 @Injectable({
   providedIn: "root"
 })
@@ -13,11 +11,11 @@ export class LoginService{
 
   private httpHeaders: HttpHeaders = new HttpHeaders({ "Content-Type": "application/json" , "Access-Control-Allow-Origin":"*"});
 
-  constructor(private httpClient: HttpClient, @Inject('BACKEND_BASE_URL') private backendBaseUrl: string) {
+  constructor(private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
 
   }
 
   public Authenticate(request: LoginRequest): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(this.backendBaseUrl + "Authentication/Authenticate", JSON.stringify(request), { headers: this.httpHeaders });
+    return this.httpClient.post<LoginResponse>(this.baseUrl + "Authentication/Authenticate", JSON.stringify(request), { headers: this.httpHeaders });
   }
 }

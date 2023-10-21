@@ -1,5 +1,6 @@
 using AuthService.Models;
 using Infra.Database.Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace AuthService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors("AllowAll")]
     public class UserManagerController : ControllerBase
     {
         private readonly ILogger<UserManagerController> _logger;

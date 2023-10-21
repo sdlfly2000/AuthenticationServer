@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AngularPresentation1": {
+    "AngularPresentation": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-presentation1",
+            "outputPath": "dist/angular-presentation",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -60,18 +60,21 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "AngularPresentation1:build:production"
+              "browserTarget": "AngularPresentation:build:production"
             },
             "development": {
-              "browserTarget": "AngularPresentation1:build:development"
+              "browserTarget": "AngularPresentation:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "src/proxy.conf.js"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "AngularPresentation1:build"
+            "browserTarget": "AngularPresentation:build"
           }
         },
         "test": {

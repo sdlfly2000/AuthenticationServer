@@ -18,7 +18,6 @@ import { LoginService } from './login.service';
   providers:
     [
       { provide: "BASE_URL", useValue: document.getElementsByTagName('base')[0].href },
-      { provide: "BACKEND_BASE_URL", useValue: "https://localhost:7008/" },
       { provide: LoginService },
     ],
   bootstrap: [loginComponent]
