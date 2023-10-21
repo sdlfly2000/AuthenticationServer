@@ -68,20 +68,20 @@ idBuilder.AddEntityFrameworkStores<IdDbContext>()
     .AddUserManager<UserManager<UserEntity>>();
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(x =>
-{
-    var jwtOpt = builder.Configuration.GetSection("JWT").Get<JWTOptions>();
-    byte[] keyBytes = Encoding.UTF8.GetBytes(jwtOpt.SigningKey);
-    var secKey = new SymmetricSecurityKey(keyBytes);
-    x.TokenValidationParameters = new()
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = secKey
-    };
-});
+                .AddJwtBearer(x =>
+                {
+                    var jwtOpt = builder.Configuration.GetSection("JWT").Get<JWTOptions>();
+                    byte[] keyBytes = Encoding.UTF8.GetBytes(jwtOpt.SigningKey);
+                    var secKey = new SymmetricSecurityKey(keyBytes);
+                    x.TokenValidationParameters = new()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = secKey
+                    };
+                });
 
 builder.Services.AddTransient<IGenerateJWTAction, GenerateJWTAction>();
 
