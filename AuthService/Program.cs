@@ -38,7 +38,7 @@ builder.Services.AddSwaggerGen(
 //}
 );
 var connectionString = builder.Configuration.GetConnectionString("IdentityDatabase");
-builder.Services.AddDbContext<IdDbContext>(
+builder.Services.AddDbContextPool<IdDbContext>(
     options => options.UseMySql(
         connectionString,
         ServerVersion.AutoDetect(connectionString),
