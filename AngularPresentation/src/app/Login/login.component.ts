@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { LoginRequest } from './Models/LoginRequest';
 import { LoginService } from './login.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-root',
@@ -26,10 +27,14 @@ export class loginComponent {
     this.loginService.Authenticate(this.loginRequest).subscribe(
       response =>
       {
-        if (response.returnurl == "" || response.returnurl == undefined) {
-
+        AuthService.JwtToken = response.jwtToken;
+        if (response.returnurl != undefined) {
+          window.location.href = response.returnurl + "?jwtToke=" + response.jwtToken;
         }
-        window.location.href = response.returnurl + "?jwtToke=" + response.jwt;
       });
+  }
+
+  GetUsers() {
+    this.loginService.GetUsers().subscribe(result => console.log(result));
   }
 }

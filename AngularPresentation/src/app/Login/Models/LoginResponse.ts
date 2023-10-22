@@ -1,5 +1,5 @@
 export interface LoginResponse
 {
   returnurl: string,
-  jwt: string
+  jwtToken: string
 }

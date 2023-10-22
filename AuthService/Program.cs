@@ -68,12 +68,12 @@ idBuilder.AddEntityFrameworkStores<IdDbContext>()
     .AddUserManager<UserManager<UserEntity>>();
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(x =>
+                .AddJwtBearer(option =>
                 {
                     var jwtOpt = builder.Configuration.GetSection("JWT").Get<JWTOptions>();
                     byte[] keyBytes = Encoding.UTF8.GetBytes(jwtOpt.SigningKey);
                     var secKey = new SymmetricSecurityKey(keyBytes);
-                    x.TokenValidationParameters = new()
+                    option.TokenValidationParameters = new()
                     {
                         ValidateIssuer = false,
                         ValidateAudience = false,
