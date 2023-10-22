@@ -5,6 +5,8 @@ import { loginComponent } from './login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginService } from './login.service';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import { LoginService } from './login.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    InputTextModule,
+    ButtonModule
   ],
   providers:
     [

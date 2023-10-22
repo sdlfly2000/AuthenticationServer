@@ -1,10 +1,24 @@
 <H1>{{ title }}</H1>
 <form #Login="ngForm" (ngSubmit)="OnSubmit(Login)">
-  <label for="UserName">User Name: </label>
-  <input type="text" id="UserName" name="userName" [(ngModel)]="loginRequest.username" />
-  <label for="Password">Password</label>
-  <input type="password" id="Password" name="password" [(ngModel)]="loginRequest.password" />
-  <label for="ReturnUrl">ReturnUrl</label>
-  <input type="text" id="ReturnUrl" name="returnUrl" [(ngModel)]="loginRequest.redirecturl" />
-  <button type="submit">Submit</button>
+  <div class="InputBoxContainer">
+    <span class="p-float-label">
+      <input type="text" id="UserName" name="userName" pInputText [(ngModel)]="loginRequest.username" />
+      <label htmlFor="UserName">User Name</label>
+    </span>
+  </div>
+  <div class="InputBoxContainer">
+    <span class="p-float-label">
+      <input type="password" id="Password" name="password" pInputText [(ngModel)]="loginRequest.password" />
+      <label for="Password">Password</label>
+    </span>
+  </div>
+  <div class="InputBoxContainer">
+    <span class="p-float-label">
+      <input type="text" id="ReturnUrl" name="returnUrl" pInputText [(ngModel)]="loginRequest.redirecturl" />
+      <label for="ReturnUrl">ReturnUrl</label>
+    </span>
+  </div>
+  <div class="Button">
+    <p-button type="submit" label="Submit"></p-button>
+  </div>
 </form>
