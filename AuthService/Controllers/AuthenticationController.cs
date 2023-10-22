@@ -48,12 +48,10 @@ namespace AuthService.Controllers
                 await _userManager.GetClaimsAsync(user),
                 await _userManager.GetRolesAsync(user));
 
-            var redirectUrl = new StringBuilder();
-            redirectUrl.Append(request.RedirectUrl).Append("/").Append(jwt);
-
             return Ok(new AuthenticateResponse
             {
-                redirecturl = redirectUrl.ToString()
+                ReturnUrl = request.ReturnUrl,
+                JwtToken = jwt
             });
         }
     }

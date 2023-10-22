@@ -25,7 +25,8 @@ import { LoginService } from './Login/login.service';
     FormsModule,
     InputTextModule,
     RouterModule.forRoot([
-      { path: '', component: loginComponent, pathMatch: 'full' }
+      { path: '', component: loginComponent, pathMatch: 'full' },
+      { path: 'login', component: loginComponent, pathMatch: 'full' }
     ]),
   ],
   providers: [

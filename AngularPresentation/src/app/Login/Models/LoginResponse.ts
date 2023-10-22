@@ -1,3 +1,5 @@
-export interface LoginResponse {
-  redirecturl: string
+export interface LoginResponse
+{
+  returnurl: string,
+  jwt: string
 }

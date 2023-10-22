@@ -1,5 +1,5 @@
 export interface LoginRequest {
   username: string,
   password: string,
-  redirecturl: string
+  returnurl: string | null
 }

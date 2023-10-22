@@ -2,6 +2,7 @@
 {
     public class AuthenticateResponse
     {
-        public string redirecturl { get; set; }
+        public string JwtToken { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }
