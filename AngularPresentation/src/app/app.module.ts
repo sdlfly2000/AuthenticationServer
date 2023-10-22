@@ -8,25 +8,29 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { loginComponent } from './Login/login.component';
-import { LoginModule } from './Login/login.module';
+import { InputTextModule } from 'primeng/inputtext';
+import { LoginService } from './Login/login.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent
+    NavMenuComponent,
+    loginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    LoginModule,
+    InputTextModule,
     RouterModule.forRoot([
       { path: '', component: loginComponent, pathMatch: 'full' }
     ]),
   ],
   providers: [
+    { provide: "BASE_URL", useValue: document.getElementsByTagName('base')[0].href },
+    { provide: LoginService },
   ],
   bootstrap: [AppComponent]
 })
