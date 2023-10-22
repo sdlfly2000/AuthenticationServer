@@ -4,7 +4,6 @@ using Infra.Database.Entities;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 
 namespace AuthService.Controllers
 {
