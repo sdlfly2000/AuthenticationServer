@@ -12,13 +12,16 @@ namespace AuthService.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<UserEntity> _userManager;
+        private readonly SignInManager<UserEntity> _signInManager;
         private readonly IGenerateJWTAction _generateJWTAction;
 
         public AuthenticationController(
             UserManager<UserEntity> userManager,
+            SignInManager<UserEntity> signInManager,
             IGenerateJWTAction generateJWTAction)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _generateJWTAction = generateJWTAction;
         }
 
@@ -38,7 +41,9 @@ namespace AuthService.Controllers
                 return NotFound("User does not Exist.");
             }
 
-            if(!await _userManager.CheckPasswordAsync(user, request.Password))
+            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+            if (signInResult.IsNotAllowed)
             {
                 return Problem("Authentication Failed");
             }

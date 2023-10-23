@@ -65,7 +65,9 @@ var idBuilder = new IdentityBuilder(typeof(UserEntity), typeof(RoleEntity), buil
 idBuilder.AddEntityFrameworkStores<IdDbContext>()
     .AddDefaultTokenProviders()
     .AddRoleManager<RoleManager<RoleEntity>>()
-    .AddUserManager<UserManager<UserEntity>>();
+    .AddUserManager<UserManager<UserEntity>>()
+    .AddSignInManager<SignInManager<UserEntity>>();
+
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(option =>
