@@ -12,13 +12,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { LoginService } from './Login/login.service';
 import { AuthService } from './auth.service';
 import { AuthInterceptor } from './auth.interceptor';
+import { UserComponent } from './User/user.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    loginComponent
+    loginComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,7 +30,8 @@ import { AuthInterceptor } from './auth.interceptor';
     InputTextModule,
     RouterModule.forRoot([
       { path: '', component: loginComponent, pathMatch: 'full' },
-      { path: 'login', component: loginComponent, pathMatch: 'full' }
+      { path: 'login', component: loginComponent, pathMatch: 'full' },
+      { path: 'user', component: UserComponent, pathMatch: 'full' }
     ]),
   ],
   providers: [
