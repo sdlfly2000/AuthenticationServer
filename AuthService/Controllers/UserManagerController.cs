@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [EnableCors("AllowAll")]
     public class UserManagerController : ControllerBase
     {

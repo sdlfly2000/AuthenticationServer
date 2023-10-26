@@ -1,5 +1,6 @@
 ﻿using AuthService.Models;
 using Infra.Database.Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -7,7 +8,8 @@ using System.Security.Claims;
 namespace AuthService.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
+    [EnableCors("AllowAll")]
     public class ClaimManagerController : ControllerBase
     {
         private readonly RoleManager<RoleEntity> _roleManager;
@@ -34,6 +36,17 @@ namespace AuthService.Controllers
             if (!result.Succeeded) { return Problem("Failed to Add Claim"); }
 
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
+        {
+            var user = await _userManager.FindByNameAsync(id);
+            if (user == null) { return Problem("User does not exist."); }
+
+            var claims = await _userManager.GetClaimsAsync(user);
+
+            return Ok(claims);
         }
     }
 }

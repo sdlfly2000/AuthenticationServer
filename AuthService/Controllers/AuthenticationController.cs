@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthService.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<UserEntity> _userManager;

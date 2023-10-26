@@ -16,6 +16,6 @@ export class LoginService{
   }
 
   public Authenticate(request: LoginRequest): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(this.baseUrl + "Authentication/Authenticate", JSON.stringify(request), { headers: this.httpHeaders });
+    return this.httpClient.post<LoginResponse>(this.baseUrl + "api/Authentication/Authenticate", JSON.stringify(request), { headers: this.httpHeaders });
   }
 }
