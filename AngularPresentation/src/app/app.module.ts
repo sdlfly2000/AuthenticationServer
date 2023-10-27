@@ -13,6 +13,7 @@ import { LoginService } from './Login/login.service';
 import { AuthService } from './auth.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { UserComponent } from './User/user.component';
+import { UserService } from './User/user.service';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { UserComponent } from './User/user.component';
     { provide: "BASE_URL", useValue: document.getElementsByTagName('base')[0].href },
     { provide: LoginService },
     { provide: AuthService },
+    { provide: UserService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

@@ -12,14 +12,11 @@ namespace AuthService.Controllers
     [EnableCors("AllowAll")]
     public class ClaimManagerController : ControllerBase
     {
-        private readonly RoleManager<RoleEntity> _roleManager;
         private readonly UserManager<UserEntity> _userManager;
 
         public ClaimManagerController(
-            RoleManager<RoleEntity> roleManager, 
             UserManager<UserEntity> userManager)
         {
-            _roleManager = roleManager;
             _userManager = userManager;
         }
 
@@ -41,12 +38,13 @@ namespace AuthService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
         {
-            var user = await _userManager.FindByNameAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null) { return Problem("User does not exist."); }
 
             var claims = await _userManager.GetClaimsAsync(user);
+            var userClaims = claims.Select(claim => new UserClaimModel { Type = claim.Type.Split('/').Last(),Value = claim.Value});
 
-            return Ok(claims);
+            return Ok(userClaims);
         }
     }
 }

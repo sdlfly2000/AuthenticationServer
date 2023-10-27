@@ -1,4 +1,4 @@
 export interface UserClaim {
-  ClaimType: string,
-  Value: string
+  type: string,
+  value: string
 }

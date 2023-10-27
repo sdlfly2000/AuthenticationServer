@@ -1,7 +1,11 @@
 <H1>{{ title }}</H1>
-<form #UserForm="ngForm" (ngSubmit)="OnSubmit(UserForm)" class="row g-3">
-  <div class="col-md-6">
-    <label for="DisplayName" class="form-label">Display Name: </label>
-    <input type="text"  class="form-control" id="DisplayName" name="displayname" placeholder="Display Name" />
-  </div>  
+<form #UserForm="ngForm" (ngSubmit)="OnSubmit(UserForm)" class="row g-3" *ngIf="UserClaims">
+  <div class="row form-element" *ngFor="let claim of UserClaims; let i = index">
+    <label [for]="claim.type" class="form-label form-element">{{claim.type}}</label>
+    <input type="text" class="form-control form-element" [id]="claim.type" [value]="claim.value"/>
+  </div>
+  <div class="row form-element">
+    <button type="submit" class="btn btn-primary col col-3 form-element">Update</button>
+    <button type="reset" class="btn btn-secondary col col-3 form-element">Cancel</button>
+  </div>
 </form>
