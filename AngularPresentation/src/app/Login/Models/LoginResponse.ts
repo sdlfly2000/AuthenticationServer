@@ -1,5 +1,6 @@
 export interface LoginResponse
 {
-  returnurl: string,
+  returnUrl: string,
+  userId: string,
   jwtToken: string
 }

@@ -55,6 +55,7 @@ namespace AuthService.Controllers
             return Ok(new AuthenticateResponse
             {
                 ReturnUrl = request.ReturnUrl,
+                UserId = user.Id.ToString(),
                 JwtToken = jwt
             });
         }
