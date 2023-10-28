@@ -19,20 +19,31 @@ export class loginComponent {
     returnurl: ""
   };
 
+  isLoginFaild: boolean = false;
+  loginMessage: string = "";
+
   constructor(private loginService: LoginService, private route: ActivatedRoute, private router: Router) {
     this.loginRequest.returnurl = this.route.snapshot.queryParamMap.get("returnUrl");
   }
 
   OnSubmit(form: NgForm) {
-    this.loginService.Authenticate(this.loginRequest).subscribe(
-      response =>
-      {
-        AuthService.JwtToken = response.jwtToken;
-        if (response.returnUrl != undefined) {
-          window.location.href = response.returnUrl + "?jwtToke=" + response.jwtToken;
-        } else {
-          this.router.navigateByUrl("user?id="+response.userId);
+    this.loginMessage = "";
+    this.loginService.Authenticate(this.loginRequest)
+      .subscribe(
+        response => {
+          AuthService.JwtToken = response.jwtToken;
+          if (response.returnUrl != undefined) {
+            window.location.href = response.returnUrl + "?jwtToke=" + response.jwtToken;
+          } else {
+            this.router.navigateByUrl("user?id=" + response.userId);
+          }
+          this.isLoginFaild = false;
+          this.loginMessage = "Successed";
+        },
+        error => {
+          this.isLoginFaild = true;
+          this.loginMessage = "Failed";
         }
-      });
+    );
   }
 }

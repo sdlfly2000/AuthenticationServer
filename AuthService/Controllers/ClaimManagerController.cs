@@ -1,5 +1,6 @@
 ﻿using AuthService.Models;
 using Infra.Database.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace AuthService.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     [EnableCors("AllowAll")]
+    [Authorize]
     public class ClaimManagerController : ControllerBase
     {
         private readonly UserManager<UserEntity> _userManager;

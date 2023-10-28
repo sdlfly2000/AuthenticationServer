@@ -38,14 +38,14 @@ namespace AuthService.Controllers
 
             if (user == null)
             {
-                return NotFound("User does not Exist.");
+                return Forbid();
             }
 
             var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
-            if (signInResult.IsNotAllowed)
+            if (!signInResult.Succeeded)
             {
-                return Problem("Authentication Failed");
+                return Forbid();
             }
 
             var jwt = _generateJWTAction.Generate(

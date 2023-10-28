@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, catchError, pipe, throwError } from "rxjs";
 import { LoginRequest } from "./Models/LoginRequest";
 import { LoginResponse } from "./Models/LoginResponse";
+import { AuthService } from "../auth.service";
 
 @Injectable({
   providedIn: "root"
@@ -15,7 +16,16 @@ export class LoginService{
 
   }
 
+  private ErrorHandler(errorResponse: HttpErrorResponse) {
+    AuthService.JwtToken = "";
+    return throwError(() => new Error(errorResponse.error));
+  }
+
   public Authenticate(request: LoginRequest): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(this.baseUrl + "api/Authentication/Authenticate", JSON.stringify(request), { headers: this.httpHeaders });
+    return this.httpClient
+      .post<LoginResponse>(this.baseUrl + "api/Authentication/Authenticate", JSON.stringify(request), { headers: this.httpHeaders })
+      .pipe(
+        catchError(this.ErrorHandler)
+      );
   }
 }
