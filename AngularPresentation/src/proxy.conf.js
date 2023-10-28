@@ -3,7 +3,7 @@ const PROXY_CONFIG = [
     context: [
       "/api/**"
     ],
-    target: "https://localhost:7008",
+    target: "http://192.168.71.151:4202",
     secure: false
   }
 ]

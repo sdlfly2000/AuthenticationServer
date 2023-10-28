@@ -4,7 +4,7 @@ After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=dotnet /home/sdlfly2000/Projects/AuthenticationService/AuthService/AuthService.dll
+ExecStart=dotnet /home/sdlfly2000/Projects/AuthenticationService/AuthService/AuthService.dll --urls http://*:4202
 WorkingDirectory=/home/sdlfly2000/Projects/AuthenticationService/AuthService/
 KillMode=process
 Restart=on-failure
