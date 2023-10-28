@@ -14,6 +14,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{CAA0F4D9-85D0-497B-8200-EC3431660AF8}"
 	ProjectSection(SolutionItems) = preProject
 		Deployment\Build.ps1 = Deployment\Build.ps1
+		Deployment\AuthService.service = Deployment\AuthService.service
+		Deployment\Deploy.ps1 = Deployment\Deploy.ps1
+		Deployment\Readme.md = Deployment\Readme.md
+		Deployment\Start.ps1 = Deployment\Start.ps1
 	EndProjectSection
 EndProject
 Global

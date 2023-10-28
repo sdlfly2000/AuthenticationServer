@@ -1,0 +1,14 @@
+[Unit]
+Description=Auth Service
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=dotnet /home/sdlfly2000/Projects/AuthenticationService/AuthService/AuthService.dll
+WorkingDirectory=/home/sdlfly2000/Projects/AuthenticationService/AuthService/
+KillMode=process
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target
