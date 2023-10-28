@@ -14,4 +14,8 @@ export class UserService {
   GetUserClaims(UserID: string): Observable<UserClaim[]> {
     return this.httpClient.get<UserClaim[]>(this.BaseUrl + "api/ClaimManager/GetClaimByUserId?id=" + UserID);
   }
+
+  UpdateUserClaim(): Observable<string> {
+    return this.httpClient.post<string>("", "");
+  }
 }
