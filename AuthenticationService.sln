@@ -11,6 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Scripts", "SQL Scripts"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AngularPresentation", "AngularPresentation\AngularPresentation.esproj", "{2D2A9B95-532B-4843-9C1E-27D1165F0143}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{CAA0F4D9-85D0-497B-8200-EC3431660AF8}"
+	ProjectSection(SolutionItems) = preProject
+		Deployment\Build.ps1 = Deployment\Build.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
