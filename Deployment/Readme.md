@@ -4,10 +4,21 @@
 
 server {
   listen 0.0.0.0:4201;
-  root /var/www/AngularPresentation/;
-  index index.php index.html index.htm;
   location / {
+    root /var/www/AngularPresentation/;
+    index index.php index.html index.htm;
     try_files $uri $uri/ /index.html;
+  }
+
+  location /api/ {
+    add_header Access-Control-Allow-Origin '*';
+    add_header Access-Control-Allow-Headers '*';
+    add_header Access-Control-Allow-Methods '*';
+    add_header Access-Control-Allow-Credentials 'true';
+    if ($request_method = 'OPTIONS'){
+      return 204;
+    }
+    proxy_pass http://127.0.0.1:4202/api/;
   }
 }
 
