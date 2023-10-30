@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { UserComponent } from './User/user.component';
 import { UserService } from './User/user.service';
+import { AuthFailureInterceptor } from './authFailure.interceptor';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { UserService } from './User/user.service';
     { provide: LoginService },
     { provide: AuthService },
     { provide: UserService },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthFailureInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
