@@ -33,7 +33,7 @@ export class loginComponent {
         response => {
           AuthService.JwtToken = response.jwtToken;
           if (response.returnUrl != undefined) {
-            window.location.href = response.returnUrl + "?jwtToke=" + response.jwtToken;
+            window.location.href = response.returnUrl + "?jwtToken=" + response.jwtToken;
           } else {
             this.router.navigateByUrl("user?id=" + response.userId);
           }
