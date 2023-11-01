@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { UserComponent } from './User/user.component';
 import { UserService } from './User/user.service';
-import { AuthFailureInterceptor } from './authFailure.interceptor';
+import { AuthFailureInterceptor } from './auth-failure.interceptor';
 
 
 @NgModule({
