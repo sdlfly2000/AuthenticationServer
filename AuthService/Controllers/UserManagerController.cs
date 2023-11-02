@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AuthService.Controllers
 {
@@ -47,9 +48,16 @@ namespace AuthService.Controllers
 
         [HttpGet("User")]
         [Authorize]
-        public async Task<UserEntity?> GetUserByUserId([FromQuery]string id)
+        public async Task<UserModel?> GetUserByUserId([FromQuery] string id)
         {
-            return await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
+            var claims = await _userManager.GetClaimsAsync(user);
+
+            return new UserModel
+            {
+                Id = claims.Where(claim => claim.Type.Equals(ClaimTypes.NameIdentifier)).Single().Value,
+                Name = claims.Where(claim => claim.Type.Equals(ClaimTypes.Name)).Single().Value,
+            };
         }
     }
 }
