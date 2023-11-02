@@ -44,5 +44,12 @@ namespace AuthService.Controllers
         {
             return _userManager.Users.ToList();
         }
+
+        [HttpGet("User")]
+        [Authorize]
+        public async Task<UserEntity?> GetUserByUserId([FromQuery]string id)
+        {
+            return await _userManager.FindByIdAsync(id);
+        }
     }
 }
