@@ -51,6 +51,12 @@ namespace AuthService.Controllers
         public async Task<UserModel?> GetUserByUserId([FromQuery] string id)
         {
             var user = await _userManager.FindByIdAsync(id);
+
+            if(user == null)
+            {
+                return default;
+            }
+
             var claims = await _userManager.GetClaimsAsync(user);
 
             return new UserModel
