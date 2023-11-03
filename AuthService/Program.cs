@@ -78,7 +78,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     var secKey = new SymmetricSecurityKey(keyBytes);
                     option.TokenValidationParameters = new()
                     {
-                        ValidateIssuer = false,
+                        ValidIssuer = jwtOpt.Issuer,
+
+                        ValidateIssuer = true,
                         ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
@@ -102,7 +104,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("AllowAll");
+app.UseCors("AllowPolicy");
 app.MapControllers();
 
 app.Run();

@@ -22,6 +22,7 @@ namespace AuthService.Actions
             var secKey = new SymmetricSecurityKey(keyBytes);
             var credentials = new SigningCredentials(secKey, SecurityAlgorithms.HmacSha256Signature);
             var tokenDescriptor = new JwtSecurityToken(
+                issuer: _options.Issuer,
                 expires: expires,
                 signingCredentials: credentials,
                 claims: claims);
