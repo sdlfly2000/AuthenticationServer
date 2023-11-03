@@ -10,7 +10,7 @@ namespace AuthService.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    [EnableCors("AllowAll")]
+    [EnableCors("AllowPolicy")]
     [Authorize]
     public class ClaimManagerController : ControllerBase
     {

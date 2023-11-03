@@ -26,7 +26,7 @@ namespace AuthService.Controllers
         }
 
         [HttpPost]
-        [EnableCors("AllowAll")]
+        [EnableCors("AllowPolicy")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
         {
             if (!ModelState.IsValid)

@@ -47,8 +47,9 @@ builder.Services.AddDbContextPool<IdDbContext>(
 
 builder.Services.AddCors(option =>
 {
-    option.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyHeader());
+    option.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().AllowAnyHeader());
 });
+
 builder.Services.AddDataProtection();
 builder.Services.AddIdentityCore<UserEntity>(options =>
 {

@@ -10,7 +10,7 @@ namespace AuthService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [EnableCors("AllowAll")]
+    [EnableCors("AllowPolicy")]
     public class UserManagerController : ControllerBase
     {
         private readonly ILogger<UserManagerController> _logger;
