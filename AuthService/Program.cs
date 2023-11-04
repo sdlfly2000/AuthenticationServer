@@ -5,8 +5,6 @@ using Infra.Database.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,40 +68,9 @@ idBuilder.AddEntityFrameworkStores<IdDbContext>()
     .AddSignInManager<SignInManager<UserEntity>>();
 
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddScheme<JwtBearerOptions, JwtCustomHandler>(JwtBearerDefaults.AuthenticationScheme, option =>
-                {
-                    var jwtOpt = builder.Configuration.GetSection("JWT").Get<JWTOptions>();
-                    byte[] keyBytes = Encoding.UTF8.GetBytes(jwtOpt.SigningKey);
-                    var secKey = new SymmetricSecurityKey(keyBytes);
-                    option.TokenValidationParameters = new()
-                    {
-                        ValidIssuer = jwtOpt.Issuer,
-
-                        ValidateIssuer = true,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = secKey
-                    };
-                });
-
-                //.AddJwtBearer(option =>
-                //{
-                //    var jwtOpt = builder.Configuration.GetSection("JWT").Get<JWTOptions>();
-                //    byte[] keyBytes = Encoding.UTF8.GetBytes(jwtOpt.SigningKey);
-                //    var secKey = new SymmetricSecurityKey(keyBytes);
-                //    option.TokenValidationParameters = new()
-                //    {
-                //        ValidIssuer = jwtOpt.Issuer,
-
-                //        ValidateIssuer = true,
-                //        ValidateAudience = false,
-                //        ValidateLifetime = true,
-                //        ValidateIssuerSigningKey = true,
-                //        IssuerSigningKey = secKey
-                //    };
-                //});
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
 
 builder.Services.AddTransient<IGenerateJWTAction, GenerateJWTAction>();
 
