@@ -4,6 +4,7 @@ using Infra.Database.Entities;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AuthService.Controllers
 {
@@ -48,8 +49,12 @@ namespace AuthService.Controllers
                 return Forbid();
             }
 
+            var claims = await _userManager.GetClaimsAsync(user);
+            claims.Add(new Claim(ClaimTypes.Uri, HttpContext.Connection.RemoteIpAddress.ToString()));
+            claims.Add(new Claim(ClaimTypes.UserData, HttpContext.Request.Headers.UserAgent));
+
             var jwt = _generateJWTAction.Generate(
-                await _userManager.GetClaimsAsync(user),
+                claims,
                 await _userManager.GetRolesAsync(user));
 
             return Ok(new AuthenticateResponse

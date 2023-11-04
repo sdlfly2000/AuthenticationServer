@@ -71,7 +71,7 @@ idBuilder.AddEntityFrameworkStores<IdDbContext>()
 
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(option =>
+                .AddScheme<JwtBearerOptions, JwtCustomHandler>(JwtBearerDefaults.AuthenticationScheme, option =>
                 {
                     var jwtOpt = builder.Configuration.GetSection("JWT").Get<JWTOptions>();
                     byte[] keyBytes = Encoding.UTF8.GetBytes(jwtOpt.SigningKey);
@@ -87,6 +87,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         IssuerSigningKey = secKey
                     };
                 });
+
+                //.AddJwtBearer(option =>
+                //{
+                //    var jwtOpt = builder.Configuration.GetSection("JWT").Get<JWTOptions>();
+                //    byte[] keyBytes = Encoding.UTF8.GetBytes(jwtOpt.SigningKey);
+                //    var secKey = new SymmetricSecurityKey(keyBytes);
+                //    option.TokenValidationParameters = new()
+                //    {
+                //        ValidIssuer = jwtOpt.Issuer,
+
+                //        ValidateIssuer = true,
+                //        ValidateAudience = false,
+                //        ValidateLifetime = true,
+                //        ValidateIssuerSigningKey = true,
+                //        IssuerSigningKey = secKey
+                //    };
+                //});
 
 builder.Services.AddTransient<IGenerateJWTAction, GenerateJWTAction>();
 
