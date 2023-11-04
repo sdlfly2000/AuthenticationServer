@@ -17,9 +17,7 @@ namespace AuthService
         }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
-        {
-            Logger.LogInformation("Enter Custom Jwt Auth Handler...");
-            
+        {            
             var remoteIpAdress = Context.Connection.RemoteIpAddress?.ToString();
             var userAgent = Request.Headers.UserAgent.ToString();
 
