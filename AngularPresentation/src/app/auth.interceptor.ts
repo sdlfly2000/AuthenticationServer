@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  public authToken : string = "";
+  public authToken : string | null = "";
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    this.authToken = AuthService.JwtToken;
+    this.authToken = this.authService.JwtToken;
 
     if (this.authToken != "" || this.authToken != null) {
       const authReq = req.clone({

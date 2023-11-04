@@ -4,5 +4,12 @@ import { Injectable } from "@angular/core";
   providedIn: "root"
 })
 export class AuthService {
-  public static JwtToken: string = "";
+
+  get JwtToken() : string | null {
+    return localStorage.getItem("AuthJwt");
+  }
+
+  set JwtToken(value: string) {
+    localStorage.setItem("AuthJwt", value);
+  }
 }

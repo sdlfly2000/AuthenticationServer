@@ -12,12 +12,12 @@ export class LoginService{
 
   private httpHeaders: HttpHeaders = new HttpHeaders({ "Content-Type": "application/json" , "Access-Control-Allow-Origin":"*"});
 
-  constructor(private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+  constructor(private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string, private authService: AuthService) {
 
   }
 
   private ErrorHandler(errorResponse: HttpErrorResponse) {
-    AuthService.JwtToken = "";
+    this.authService.JwtToken = "";
     return throwError(() => new Error(errorResponse.error));
   }
 

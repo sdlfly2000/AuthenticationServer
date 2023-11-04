@@ -22,7 +22,7 @@ export class loginComponent {
   isLoginFaild: boolean = false;
   loginMessage: string = "";
 
-  constructor(private loginService: LoginService, private route: ActivatedRoute, private router: Router) {
+  constructor(private loginService: LoginService, private route: ActivatedRoute, private router: Router, private authService: AuthService) {
     this.loginRequest.returnurl = this.route.snapshot.queryParamMap.get("returnUrl");
   }
 
@@ -31,7 +31,7 @@ export class loginComponent {
     this.loginService.Authenticate(this.loginRequest)
       .subscribe(
         response => {
-          AuthService.JwtToken = response.jwtToken;
+          this.authService.JwtToken = response.jwtToken;
           if (response.returnUrl != undefined) {
             window.location.href = response.returnUrl + "?jwtToken=" + response.jwtToken;
           } else {
