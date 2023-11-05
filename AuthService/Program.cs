@@ -73,6 +73,7 @@ builder.Services
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
 
 builder.Services.AddTransient<IGenerateJWTAction, GenerateJWTAction>();
+builder.Services.AddTransient<IAuthenticateAction, AuthenticateAction>();
 
 var app = builder.Build();
 

@@ -1,10 +1,7 @@
 ﻿using AuthService.Actions;
 using AuthService.Models;
-using Infra.Database.Entities;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace AuthService.Controllers
 {
@@ -12,18 +9,11 @@ namespace AuthService.Controllers
     [Route("api/[controller]/[action]")]
     public class AuthenticationController : ControllerBase
     {
-        private readonly UserManager<UserEntity> _userManager;
-        private readonly SignInManager<UserEntity> _signInManager;
-        private readonly IGenerateJWTAction _generateJWTAction;
+        private readonly IAuthenticateAction _authenticateAction;
 
-        public AuthenticationController(
-            UserManager<UserEntity> userManager,
-            SignInManager<UserEntity> signInManager,
-            IGenerateJWTAction generateJWTAction)
+        public AuthenticationController(IAuthenticateAction authenticateAction)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _generateJWTAction = generateJWTAction;
+            _authenticateAction = authenticateAction;
         }
 
         [HttpPost]
@@ -35,34 +25,11 @@ namespace AuthService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager.FindByNameAsync(request.UserName);
+            var authResult = await _authenticateAction.AuthenticateAndGenerateJwt(request, HttpContext);
 
-            if (user == null)
-            {
-                return Forbid();
-            }
-
-            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
-            if (!signInResult.Succeeded)
-            {
-                return Forbid();
-            }
-
-            var claims = await _userManager.GetClaimsAsync(user);
-            claims.Add(new Claim(ClaimTypes.Uri, HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString()));
-            claims.Add(new Claim(ClaimTypes.UserData, HttpContext.Request.Headers.UserAgent.ToString()));
-
-            var jwt = _generateJWTAction.Generate(
-                claims,
-                await _userManager.GetRolesAsync(user));
-
-            return Ok(new AuthenticateResponse
-            {
-                ReturnUrl = request.ReturnUrl,
-                UserId = user.Id.ToString(),
-                JwtToken = jwt
-            });
+            return authResult != null
+                ? Ok(authResult)
+                : Forbid();
         }
     }
 }

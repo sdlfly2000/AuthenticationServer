@@ -11,13 +11,15 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./lgoin.component.css']
 })
 export class loginComponent {
-    title = 'Lgoin';
+  title = 'Lgoin';
 
   loginRequest: LoginRequest = {
     username: "",
     password: "",
     returnurl: ""
   };
+
+  password: string | null = "";
 
   isLoginFaild: boolean = false;
   loginMessage: string = "";
@@ -28,6 +30,12 @@ export class loginComponent {
 
   OnSubmit(form: NgForm) {
     this.loginMessage = "";
+
+    if (this.password == "" || this.password == null) {
+      return;
+    }
+
+    this.loginRequest.password = btoa(this.password + "|" + Date.now());
     this.loginService.Authenticate(this.loginRequest)
       .subscribe(
         response => {
