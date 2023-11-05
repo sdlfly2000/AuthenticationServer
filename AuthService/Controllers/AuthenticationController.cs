@@ -50,7 +50,7 @@ namespace AuthService.Controllers
             }
 
             var claims = await _userManager.GetClaimsAsync(user);
-            claims.Add(new Claim(ClaimTypes.Uri, HttpContext.Connection.RemoteIpAddress?.Address.ToString()));
+            claims.Add(new Claim(ClaimTypes.Uri, HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString()));
             claims.Add(new Claim(ClaimTypes.UserData, HttpContext.Request.Headers.UserAgent.ToString()));
 
             var jwt = _generateJWTAction.Generate(
