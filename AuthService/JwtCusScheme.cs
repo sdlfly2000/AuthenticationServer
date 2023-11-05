@@ -41,7 +41,7 @@ namespace AuthService
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {            
-            var remoteIpAdress = Context.Connection.RemoteIpAddress?.ToString();
+            var remoteIpAdress = Context.Connection.RemoteIpAddress?.Address.ToString();
             var userAgent = Request.Headers.UserAgent.ToString();
 
             var auth = Request.Headers.Authorization.ToString();
