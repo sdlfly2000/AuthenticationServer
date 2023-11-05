@@ -10,7 +10,8 @@ using System.Text.Encodings.Web;
 
 namespace AuthService
 {
-    public static class JwtCusScheme { 
+    public static class JwtCusScheme 
+    { 
 
         public static AuthenticationBuilder AddJwtCusScheme(this AuthenticationBuilder builder, JWTOptions jwtOpt)
         {
