@@ -13,15 +13,20 @@ namespace AuthService.Actions
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly IGenerateJWTAction _generateJWTAction;
+        private readonly IConfiguration _configuration;
 
         public AuthenticateAction(
             UserManager<UserEntity> userManager,
             SignInManager<UserEntity> signInManager,
-            IGenerateJWTAction generateJWTAction)
+            IGenerateJWTAction generateJWTAction,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _generateJWTAction = generateJWTAction;
+
+            _configuration = configuration;
+            ALLOW_DELAY_IN_SEC = int.Parse(_configuration.GetSection("AuthServiceConfigure:AllowMaxDelayInSec").Value!);
         }
 
         public async Task<AuthenticateResponse?> AuthenticateAndGenerateJwt(AuthenticateRequest request, HttpContext context)
