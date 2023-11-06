@@ -1,0 +1,7 @@
+.box-shadow-status {
+  box-shadow: 0 -0.25rem .75rem rgba(0, 0, 0, .05);
+}
+
+footer {
+  height: 50px;
+}

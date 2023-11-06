@@ -15,6 +15,8 @@ import { AuthInterceptor } from './auth.interceptor';
 import { UserComponent } from './User/user.component';
 import { UserService } from './User/user.service';
 import { AuthFailureInterceptor } from './auth-failure.interceptor';
+import { StatusBarComponent } from './status-bar/status-bar.component';
+import { StatusMessageService } from './statusmessage.service';
 
 
 @NgModule({
@@ -22,7 +24,8 @@ import { AuthFailureInterceptor } from './auth-failure.interceptor';
     AppComponent,
     NavMenuComponent,
     loginComponent,
-    UserComponent
+    UserComponent,
+    StatusBarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,6 +44,7 @@ import { AuthFailureInterceptor } from './auth-failure.interceptor';
     { provide: LoginService },
     { provide: AuthService },
     { provide: UserService },
+    { provide: StatusMessageService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthFailureInterceptor, multi: true }
   ],

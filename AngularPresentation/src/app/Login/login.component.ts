@@ -4,6 +4,7 @@ import { LoginRequest } from './Models/LoginRequest';
 import { LoginService } from './login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { StatusMessageService } from '../statusmessage.service';
 
 @Component({
   selector: 'app-root',
@@ -24,16 +25,24 @@ export class loginComponent {
   isLoginFaild: boolean = false;
   loginMessage: string = "";
 
-  constructor(private loginService: LoginService, private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+  isLoading: boolean = false;
+
+  constructor(
+    private loginService: LoginService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
+    private statusMessageService: StatusMessageService) {
     this.loginRequest.returnurl = this.route.snapshot.queryParamMap.get("returnUrl");
   }
 
   OnSubmit(form: NgForm) {
-    this.loginMessage = "";
-
     if (this.password == "" || this.password == null) {
       return;
     }
+
+    this.isLoading = true;
+    this.statusMessageService.StatusMessage = "In Progress";
 
     this.loginRequest.password = btoa(this.password + "|" + Date.now());
     this.loginService.Authenticate(this.loginRequest)
@@ -46,11 +55,11 @@ export class loginComponent {
             this.router.navigateByUrl("user?id=" + response.userId);
           }
           this.isLoginFaild = false;
-          this.loginMessage = "Successed";
+          this.statusMessageService.StatusMessage = "Successed";
         },
         error => {
           this.isLoginFaild = true;
-          this.loginMessage = "Failed";
+          this.statusMessageService.StatusMessage = "Failed";
         }
     );
   }
