@@ -72,6 +72,7 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
 
+builder.Services.AddMemoryCache();
 builder.Services.AddTransient<IGenerateJWTAction, GenerateJWTAction>();
 builder.Services.AddTransient<IAuthenticateAction, AuthenticateAction>();
 
