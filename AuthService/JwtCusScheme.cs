@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -35,9 +36,12 @@ namespace AuthService
 
     public class JwtCustomHandler : JwtBearerHandler
     {
-        public JwtCustomHandler(IOptionsMonitor<JwtBearerOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+        private readonly IMemoryCache _memoryCache;
+
+        public JwtCustomHandler(IOptionsMonitor<JwtBearerOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IMemoryCache memoryCache) 
             : base(options, logger, encoder, clock)
         {
+            _memoryCache = memoryCache;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -45,8 +49,13 @@ namespace AuthService
             var remoteIpAdress = Context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
             var userAgent = Request.Headers.UserAgent.ToString();
 
-            var auth = Request.Headers.Authorization.ToString();
-            
+
+            if (!IsActicatedOrEmpty(remoteIpAdress!))
+            {
+                return AuthenticateResult.NoResult();
+            }           
+
+            var auth = Request.Headers.Authorization.ToString();            
             var token = GetTokenBody(auth) as JObject;
 
             if(token == null)
@@ -59,11 +68,36 @@ namespace AuthService
             {
                 return AuthenticateResult.NoResult();
             }
+            
+            var authResult = await base.HandleAuthenticateAsync();
 
-            return await base.HandleAuthenticateAsync();
+            if (authResult.Succeeded)
+            {
+                var entry = _memoryCache.CreateEntry(remoteIpAdress!);
+                if (entry != null) 
+                { 
+                    entry.SetValue(true);
+                    entry.SetSlidingExpiration(TimeSpan.FromDays(1));
+                }
+            }
+
+            return authResult;
         }
 
         #region Private Methods
+
+        private bool IsActicatedOrEmpty(string ipAddress)
+        {
+            if (_memoryCache.TryGetValue(ipAddress, out var isValid))
+            {
+                if ((bool)isValid! == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         private object? GetTokenBody(string auth)
         {
