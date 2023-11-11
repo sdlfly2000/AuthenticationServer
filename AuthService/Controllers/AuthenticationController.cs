@@ -38,7 +38,8 @@ namespace AuthService.Controllers
         }
 
         [HttpGet]
-        public IActionResult LogOut()
+        [EnableCors("AllowPolicy")]
+        public IActionResult Logout()
         {
             var ipAdress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
 

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { loginComponent } from "./Login/login.component";
 
 @Injectable({
   providedIn: "root"
@@ -11,5 +12,9 @@ export class AuthService {
 
   set JwtToken(value: string) {
     localStorage.setItem("AuthJwt", value);
+  }
+
+  RemoveLocalJwt() {
+    localStorage.removeItem("AuthJwt");
   }
 }
