@@ -47,7 +47,10 @@ namespace AuthService.Controllers
                 return BadRequest("Failed to have Ip Address");
             }
 
-            _memoryCache.Remove(ipAdress);
+            if(!_memoryCache.Set(ipAdress, false))
+            {
+                return BadRequest("Failed to deactivate login");
+            };               
 
             return Ok();
         }
