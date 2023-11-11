@@ -2,6 +2,7 @@
 using AuthService.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AuthService.Controllers
 {
@@ -10,10 +11,14 @@ namespace AuthService.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticateAction _authenticateAction;
+        private readonly IMemoryCache _memoryCache;
 
-        public AuthenticationController(IAuthenticateAction authenticateAction)
+        public AuthenticationController(
+            IAuthenticateAction authenticateAction,
+            IMemoryCache memoryCache)
         {
             _authenticateAction = authenticateAction;
+            _memoryCache = memoryCache;
         }
 
         [HttpPost]
@@ -30,6 +35,21 @@ namespace AuthService.Controllers
             return authResult != null
                 ? Ok(authResult)
                 : Forbid();
+        }
+
+        [HttpGet]
+        public IActionResult LogOut()
+        {
+            var ipAdress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+
+            if (ipAdress == null) 
+            {
+                return BadRequest("Failed to have Ip Address");
+            }
+
+            _memoryCache.Remove(ipAdress);
+
+            return Ok();
         }
     }
 }
