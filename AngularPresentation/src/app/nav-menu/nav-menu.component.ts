@@ -10,8 +10,11 @@ import { AuthService } from '../auth.service';
 export class NavMenuComponent {
   isExpanded = false;
 
-  constructor(private navMenuService: NavMenuService, private authService: AuthService) {
+  displayName: string | null;
 
+  constructor(private navMenuService: NavMenuService, private authService: AuthService) {
+    this.authService.OnUserDisplayName.subscribe(name => this.displayName = name);
+    this.displayName = this.authService.UserDisplayName
   }
 
   collapse() {
@@ -24,6 +27,9 @@ export class NavMenuComponent {
 
   Logout() {
     this.authService.RemoveLocalJwt();
+    this.authService.RemoveLocalUserDisplayName();
+    this.authService.RemoveLocalUserId();
+    this.authService.RemoveLocalUserDisplayName();
     this.navMenuService.logout();
   }
 }

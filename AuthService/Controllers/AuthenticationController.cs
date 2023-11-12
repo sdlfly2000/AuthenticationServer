@@ -3,6 +3,7 @@ using AuthService.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.Text;
 
 namespace AuthService.Controllers
 {
@@ -39,21 +40,44 @@ namespace AuthService.Controllers
 
         [HttpGet]
         [EnableCors("AllowPolicy")]
-        public IActionResult Logout()
+        public IActionResult Logout([FromQuery] string userid)
         {
-            var ipAdress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+            if(userid == null)
+            {
+                return BadRequest("Failed to have User Id");
+            }
+
+            var ipAdress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();         
 
             if (ipAdress == null) 
             {
                 return BadRequest("Failed to have Ip Address");
             }
 
-            if(!_memoryCache.Set(ipAdress, false))
+            var key = CreateKey(ipAdress, userid);
+
+            if (!_memoryCache.Set(key, false))
             {
                 return BadRequest("Failed to deactivate login");
             };               
 
             return Ok();
         }
+
+        #region Private Methods
+
+        private string CreateKey(string? ip, string? userId)
+        {
+            if (userId == null)
+            {
+                return String.Empty;
+            }
+
+            var key = new StringBuilder(ip);
+            key.Append('|').Append(userId);
+            return key.ToString();
+        }
+
+        #endregion
     }
 }

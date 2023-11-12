@@ -49,10 +49,13 @@ export class loginComponent {
       .subscribe(
         response => {
           this.authService.JwtToken = response.jwtToken;
+          this.authService.UserId = response.userId;
+          this.authService.UserDisplayName = response.userDisplayName;
+
           if (response.returnUrl != undefined) {
-            window.location.href = response.returnUrl + "?jwtToken=" + response.jwtToken;
+            window.location.href = response.returnUrl + "?jwtToken=" + response.jwtToken + "&userid=" + response.userId + "&userDisplayName=" + response.userDisplayName;
           } else {
-            this.router.navigateByUrl("user?id=" + response.userId);
+            this.router.navigateByUrl("user?userid=" + response.userId + "&userDisplayName=" + response.userDisplayName);
           }
           this.isLoginFaild = false;
           this.statusMessageService.StatusMessage = "Successed";

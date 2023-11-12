@@ -51,7 +51,7 @@ namespace AuthService.Actions
 
             var claims = await _userManager.GetClaimsAsync(user);
 
-            claims.Add(new Claim(ClaimTypes.Uri, context.Connection.RemoteIpAddress.MapToIPv4().ToString()));
+            claims.Add(new Claim(ClaimTypes.Uri, context.Connection.RemoteIpAddress!.MapToIPv4().ToString()));
             claims.Add(new Claim(ClaimTypes.UserData, context.Request.Headers.UserAgent.ToString()));
             var jwt = _generateJWTAction.Generate(
                 claims,
@@ -61,6 +61,7 @@ namespace AuthService.Actions
             {
                 ReturnUrl = request.ReturnUrl,
                 UserId = user.Id.ToString(),
+                UserDisplayName = claims.Single(claim => claim.Type.Equals(ClaimTypes.Name)).Value,
                 JwtToken = jwt
             };
         }

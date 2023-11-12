@@ -15,7 +15,7 @@ export class UserComponent implements OnInit{
   UserClaims: UserClaim[] | undefined;
 
   constructor(private route: ActivatedRoute, private userService: UserService) {
-    this.UserId = route.snapshot.queryParamMap.get("id");
+    this.UserId = route.snapshot.queryParamMap.get("userid");
   }
 
   ngOnInit(): void {

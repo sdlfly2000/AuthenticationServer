@@ -53,10 +53,9 @@ namespace AuthService
             if (!IsActicatedOrEmpty(remoteIpAdress!))
             {
                 return AuthenticateResult.NoResult();
-            }           
+            }
 
-            var auth = Request.Headers.Authorization.ToString();            
-            var token = GetTokenBody(auth) as JObject;
+            var token = GetTokenBody(Request.Headers.Authorization.ToString()) as JObject;
 
             if(token == null)
             {
@@ -73,7 +72,9 @@ namespace AuthService
 
             if (authResult.Succeeded)
             {
-                var entry = _memoryCache.CreateEntry(remoteIpAdress!);
+                var key = CreateKey(remoteIpAdress, token[ClaimTypes.NameIdentifier]?.Value<string>());
+
+                var entry = _memoryCache.CreateEntry(key);
                 if (entry != null) 
                 { 
                     entry.SetValue(true);
@@ -128,6 +129,18 @@ namespace AuthService
                 base64 += new String('=', 4 - base64.Length % 4);
 
             return Convert.FromBase64String(base64);
+        }
+
+        private string CreateKey(string? ip, string? userId)
+        {
+            if (userId == null)
+            {
+                return String.Empty;
+            }
+
+            var key = new StringBuilder(ip);
+            key.Append('|').Append(userId);
+            return key.ToString();
         }
 
         #endregion
