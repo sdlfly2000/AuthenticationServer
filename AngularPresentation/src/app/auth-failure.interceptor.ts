@@ -2,11 +2,12 @@ import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest } from '@a
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthFailureInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
 
@@ -15,7 +16,8 @@ export class AuthFailureInterceptor implements HttpInterceptor {
         tap({
           error: (err) => {
             if (err instanceof HttpErrorResponse && err.status == 401) {
-              this.router.navigate(["/"])
+              this.authService.CleanLocalCache();
+              this.router.navigate(["/"]);              
             }
           }
         })

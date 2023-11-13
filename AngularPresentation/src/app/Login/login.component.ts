@@ -34,6 +34,9 @@ export class loginComponent {
     private authService: AuthService,
     private statusMessageService: StatusMessageService) {
     this.loginRequest.returnurl = this.route.snapshot.queryParamMap.get("returnUrl");
+    if (this.authService.UserId != null) {
+      this.router.navigateByUrl("user?userid=" + this.authService.UserId);
+    }
   }
 
   OnSubmit(form: NgForm) {
@@ -55,7 +58,7 @@ export class loginComponent {
           if (response.returnUrl != undefined) {
             window.location.href = response.returnUrl + "?jwtToken=" + response.jwtToken + "&userid=" + response.userId + "&userDisplayName=" + response.userDisplayName;
           } else {
-            this.router.navigateByUrl("user?userid=" + response.userId + "&userDisplayName=" + response.userDisplayName);
+            this.router.navigateByUrl("user?userid=" + response.userId);
           }
           this.isLoginFaild = false;
           this.statusMessageService.StatusMessage = "Successed";

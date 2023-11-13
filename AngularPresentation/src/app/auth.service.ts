@@ -53,4 +53,10 @@ export class AuthService {
     localStorage.removeItem("UserDisplayName");
     this.displayNameSubject.next("");
   }
+
+  CleanLocalCache() {
+    this.RemoveLocalJwt();
+    this.RemoveLocalUserDisplayName();
+    this.RemoveLocalUserId();
+  }
 }
