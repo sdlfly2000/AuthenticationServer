@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavMenuService } from './nav-menu.service';
 import { AuthService } from '../auth.service';
+import { StatusMessageService } from '../statusmessage.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -12,7 +13,7 @@ export class NavMenuComponent {
 
   displayName: string | null;
 
-  constructor(private navMenuService: NavMenuService, private authService: AuthService) {
+  constructor(private navMenuService: NavMenuService, private authService: AuthService, private statusMessageService: StatusMessageService) {
     this.authService.OnUserDisplayName.subscribe(name => this.displayName = name);
     this.displayName = this.authService.UserDisplayName
   }
@@ -26,10 +27,8 @@ export class NavMenuComponent {
   }
 
   Logout() {
-    this.authService.RemoveLocalJwt();
-    this.authService.RemoveLocalUserDisplayName();
-    this.authService.RemoveLocalUserId();
-    this.authService.RemoveLocalUserDisplayName();
+    this.authService.CleanLocalCache();
+    this.statusMessageService.StatusMessage = "";
     this.navMenuService.logout();
   }
 }
