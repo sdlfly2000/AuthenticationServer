@@ -49,15 +49,18 @@ namespace AuthService
             var remoteIpAdress = Context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
             var userAgent = Request.Headers.UserAgent.ToString();
 
+            var token = GetTokenBody(Request.Headers.Authorization.ToString()) as JObject;
 
-            if (!IsActicatedOrEmpty(remoteIpAdress!))
+            if(token == null)
             {
                 return AuthenticateResult.NoResult();
             }
 
-            var token = GetTokenBody(Request.Headers.Authorization.ToString()) as JObject;
-
-            if(token == null)
+            var cacheKey = CreateKey(remoteIpAdress, 
+                token[ClaimTypes.NameIdentifier]?.Value<string>(), 
+                token["exp"]?.Value<string>());
+            
+            if (!IsActicatedOrEmpty(cacheKey))
             {
                 return AuthenticateResult.NoResult();
             }
@@ -72,9 +75,7 @@ namespace AuthService
 
             if (authResult.Succeeded)
             {
-                var key = CreateKey(remoteIpAdress, token[ClaimTypes.NameIdentifier]?.Value<string>());
-
-                var entry = _memoryCache.CreateEntry(key);
+                var entry = _memoryCache.CreateEntry(cacheKey);
                 if (entry != null) 
                 { 
                     entry.SetValue(true);
@@ -87,9 +88,9 @@ namespace AuthService
 
         #region Private Methods
 
-        private bool IsActicatedOrEmpty(string ipAddress)
+        private bool IsActicatedOrEmpty(string cacheKey)
         {
-            if (_memoryCache.TryGetValue(ipAddress, out var isValid))
+            if (_memoryCache.TryGetValue(cacheKey, out var isValid))
             {
                 if ((bool)isValid! == false)
                 {
@@ -131,16 +132,12 @@ namespace AuthService
             return Convert.FromBase64String(base64);
         }
 
-        private string CreateKey(string? ip, string? userId)
+        private string CreateKey(string? ip, string? userId, string? timeStamp)
         {
-            if (userId == null)
-            {
-                return String.Empty;
-            }
-
-            var key = new StringBuilder(ip);
-            key.Append('|').Append(userId);
-            return key.ToString();
+            return String.Join('|', 
+                new string?[] { ip, userId, timeStamp }
+                    .Where(e => !e.IsNullOrEmpty())
+                    .ToArray());
         }
 
         #endregion
