@@ -27,8 +27,10 @@ export class NavMenuComponent {
   }
 
   Logout() {
-    this.authService.CleanLocalCache();
-    this.statusMessageService.StatusMessage = "";
-    this.navMenuService.logout();
+    this.navMenuService.logout().subscribe(res =>
+    {
+      this.authService.CleanLocalCache();
+      this.statusMessageService.StatusMessage = ""; 
+    });
   }
 }

@@ -56,11 +56,11 @@ namespace AuthService
                 return AuthenticateResult.NoResult();
             }
 
-            var cacheKey = CreateKey(remoteIpAdress, 
+            var cacheJwtKey = CreateKey(remoteIpAdress, 
                 token[ClaimTypes.NameIdentifier]?.Value<string>(), 
                 token["exp"]?.Value<string>());
             
-            if (!IsActicatedOrEmpty(cacheKey))
+            if (!IsActicatedOrEmpty(cacheJwtKey))
             {
                 return AuthenticateResult.NoResult();
             }
@@ -75,13 +75,16 @@ namespace AuthService
 
             if (authResult.Succeeded)
             {
-                var entry = _memoryCache.CreateEntry(cacheKey);
-                if (entry != null) 
-                { 
-                    entry.SetValue(true);
-                    entry.SetSlidingExpiration(TimeSpan.FromDays(1));
-                }
+                var isValid = _memoryCache.GetOrCreate(cacheJwtKey,
+                    (entry) =>
+                    {
+                        entry.SetValue(true);
+                        entry.SetSlidingExpiration(TimeSpan.FromDays(1));
+                        return true;
+                    });
             }
+
+            Context.Items.Add("CacheJwtKey", cacheJwtKey);
 
             return authResult;
         }
