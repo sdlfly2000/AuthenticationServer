@@ -55,7 +55,6 @@ namespace AuthService.Actions
 
             claims.Add(new Claim(ClaimTypes.Uri, context.Connection.RemoteIpAddress!.MapToIPv4().ToString()));
             claims.Add(new Claim(ClaimTypes.UserData, context.Request.Headers.UserAgent.ToString()));
-            claims.Add(new Claim(ClaimTypes.Name, request.UserName));
             var jwt = _generateJWTAction.Generate(
                 claims,
                 await _userManager.GetRolesAsync(user));

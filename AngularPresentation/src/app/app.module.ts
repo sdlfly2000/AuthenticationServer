@@ -18,6 +18,7 @@ import { AuthFailureInterceptor } from './auth-failure.interceptor';
 import { StatusBarComponent } from './status-bar/status-bar.component';
 import { StatusMessageService } from './statusmessage.service';
 import { NavMenuService } from './nav-menu/nav-menu.service';
+import { UserRegisterComponent } from './user-register/user-register.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { NavMenuService } from './nav-menu/nav-menu.service';
     NavMenuComponent,
     loginComponent,
     UserComponent,
-    StatusBarComponent
+    StatusBarComponent,
+    UserRegisterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,7 +39,8 @@ import { NavMenuService } from './nav-menu/nav-menu.service';
     RouterModule.forRoot([
       { path: '', component: loginComponent, pathMatch: 'full' },
       { path: 'login', component: loginComponent, pathMatch: 'full' },
-      { path: 'user', component: UserComponent, pathMatch: 'full' }
+      { path: 'user', component: UserComponent, pathMatch: 'full' },
+      { path: 'register', component: UserRegisterComponent, pathMatch: 'full' }
     ]),
   ],
   providers: [
