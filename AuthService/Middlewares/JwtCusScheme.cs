@@ -9,10 +9,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 
-namespace AuthService
+namespace AuthService.Middlewares
 {
-    public static class JwtCusScheme 
-    { 
+    public static class JwtCusScheme
+    {
 
         public static AuthenticationBuilder AddJwtCusScheme(this AuthenticationBuilder builder, JWTOptions jwtOpt)
         {
@@ -38,28 +38,28 @@ namespace AuthService
     {
         private readonly IMemoryCache _memoryCache;
 
-        public JwtCustomHandler(IOptionsMonitor<JwtBearerOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IMemoryCache memoryCache) 
+        public JwtCustomHandler(IOptionsMonitor<JwtBearerOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IMemoryCache memoryCache)
             : base(options, logger, encoder, clock)
         {
             _memoryCache = memoryCache;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
-        {            
+        {
             var remoteIpAdress = Context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
             var userAgent = Request.Headers.UserAgent.ToString();
 
             var token = GetTokenBody(Request.Headers.Authorization.ToString()) as JObject;
 
-            if(token == null)
+            if (token == null)
             {
                 return AuthenticateResult.NoResult();
             }
 
-            var cacheJwtKey = CreateKey(remoteIpAdress, 
-                token[ClaimTypes.NameIdentifier]?.Value<string>(), 
+            var cacheJwtKey = CreateKey(remoteIpAdress,
+                token[ClaimTypes.NameIdentifier]?.Value<string>(),
                 token["exp"]?.Value<string>());
-            
+
             if (!IsActicatedOrEmpty(cacheJwtKey))
             {
                 return AuthenticateResult.NoResult();
@@ -70,7 +70,7 @@ namespace AuthService
             {
                 return AuthenticateResult.NoResult();
             }
-            
+
             var authResult = await base.HandleAuthenticateAsync();
 
             if (authResult.Succeeded)
@@ -130,14 +130,14 @@ namespace AuthService
         private byte[] ConvertBase64ToObject(string base64)
         {
             if (base64.Length % 4 != 0)
-                base64 += new String('=', 4 - base64.Length % 4);
+                base64 += new string('=', 4 - base64.Length % 4);
 
             return Convert.FromBase64String(base64);
         }
 
         private string CreateKey(string? ip, string? userId, string? timeStamp)
         {
-            return String.Join('|', 
+            return string.Join('|',
                 new string?[] { ip, userId, timeStamp }
                     .Where(e => !e.IsNullOrEmpty())
                     .ToArray());

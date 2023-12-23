@@ -1,5 +1,6 @@
 using AuthService;
 using AuthService.Actions;
+using AuthService.Middlewares;
 using Infra.Database;
 using Infra.Database.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
