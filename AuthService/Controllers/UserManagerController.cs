@@ -25,7 +25,7 @@ namespace AuthService.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
         {
             var user = new UserEntity
             {

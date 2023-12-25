@@ -2,23 +2,23 @@
 <form #Login="ngForm" (ngSubmit)="OnSubmit(Login)">
   <div class="InputBoxContainer">
     <span class="p-float-label">
-      <input type="text" id="UserName" name="userName" pInputText [(ngModel)]="loginRequest.username" />
+      <input type="text" id="UserName" name="userName" pInputText [(ngModel)]="registerUserRequest.UserName" />
       <label htmlFor="UserName">User Name</label>
     </span>
   </div>
   <div class="InputBoxContainer">
     <span class="p-float-label">
-      <input type="password" id="Password" name="password" pInputText [(ngModel)]="password" />
+      <input type="password" id="Password" name="password" pInputText [(ngModel)]="registerUserRequest.Password" />
       <label for="Password">Password</label>
     </span>
   </div>
   <div class="InputBoxContainer">
     <span class="p-float-label">
-      <input type="text" id="DisplayName" name="displayName" pInputText [(ngModel)]="displayName" />
+      <input type="text" id="DisplayName" name="displayName" pInputText [(ngModel)]="registerUserRequest.DisplayName" />
       <label for="DisplayName">Display Name</label>
     </span>
   </div>
   <div class="Button">
-    <button type="submit" class="btn btn-primary" [disabled]="isLoading">Submit</button>
+    <button type="submit" class="btn btn-primary" [disabled]="isLoading">Register</button>
   </div>
 </form>

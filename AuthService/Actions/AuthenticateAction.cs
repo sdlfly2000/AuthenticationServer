@@ -1,8 +1,6 @@
 ﻿using AuthService.Models;
-using Azure.Core;
 using Infra.Database.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text;
 
@@ -14,17 +12,20 @@ namespace AuthService.Actions
 
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
+        private readonly RoleManager<RoleEntity> _roleManager;
         private readonly IGenerateJWTAction _generateJWTAction;
         private readonly IConfiguration _configuration;
 
         public AuthenticateAction(
             UserManager<UserEntity> userManager,
             SignInManager<UserEntity> signInManager,
+            RoleManager<RoleEntity> roleManager,
             IGenerateJWTAction generateJWTAction,
             IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _generateJWTAction = generateJWTAction;
 
             _configuration = configuration;
@@ -52,9 +53,19 @@ namespace AuthService.Actions
             }
 
             var claims = await _userManager.GetClaimsAsync(user);
+            var roleNames = await _userManager.GetRolesAsync(user);
+            var roles = roleNames.Select(roleName =>
+            {
+                var roleEntity = _roleManager.Roles.Where(role => role.Name != null && role.Name.Equals(roleName)).Single();
+                return roleEntity;
+            });
 
+            var roleClaims = roles.SelectMany(role => _roleManager.GetClaimsAsync(role).GetAwaiter().GetResult());
+            
             claims.Add(new Claim(ClaimTypes.Uri, context.Connection.RemoteIpAddress!.MapToIPv4().ToString()));
             claims.Add(new Claim(ClaimTypes.UserData, context.Request.Headers.UserAgent.ToString()));
+            claims.ToList().AddRange(roleClaims);
+
             var jwt = _generateJWTAction.Generate(
                 claims,
                 await _userManager.GetRolesAsync(user));

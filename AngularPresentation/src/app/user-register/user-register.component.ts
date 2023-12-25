@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { RegisterUserRequest } from "./models/RegisterUserRequest";
 
 
 @Component({
@@ -7,5 +9,20 @@ import { Component } from "@angular/core";
   styleUrls: ['./user-register.component.css']
 })
 export class UserRegisterComponent {
+  title = "User Register";
+
+  registerUserRequest: RegisterUserRequest = {
+    UserName: "",
+    Password: "",
+    DisplayName: ""
+  };
+
+  constructor() {
+
+  }
+
+  OnSubmit(form: NgForm) {
+
+  }
 
 }
