@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using System.Security.Claims;
 
 namespace AuthService.Controllers
@@ -35,7 +34,7 @@ namespace AuthService.Controllers
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
                 return BadRequest(String.Join(',', result.Errors.Select(e => e.Code + ": " + e.Description)));
             }
@@ -45,7 +44,7 @@ namespace AuthService.Controllers
                 userAddDisplayName!,
                 new Claim(ClaimTypes.Name, request.DisplayName));
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
                 return BadRequest(String.Join(',', result.Errors.Select(e => e.Code + ": " + e.Description)));
             }

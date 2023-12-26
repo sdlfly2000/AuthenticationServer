@@ -19,6 +19,7 @@ import { StatusBarComponent } from './status-bar/status-bar.component';
 import { StatusMessageService } from './statusmessage.service';
 import { NavMenuService } from './nav-menu/nav-menu.service';
 import { UserRegisterComponent } from './user-register/user-register.component';
+import { UserRegisterService } from './user-register/user-register.service';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { UserRegisterComponent } from './user-register/user-register.component';
     { provide: UserService },
     { provide: StatusMessageService },
     { provide: NavMenuService },
+    { provide: UserRegisterService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthFailureInterceptor, multi: true }
   ],
