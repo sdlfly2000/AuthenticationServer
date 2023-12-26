@@ -4,6 +4,7 @@ import { RegisterUserRequest } from "./models/RegisterUserRequest";
 import { UserRegisterService } from "./user-register.service";
 import { Router } from "@angular/router";
 import { StatusMessageService } from "../statusmessage.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 
 @Component({
@@ -34,7 +35,9 @@ export class UserRegisterComponent {
     this.userRegisterService.Register(this.registerUserRequest).subscribe(
       res => this.router.navigate(["/"]),
       error => {
-        this.statusMessageService.StatusMessage = "Failed to Register Message: " + error.message;
+        if (error instanceof HttpErrorResponse) {
+          this.statusMessageService.StatusMessage = error.message;
+        }
         this.isLoading = false;
       }
     );
