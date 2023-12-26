@@ -32,14 +32,14 @@ export class UserRegisterComponent {
 
   OnSubmit(form: NgForm) {
     this.isLoading = true;
-    this.userRegisterService.Register(this.registerUserRequest).subscribe(
-      res => this.router.navigate(["/"]),
-      error => {
-        if (error instanceof HttpErrorResponse) {
-          this.statusMessageService.StatusMessage = error.message;
+    this.userRegisterService.Register(this.registerUserRequest).subscribe({
+      next: res => this.router.navigate(["/"]),
+      error: errReponse => {
+        if (errReponse instanceof HttpErrorResponse) {
+          this.statusMessageService.StatusMessage = errReponse.message;
         }
         this.isLoading = false;
       }
-    );
+    });
   }
 }
