@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Common.Core.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using System.Text;
 
 namespace AuthService.Actions
 {
+    [ServiceLocate(typeof(IGenerateJWTAction))]
     public class GenerateJWTAction : IGenerateJWTAction
     {
         private readonly JWTOptions _options;

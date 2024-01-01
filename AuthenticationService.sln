@@ -13,12 +13,14 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AngularPresentation", "Angu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{CAA0F4D9-85D0-497B-8200-EC3431660AF8}"
 	ProjectSection(SolutionItems) = preProject
-		Deployment\Build.ps1 = Deployment\Build.ps1
 		Deployment\AuthService.service = Deployment\AuthService.service
+		Deployment\Build.ps1 = Deployment\Build.ps1
 		Deployment\Deploy.ps1 = Deployment\Deploy.ps1
 		Deployment\Readme.md = Deployment\Readme.md
 		Deployment\Start.ps1 = Deployment\Start.ps1
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Shared.Core", "Infra.Shared.Core\Infra.Shared.Core.csproj", "{9212EDC9-40E0-4ED5-9DA6-0A1B006FEB6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{2D2A9B95-532B-4843-9C1E-27D1165F0143}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D2A9B95-532B-4843-9C1E-27D1165F0143}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D2A9B95-532B-4843-9C1E-27D1165F0143}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9212EDC9-40E0-4ED5-9DA6-0A1B006FEB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9212EDC9-40E0-4ED5-9DA6-0A1B006FEB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9212EDC9-40E0-4ED5-9DA6-0A1B006FEB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9212EDC9-40E0-4ED5-9DA6-0A1B006FEB6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

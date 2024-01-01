@@ -1,4 +1,5 @@
 ﻿using AuthService.Models;
+using Common.Core.DependencyInjection;
 using Infra.Database.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using System.Text;
 
 namespace AuthService.Actions
 {
+    [ServiceLocate(typeof(IAuthenticateAction))]
     public class AuthenticateAction : IAuthenticateAction
     {
         private readonly int ALLOW_DELAY_IN_SEC = 2;

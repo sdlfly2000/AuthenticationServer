@@ -1,6 +1,7 @@
 using AuthService;
 using AuthService.Actions;
 using AuthService.Middlewares;
+using Common.Core.DependencyInjection;
 using Infra.Database;
 using Infra.Database.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -73,8 +74,8 @@ builder.Services
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
 
 builder.Services.AddMemoryCache();
-builder.Services.AddTransient<IGenerateJWTAction, GenerateJWTAction>();
-builder.Services.AddTransient<IAuthenticateAction, AuthenticateAction>();
+
+builder.Services.RegisterDomain("AuthService", "Infra.Database");
 
 var app = builder.Build();
 
