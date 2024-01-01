@@ -14,6 +14,8 @@ export class NavMenuComponent {
 
   displayName: string | null;
 
+  isLoginStatus: boolean = false;
+
   constructor(
     private navMenuService: NavMenuService,
     private authService: AuthService,
@@ -22,6 +24,14 @@ export class NavMenuComponent {
 
     this.authService.OnUserDisplayName.subscribe(name => this.displayName = name);
     this.displayName = this.authService.UserDisplayName
+
+    this.authService.OnLoginSuccess.subscribe(res => {
+      this.isLoginStatus = true;
+    });
+
+    this.authService.OnLoginFailure.subscribe(res => {
+      this.isLoginStatus = false;
+    })
   }
 
   collapse() {
@@ -36,6 +46,7 @@ export class NavMenuComponent {
     this.navMenuService.logout().subscribe(res =>
     {
       this.authService.CleanLocalCache();
+      this.authService.LoginStatus = false;
       this.statusMessageService.StatusMessage = "";
       this.router.navigate(["/"]);
     });

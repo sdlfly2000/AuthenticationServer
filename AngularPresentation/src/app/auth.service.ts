@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, filter } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -7,9 +7,11 @@ import { Observable, Subject } from "rxjs";
 export class AuthService {
 
   private displayNameSubject: Subject<string>;
+  private isLogin: Subject<boolean>;
 
   constructor() {
     this.displayNameSubject = new Subject<string>();
+    this.isLogin = new Subject<boolean>();
   }
 
   get JwtToken() : string | null {
@@ -49,6 +51,20 @@ export class AuthService {
     this.displayNameSubject.next(value);
   }
 
+  get OnLoginSuccess(): Observable<boolean> {
+    return this.isLogin.pipe(
+      filter(SuccessLogin => SuccessLogin));
+  }
+
+  get OnLoginFailure(): Observable<boolean> {
+    return this.isLogin.pipe(
+      filter(SuccessLogin => !SuccessLogin));
+  }
+
+  set LoginStatus(value: boolean) {
+    this.isLogin.next(value);
+  }
+  
   RemoveLocalUserDisplayName() {
     localStorage.removeItem("UserDisplayName");
     this.displayNameSubject.next("");

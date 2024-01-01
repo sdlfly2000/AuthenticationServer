@@ -22,7 +22,6 @@ export class loginComponent {
 
   password: string | null = "";
 
-  isLoginFailed: boolean = false;
   loginMessage: string = "";
 
   isLoading: boolean = false;
@@ -54,6 +53,7 @@ export class loginComponent {
           this.authService.JwtToken = response.jwtToken;
           this.authService.UserId = response.userId;
           this.authService.UserDisplayName = response.userDisplayName;
+          this.authService.LoginStatus = true;
 
           if (response.returnUrl != undefined) {
             window.location.href = response.returnUrl + "?jwtToken=" + response.jwtToken + "&userid=" + response.userId + "&userDisplayName=" + response.userDisplayName;
@@ -61,12 +61,11 @@ export class loginComponent {
             this.router.navigateByUrl("user?userid=" + response.userId);
           }
           this.isLoading = false;
-          this.isLoginFailed = false;
           this.statusMessageService.StatusMessage = "Successed";
         }, 
         error: err => {
+          this.authService.LoginStatus = false;
           this.isLoading = false;
-          this.isLoginFailed = true;
           this.statusMessageService.StatusMessage = "Failed";
         }
     });
