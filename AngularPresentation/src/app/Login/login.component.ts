@@ -22,7 +22,7 @@ export class loginComponent {
 
   password: string | null = "";
 
-  isLoginFaild: boolean = false;
+  isLoginFailed: boolean = false;
   loginMessage: string = "";
 
   isLoading: boolean = false;
@@ -49,8 +49,8 @@ export class loginComponent {
 
     this.loginRequest.password = btoa(this.password + "|" + Date.now());
     this.loginService.Authenticate(this.loginRequest)
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.authService.JwtToken = response.jwtToken;
           this.authService.UserId = response.userId;
           this.authService.UserDisplayName = response.userDisplayName;
@@ -60,13 +60,15 @@ export class loginComponent {
           } else {
             this.router.navigateByUrl("user?userid=" + response.userId);
           }
-          this.isLoginFaild = false;
+          this.isLoading = false;
+          this.isLoginFailed = false;
           this.statusMessageService.StatusMessage = "Successed";
-        },
-        error => {
-          this.isLoginFaild = true;
+        }, 
+        error: err => {
+          this.isLoading = false;
+          this.isLoginFailed = true;
           this.statusMessageService.StatusMessage = "Failed";
         }
-    );
+    });
   }
 }
