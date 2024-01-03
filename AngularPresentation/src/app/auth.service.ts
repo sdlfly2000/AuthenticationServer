@@ -75,4 +75,10 @@ export class AuthService {
     this.RemoveLocalUserDisplayName();
     this.RemoveLocalUserId();
   }
+
+  CheckLoginStatus() {
+    if (this.JwtToken != null && this.UserDisplayName != null && this.UserId != null) {
+      this.LoginStatus = true;
+    }
+  }
 }

@@ -1,9 +1,9 @@
 using AuthService;
-using AuthService.Actions;
 using AuthService.Middlewares;
 using Common.Core.DependencyInjection;
 using Infra.Database;
 using Infra.Database.Entities;
+using Infra.Shared.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -75,7 +75,7 @@ builder.Services
 
 builder.Services.AddMemoryCache();
 
-builder.Services.RegisterDomain("AuthService", "Infra.Database");
+builder.Services.RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core");
 
 var app = builder.Build();
 
@@ -96,5 +96,7 @@ app.UseAuthorization();
 
 app.UseCors("AllowPolicy");
 app.MapControllers();
+
+app.UseMiddleware<RequestStatisticsMiddleware>();
 
 app.Run();

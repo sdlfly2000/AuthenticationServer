@@ -25,13 +25,15 @@ export class NavMenuComponent {
     this.authService.OnUserDisplayName.subscribe(name => this.displayName = name);
     this.displayName = this.authService.UserDisplayName
 
-    this.authService.OnLoginSuccess.subscribe(res => {
+    this.authService.OnLoginSuccess.subscribe(() => {
       this.isLoginStatus = true;
     });
 
-    this.authService.OnLoginFailure.subscribe(res => {
+    this.authService.OnLoginFailure.subscribe(() => {
       this.isLoginStatus = false;
     })
+
+    this.authService.CheckLoginStatus();
   }
 
   collapse() {
@@ -43,7 +45,7 @@ export class NavMenuComponent {
   }
 
   Logout() {
-    this.navMenuService.logout().subscribe(res =>
+    this.navMenuService.logout().subscribe(() =>
     {
       this.authService.CleanLocalCache();
       this.authService.LoginStatus = false;
