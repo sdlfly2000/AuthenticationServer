@@ -7,6 +7,7 @@ using Infra.Shared.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,27 +17,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(
-//option => { 
-//    var scheme = new OpenApiSecurityScheme()
-//    {
-//        Description = "Authorization header. \r\nExample: 'Bearer 12345abcdef'",
-//        Reference = new OpenApiReference
-//        {
-//            Type = ReferenceType.SecurityScheme,
-//            Id = "Authorization"
-//        },
-//        Scheme = "oauth2",
-//        Name = "Authorization",
-//        In = ParameterLocation.Header,
-//        Type = SecuritySchemeType.ApiKey,
-//    };
-//    option.AddSecurityDefinition("Authorization", scheme);
-//    var requirement = new OpenApiSecurityRequirement();
-//    requirement[scheme] = new List<string>();
-//    option.AddSecurityRequirement(requirement);
-//}
-);
+builder.Services.AddSerilog(
+    (configure) => 
+        configure.ReadFrom.Configuration(builder.Configuration));
+
 var connectionString = builder.Configuration.GetConnectionString("IdentityDatabase");
 builder.Services.AddDbContextPool<IdDbContext>(
     options => options.UseSqlServer(
@@ -79,14 +63,15 @@ builder.Services.RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.C
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+
 }
 
 //app.UseHttpsRedirection();
