@@ -25,7 +25,7 @@ namespace Infra.Shared.Core
 
             if (_requestStatitics.TryGetValue(context.Request.Path, out var reqNumberAfter))
             {
-                _logger.LogInformation($"req: {context.Request.Path}, {reqNumberAfter}");
+                _logger.LogInformation("RequestStatistics: {RequestPath}, {Count}", context.Request.Path, reqNumberAfter);
             }
         }
     }
