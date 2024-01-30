@@ -82,6 +82,4 @@ app.UseAuthorization();
 app.UseCors("AllowPolicy");
 app.MapControllers();
 
-app.UseMiddleware<RequestStatisticsMiddleware>();
-
 app.Run();
