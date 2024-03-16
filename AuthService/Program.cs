@@ -1,9 +1,9 @@
 using AuthService;
 using AuthService.Middlewares;
 using Common.Core.DependencyInjection;
+using Infra.Core.Middlewares;
 using Infra.Database;
 using Infra.Database.Entities;
-using Infra.Shared.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

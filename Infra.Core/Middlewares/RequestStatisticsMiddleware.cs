@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
-namespace Infra.Shared.Core
+namespace Infra.Core.Middlewares
 {
     [ServiceLocate(default)]
     public class RequestStatisticsMiddleware : IMiddleware
@@ -20,7 +20,7 @@ namespace Infra.Shared.Core
         async Task IMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
         {
             _requestStatitics.AddOrUpdate(context.Request.Path, 1, (key, oldValue) => oldValue + 1);
-                        
+
             await next.Invoke(context);
 
             if (_requestStatitics.TryGetValue(context.Request.Path, out var reqNumberAfter))
