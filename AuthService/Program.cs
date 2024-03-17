@@ -34,23 +34,23 @@ builder.Services.AddCors(option =>
 });
 
 builder.Services.AddDataProtection();
-builder.Services.AddIdentityCore<UserEntity>(options =>
-{
-    options.Password.RequireDigit = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequiredLength = 6;
-    options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
-    options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
-});
+//builder.Services.AddIdentityCore<UserEntity>(options =>
+//{
+//    options.Password.RequireDigit = false;
+//    options.Password.RequireLowercase = false;
+//    options.Password.RequireNonAlphanumeric = false;
+//    options.Password.RequireUppercase = false;
+//    options.Password.RequiredLength = 6;
+//    options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
+//    options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+//});
 
-var idBuilder = new IdentityBuilder(typeof(UserEntity), typeof(RoleEntity), builder.Services);
-idBuilder.AddEntityFrameworkStores<IdDbContext>()
-    .AddDefaultTokenProviders()
-    .AddRoleManager<RoleManager<RoleEntity>>()
-    .AddUserManager<UserManager<UserEntity>>()
-    .AddSignInManager<SignInManager<UserEntity>>();
+//var idBuilder = new IdentityBuilder(typeof(UserEntity), typeof(RoleEntity), builder.Services);
+//idBuilder.AddEntityFrameworkStores<IdDbContext>()
+//    .AddDefaultTokenProviders()
+//    .AddRoleManager<RoleManager<RoleEntity>>()
+//    .AddUserManager<UserManager<UserEntity>>()
+//    .AddSignInManager<SignInManager<UserEntity>>();
 
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services

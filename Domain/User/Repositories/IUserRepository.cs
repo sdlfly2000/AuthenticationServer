@@ -1,11 +1,12 @@
 ﻿using Domain.User.ValueObjects;
+using Infra.Core.DomainBasics;
 
 namespace Domain.User.Repositories
 {
     public interface IUserRepository
     {
-        UserReference Add(Entities.User user);
-        UserReference Update(Entities.User user);
-
+        Task<DomainResult<UserReference>> Add(Entities.User user);
+        DomainResult<UserReference> Update(Entities.User user);
+        Entities.User Find(UserReference reference);
     }
 }

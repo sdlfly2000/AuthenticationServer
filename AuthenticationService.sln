@@ -30,13 +30,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-Infrastructure", "4-Infra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-Core", "5-Core", "{3FEB1E86-A7A5-493D-B967-22AFF686B1CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{6D1ED2A4-3FB3-47D3-B8B2-18FADBC0189C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{6D1ED2A4-3FB3-47D3-B8B2-18FADBC0189C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-Application", "2-Application", "{9AF71370-2166-48B9-B64C-E6DCBBA51EEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Services", "Application.Services\Application.Services.csproj", "{218C7DA4-70D0-4BA5-8593-9A5196DDF064}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Services", "Application.Services\Application.Services.csproj", "{218C7DA4-70D0-4BA5-8593-9A5196DDF064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Core", "Infra.Core\Infra.Core.csproj", "{A79726C9-42B8-4BDD-9FB4-62EDA21B123F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.Core", "Infra.Core\Infra.Core.csproj", "{A79726C9-42B8-4BDD-9FB4-62EDA21B123F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 ﻿namespace Infra.Core.DomainBasics
 {
-    public class Result<T> where T : class
+    public class DomainResult<T> where T : class
     {
         public T Id { get; set; }
 

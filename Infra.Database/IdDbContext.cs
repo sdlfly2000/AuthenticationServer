@@ -1,10 +1,10 @@
 ﻿using Infra.Database.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Infra.Database.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database
 {
-    public class IdDbContext : IdentityDbContext<UserEntity, RoleEntity, Guid>
+    public class IdDbContext : DbContext
     {
         public IdDbContext(DbContextOptions<IdDbContext> options) 
             : base(options)
@@ -13,6 +13,7 @@ namespace Infra.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new UserEntityConfiguration());
             base.OnModelCreating(builder);
         }
 
@@ -20,5 +21,7 @@ namespace Infra.Database
         {
             base.OnConfiguring(optionsBuilder);
         }
+
+        DbSet<UserEntity> UserEntities { get; set; }
     }
 }
