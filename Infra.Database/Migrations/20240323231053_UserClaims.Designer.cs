@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Database.Migrations
 {
     [DbContext(typeof(IdDbContext))]
-    [Migration("20240323165832_UserAndClaim")]
-    partial class UserAndClaim
+    [Migration("20240323231053_UserClaims")]
+    partial class UserClaims
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace Infra.Database.Migrations
             modelBuilder.Entity("Domain.User.Entities.User", b =>
                 {
                     b.Property<string>("_id")
-                        .HasColumnType("nvarchar(256)")
+                        .HasColumnType("nvarchar(36)")
                         .HasColumnName("Id");
 
                     b.Property<string>("DisplayName")
@@ -48,16 +48,13 @@ namespace Infra.Database.Migrations
             modelBuilder.Entity("Domain.User.ValueObjects.Claim", b =>
                 {
                     b.Property<string>("_id")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(36)")
                         .HasColumnName("ClaimId");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -69,9 +66,30 @@ namespace Infra.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ValueType");
 
+                    b.Property<string>("_userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(36)")
+                        .HasColumnName("UserId");
+
                     b.HasKey("_id");
 
+                    b.HasIndex("_userId");
+
                     b.ToTable("Claim", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.User.ValueObjects.Claim", b =>
+                {
+                    b.HasOne("Domain.User.Entities.User", null)
+                        .WithMany("Claims")
+                        .HasForeignKey("_userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.User.Entities.User", b =>
+                {
+                    b.Navigation("Claims");
                 });
 #pragma warning restore 612, 618
         }

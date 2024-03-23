@@ -9,12 +9,16 @@ namespace Domain.User.ValueObjects
             Name = name;
             Value = value;
             ValueType = valueType;
+
+            _id = string.Empty;
+            _userId = string.Empty;
         }
 
-        private string _id { get; }
+        private string _id { get; set; }
+        private string _userId { get; set; }
+
         public string Name { get; private set; }
         public string Value { get; private set; }
         public string ValueType { get; private set; }
-        public string? UserId { get; private set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Domain.User.Entities;
-using Domain.User.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +8,7 @@ namespace Infra.Database.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property("_id").HasColumnName("Id").HasColumnType("nvarchar(256)");
+            builder.Property("_id").HasColumnName("Id").HasColumnType("nvarchar(36)");
             builder.Property(u => u.UserName).HasColumnType("nvarchar(256)");
             builder.Property(u => u.PasswordHash).HasColumnType("nvarchar(max)");
             builder.Property(u => u.DisplayName).HasColumnType("nvarchar(max)");
@@ -19,9 +18,9 @@ namespace Infra.Database.EntityConfigurations
 
             builder.HasKey("_id");
 
-            //builder.HasMany(u => u.Claims)
-            //    .WithOne()
-            //    .HasForeignKey("UserId");
+            builder.HasMany(u => u.Claims)
+                .WithOne()
+                .HasForeignKey("_userId");
 
             builder.ToTable(nameof(User));
         }
