@@ -17,9 +17,8 @@ namespace Application.Services.User
 
         public async Task<ApplicationResult> Register(RegisterUserRequest request)
         {
-            var user = new Domain.User.Entities.User
+            var user = new Domain.User.Entities.User(request.UserName)
             {
-                UserName = request.UserName,
                 DisplayName = request.UserName,
                 PasswordHash = request.PasswordHash
             };

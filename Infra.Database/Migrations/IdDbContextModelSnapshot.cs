@@ -21,9 +21,9 @@ namespace Infra.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Infra.Database.Entities.UserEntity", b =>
+            modelBuilder.Entity("Domain.User.Entities.User", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("_id")
                         .HasColumnType("nvarchar(256)")
                         .HasColumnName("Id");
 
@@ -33,17 +33,42 @@ namespace Infra.Database.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("Status");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("Id");
+                    b.HasKey("_id");
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.User.ValueObjects.Claim", b =>
+                {
+                    b.Property<string>("_id")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ClaimId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Value");
+
+                    b.Property<string>("ValueType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ValueType");
+
+                    b.HasKey("_id");
+
+                    b.ToTable("Claim", (string)null);
                 });
 #pragma warning restore 612, 618
         }

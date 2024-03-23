@@ -1,6 +1,7 @@
-﻿using Infra.Database.Entities;
+﻿using Domain.User.Entities;
 using Infra.Database.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
+using Domain.User.ValueObjects;
 
 namespace Infra.Database
 {
@@ -14,6 +15,7 @@ namespace Infra.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserEntityConfiguration());
+            builder.ApplyConfiguration(new ClaimEntityConfiguration());
             base.OnModelCreating(builder);
         }
 
@@ -22,6 +24,7 @@ namespace Infra.Database
             base.OnConfiguring(optionsBuilder);
         }
 
-        DbSet<UserEntity> UserEntities { get; set; }
+        DbSet<User> Users { get; set; }
+        DbSet<Claim> Claims { get; set; }
     }
 }

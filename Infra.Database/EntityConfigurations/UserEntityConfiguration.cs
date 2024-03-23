@@ -1,25 +1,29 @@
 ﻿using Domain.User.Entities;
 using Domain.User.ValueObjects;
-using Infra.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infra.Database.EntityConfigurations
 {
-    public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
+    public class UserEntityConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<UserEntity> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(u => u.Id).HasColumnName("Id").HasColumnType("nvarchar(256)")
-                .HasConversion((reference) => reference.Code, (id) => UserReference.Create(id));
+            builder.Property("_id").HasColumnName("Id").HasColumnType("nvarchar(256)");
             builder.Property(u => u.UserName).HasColumnType("nvarchar(256)");
             builder.Property(u => u.PasswordHash).HasColumnType("nvarchar(max)");
             builder.Property(u => u.DisplayName).HasColumnType("nvarchar(max)");
-            builder.Property(u => u.Status).HasColumnName("Status").HasColumnType("int")
-                .HasConversion<int>(status => (int)status, status => (EnumStatus)status);
+
+            builder.Ignore(u => u.Id);
+            builder.Ignore(u => u.Claims);
+
+            builder.HasKey("_id");
+
+            //builder.HasMany(u => u.Claims)
+            //    .WithOne()
+            //    .HasForeignKey("UserId");
 
             builder.ToTable(nameof(User));
-            builder.HasKey("Id");
         }
     }
 }

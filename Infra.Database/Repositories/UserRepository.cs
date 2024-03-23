@@ -19,17 +19,18 @@ namespace Infra.Database.Repositories
 
         public async Task<DomainResult<UserReference>> Add(User user)
         {
-            var userEntity = UserEntity.CreateFrom(user);
+            //var userEntity = User.Create(user);
 
-            await _context.AddAsync(userEntity);
+            //await _context.AddAsync(userEntity);
 
-            var result = await _context.SaveChangesAsync();
-            return new DomainResult<UserReference>()
-            {
-                Id = (UserReference)user.Id,
-                Message = result > 0 ? "Success" : "Failure",
-                Success = result > 0
-            };
+            //var result = await _context.SaveChangesAsync();
+            //return new DomainResult<UserReference>()
+            //{
+            //    Id = (UserReference)user.Id,
+            //    Message = result > 0 ? "Success" : "Failure",
+            //    Success = result > 0
+            //};
+            throw new NotImplementedException();
         }
 
         public User Find(UserReference reference)

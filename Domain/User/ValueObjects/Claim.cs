@@ -11,8 +11,10 @@ namespace Domain.User.ValueObjects
             ValueType = valueType;
         }
 
+        private string _id { get; }
         public string Name { get; private set; }
         public string Value { get; private set; }
         public string ValueType { get; private set; }
+        public string? UserId { get; private set; }
     }
 }

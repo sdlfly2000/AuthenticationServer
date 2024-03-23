@@ -5,6 +5,8 @@ namespace Domain.User.Entities
 {
     public class User : DomainEntity
     {
+        private string _id { get; }
+
         public string UserName { get; set; }
 
         public string? PasswordHash { get; set; }
@@ -13,15 +15,15 @@ namespace Domain.User.Entities
 
         public IList<Claim> Claims { get; private set; }
 
-        public User() : base(new UserReference(Guid.NewGuid().ToString()))
+        public User(string userName) : base(new UserReference(Guid.NewGuid().ToString()))
         { 
+            UserName = userName;
             Claims = new List<Claim>();
         }
 
         public static User Create(string userName)
         {
-            return new User { UserName = userName };
+            return new User(userName);
         }
-
     }
 }

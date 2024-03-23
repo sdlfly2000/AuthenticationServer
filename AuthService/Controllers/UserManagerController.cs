@@ -1,6 +1,7 @@
 using Application.Services.User;
 using Application.Services.User.Requests;
 using AuthService.Models;
+using Domain.User.Entities;
 using Infra.Core;
 using Infra.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -57,7 +58,7 @@ namespace AuthService.Controllers
 
         [HttpGet("Users")]
         [Authorize]
-        public IEnumerable<UserEntity> GetUsers()
+        public IEnumerable<User> GetUsers()
         {
             //return _userManager.Users.ToList();
             return null;
