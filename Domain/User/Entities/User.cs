@@ -11,8 +11,11 @@ namespace Domain.User.Entities
 
         public string? DisplayName { get;set;}
 
+        public IList<Claim> Claims { get; private set; }
+
         public User() : base(new UserReference(Guid.NewGuid().ToString()))
         { 
+            Claims = new List<Claim>();
         }
 
         public static User Create(string userName)
