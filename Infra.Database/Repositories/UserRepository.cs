@@ -3,7 +3,6 @@ using Domain.User.Entities;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
-using Infra.Database.Entities;
 
 namespace Infra.Database.Repositories
 {
@@ -19,18 +18,16 @@ namespace Infra.Database.Repositories
 
         public async Task<DomainResult<UserReference>> Add(User user)
         {
-            //var userEntity = User.Create(user);
+            _ = await _context.AddAsync(user);
 
-            //await _context.AddAsync(userEntity);
+            var result = await _context.SaveChangesAsync();
 
-            //var result = await _context.SaveChangesAsync();
-            //return new DomainResult<UserReference>()
-            //{
-            //    Id = (UserReference)user.Id,
-            //    Message = result > 0 ? "Success" : "Failure",
-            //    Success = result > 0
-            //};
-            throw new NotImplementedException();
+            return new DomainResult<UserReference>()
+            {
+                Id = (UserReference)user.Id,
+                Message = result > 0 ? "Success" : "Failure",
+                Success = result > 0
+            };
         }
 
         public User Find(UserReference reference)

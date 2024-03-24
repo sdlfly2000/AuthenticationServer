@@ -14,11 +14,15 @@ namespace Domain.User.ValueObjects
             _userId = string.Empty;
         }
 
-        private string _id { get; set; }
-        private string _userId { get; set; }
-
         public string Name { get; private set; }
         public string Value { get; private set; }
         public string ValueType { get; private set; }
+
+        #region Database Usage
+
+        private string _id { get; set; }
+        private string _userId { get; set; }
+
+        #endregion
     }
 }
