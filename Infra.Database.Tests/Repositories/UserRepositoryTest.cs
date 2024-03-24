@@ -30,7 +30,9 @@ namespace Infra.Database.Tests.Repositories
             using var services = _serviceCollection?.BuildServiceProvider();
             var userName = "Jay Shi";
             var user = User.Create(userName);
-            var userRepository = services.GetRequiredService<IUserRepository>();
+            var userRepository = services?.GetRequiredService<IUserRepository>();
+
+            Assert.IsNotNull(userRepository);
 
             // Action
             var result  = await userRepository.Add(user);

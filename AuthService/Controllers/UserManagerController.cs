@@ -1,9 +1,10 @@
 using Application.Services.User;
 using Application.Services.User.Requests;
+using Application.Services.User.Responses;
 using AuthService.Models;
+using Common.Core.CQRS;
 using Domain.User.Entities;
 using Infra.Core;
-using Infra.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,14 @@ namespace AuthService.Controllers
     public class UserManagerController : ControllerBase
     {
         private readonly ILogger<UserManagerController> _logger;
-        private readonly IUserService _userService;
+        private readonly IEventBus _eventBus;
 
         public UserManagerController(
             ILogger<UserManagerController> logger,
-            IUserService userService)
+            IEventBus eventBus)
         {
             _logger = logger;
-            _userService = userService;
+            _eventBus = eventBus;
         }
 
         [HttpPost("Register")]
@@ -36,23 +37,13 @@ namespace AuthService.Controllers
                 PasswordHash = PasswordHelper.ExtractPwdWithTimeVerification(request.PasswordEncrypto) ?? string.Empty
             };
 
-            var result = await _userService.Register(registerUserRequest);
+            var result = (await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest)) as RegisterUserResponse;
 
-            if (!result.Success)
+            if (result != null && !result.Success)
             {
                 return BadRequest(result.Message);
             }
                         
-            //var userAddDisplayName = await _userManager.FindByIdAsync(user.Id.ToString());
-            //result = await _userManager.AddClaimAsync(
-            //    userAddDisplayName!,
-            //    new Claim(ClaimTypes.Name, request.DisplayName));
-
-            //if (!result.Succeeded)
-            //{
-            //    return BadRequest(String.Join(',', result.Errors.Select(e => e.Code + ": " + e.Description)));
-            //}
-
             return Ok();
         }
 

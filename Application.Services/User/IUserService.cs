@@ -5,6 +5,6 @@ namespace Application.Services.User
 {
     public interface IUserService
     {
-        Task<ApplicationResult> Register(RegisterUserRequest request);
+        Task<ApplicationResponse> Register(RegisterUserRequest request);
     }
 }

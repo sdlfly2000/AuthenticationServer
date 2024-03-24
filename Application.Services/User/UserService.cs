@@ -15,7 +15,7 @@ namespace Application.Services.User
             _userRepository = userRepository;
         }
 
-        public async Task<ApplicationResult> Register(RegisterUserRequest request)
+        public async Task<ApplicationResponse> Register(RegisterUserRequest request)
         {
             var user = new Domain.User.Entities.User(request.UserName)
             {
@@ -25,7 +25,7 @@ namespace Application.Services.User
             
             var result = await _userRepository.Add(user);
 
-            return new ApplicationResult
+            return new ApplicationResponse
             {
                 Message = result.Message,
                 Success = result.Success

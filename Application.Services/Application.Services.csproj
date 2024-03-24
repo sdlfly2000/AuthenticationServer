@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Infra.Core\Infra.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="User\Queries\" />
+  </ItemGroup>
+
 </Project>

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdeaActivator.Common.Core" Version="1.1.2" />
+    <PackageReference Include="IdeaActivator.Common.Core" Version="1.1.5" />
   </ItemGroup>
 
 </Project>

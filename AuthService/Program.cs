@@ -1,5 +1,6 @@
 using AuthService;
 using AuthService.Middlewares;
+using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core.Middlewares;
 using Infra.Database;
@@ -57,7 +58,9 @@ builder.Services
 
 builder.Services.AddMemoryCache();
 
-builder.Services.RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core");
+builder.Services
+    .RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core")
+    .RegisterNotifications("Application.Services");
 
 var app = builder.Build();
 
