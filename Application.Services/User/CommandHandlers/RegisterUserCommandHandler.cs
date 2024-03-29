@@ -1,5 +1,4 @@
-﻿using Application.Services.User.Requests;
-using Application.Services.User.Responses;
+﻿using Application.Services.User.ReqRes;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
@@ -24,11 +23,7 @@ namespace Application.Services.User.Commands
                 PasswordHash = request.PasswordHash
             });
 
-            return new RegisterUserResponse
-            {
-                Message = domainResult.Message,
-                Success = domainResult.Success,
-            };
+            return new RegisterUserResponse(domainResult.Message, domainResult.Success);
         }
     }
 }

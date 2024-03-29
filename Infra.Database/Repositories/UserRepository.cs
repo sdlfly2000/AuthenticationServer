@@ -21,7 +21,7 @@ namespace Infra.Database.Repositories
             return await _context.FindAsync<User>(reference.Code);
         }
 
-        public async Task<IList<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
             return await _context.Set<User>().ToListAsync();
         }

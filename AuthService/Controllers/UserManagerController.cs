@@ -1,6 +1,4 @@
-using Application.Services.User;
-using Application.Services.User.Requests;
-using Application.Services.User.Responses;
+using Application.Services.User.ReqRes;
 using AuthService.Models;
 using Common.Core.CQRS;
 using Domain.User.Entities;
@@ -30,12 +28,10 @@ namespace AuthService.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserModelRequest request)
         {
-            var registerUserRequest = new RegisterUserRequest 
-            { 
-                UserName = request.UserName,
-                DisplayName = request.DisplayName,
-                PasswordHash = PasswordHelper.ExtractPwdWithTimeVerification(request.PasswordEncrypto) ?? string.Empty
-            };
+            var registerUserRequest = new RegisterUserRequest(
+                request.UserName, 
+                PasswordHelper.ExtractPwdWithTimeVerification(request.PasswordEncrypto) ?? string.Empty, 
+                request.DisplayName) ;
 
             var result = await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest);
 

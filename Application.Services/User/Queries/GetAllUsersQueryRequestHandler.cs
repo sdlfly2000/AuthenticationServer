@@ -1,8 +1,7 @@
-﻿using Application.Services.User.Requests;
-using Application.Services.User.Responses;
-using Common.Core.CQRS.Request;
+﻿using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
+using Application.Services.User.ReqRes;
 
 namespace Application.Services.User.Queries
 {
@@ -20,12 +19,7 @@ namespace Application.Services.User.Queries
         {
             var users = await _userRepository.GetAllUsers();
 
-            return new GetAllUsersQueryResponse
-            {
-                Users = users,
-                Message = string.Empty,
-                Success = true,
-            };
+            return new GetAllUsersQueryResponse(string.Empty, true, users);
         }
     }
 }
