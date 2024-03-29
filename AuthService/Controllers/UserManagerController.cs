@@ -57,22 +57,12 @@ namespace AuthService.Controllers
         [Authorize]
         public async Task<UserModel?> GetUserByUserId([FromQuery] string id)
         {
-            //var user = await _userManager.FindByIdAsync(id);
+            var request = new GetUserByIdRequest(id);
+            var response = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(request);
 
-            //if(user == null)
-            //{
-            //    return default;
-            //}
-
-            //var claims = await _userManager.GetClaimsAsync(user);
-
-            //return new UserModel
-            //{
-            //    Id = claims.Where(claim => claim.Type.Equals(ClaimTypes.NameIdentifier)).Single().Value,
-            //    Name = claims.Where(claim => claim.Type.Equals(ClaimTypes.Name)).Single().Value,
-            //};
-
-            return null;
+            return response.Success 
+                ? new UserModel(response.User!.Id.Code, response.User.DisplayName)
+                : default;
         }
     }
 }
