@@ -37,7 +37,7 @@ namespace AuthService.Controllers
                 PasswordHash = PasswordHelper.ExtractPwdWithTimeVerification(request.PasswordEncrypto) ?? string.Empty
             };
 
-            var result = (await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest)) as RegisterUserResponse;
+            var result = await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest);
 
             if (result != null && !result.Success)
             {
@@ -52,7 +52,7 @@ namespace AuthService.Controllers
         public async Task<IEnumerable<User>> GetUsers()
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();
-            var response = (await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest)) as GetAllUsersQueryResponse;
+            var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest);
             
             return response.Users;
         }
