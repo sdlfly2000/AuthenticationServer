@@ -1,10 +1,12 @@
 ﻿using Application.Services.User.Requests;
 using Application.Services.User.Responses;
 using Common.Core.CQRS.Request;
+using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
 
 namespace Application.Services.User.Queries
 {
+    [ServiceLocate(typeof(IRequestHandler<GetAllUsersQueryRequest, GetAllUsersQueryResponse>))]
     public class GetAllUsersQueryRequestHandler : IRequestHandler<GetAllUsersQueryRequest, GetAllUsersQueryResponse>
     {
         private readonly IUserRepository _userRepository;
