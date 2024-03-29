@@ -2,7 +2,7 @@
 using Domain.User.Entities;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
-using Infra.Core.DomainBasics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.Repositories
 {
@@ -16,28 +16,14 @@ namespace Infra.Database.Repositories
             _context = context;
         }
 
-        public async Task<DomainResult<UserReference>> Add(User user)
+        public async Task<User?> Find(UserReference reference)
         {
-            _ = await _context.AddAsync(user);
-
-            var result = await _context.SaveChangesAsync();
-
-            return new DomainResult<UserReference>()
-            {
-                Id = (UserReference)user.Id,
-                Message = result > 0 ? "Success" : "Failure",
-                Success = result > 0
-            };
+            return await _context.FindAsync<User>(reference.Code);
         }
 
-        public User Find(UserReference reference)
+        public async Task<IList<User>> GetAllUsers()
         {
-            throw new NotImplementedException();
-        }
-
-        public DomainResult<UserReference> Update(User user)
-        {
-            throw new NotImplementedException();
+            return await _context.Set<User>().ToListAsync();
         }
     }
 }

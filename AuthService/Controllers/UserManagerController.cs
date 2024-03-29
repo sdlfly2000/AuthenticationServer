@@ -49,10 +49,12 @@ namespace AuthService.Controllers
 
         [HttpGet("Users")]
         [Authorize]
-        public IEnumerable<User> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            //return _userManager.Users.ToList();
-            return null;
+            var getAllUsersRequest = new GetAllUsersQueryRequest();
+            var response = (await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest)) as GetAllUsersQueryResponse;
+            
+            return response.Users;
         }
 
         [HttpGet("User")]

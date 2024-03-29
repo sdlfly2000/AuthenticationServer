@@ -1,6 +1,6 @@
 ﻿using Application.Services.User.Requests;
 using Common.Core.DependencyInjection;
-using Domain.User.Repositories;
+using Domain.User.Persistors;
 using Infra.Core.ApplicationBasics;
 
 namespace Application.Services.User
@@ -8,11 +8,11 @@ namespace Application.Services.User
     [ServiceLocate(typeof(IUserService))]
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserPersistor _userPersistor;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserPersistor userPersistor)
         {
-            _userRepository = userRepository;
+            _userPersistor = userPersistor;
         }
 
         public async Task<ApplicationResponse> Register(RegisterUserRequest request)
@@ -23,7 +23,7 @@ namespace Application.Services.User
                 PasswordHash = request.PasswordHash
             };
             
-            var result = await _userRepository.Add(user);
+            var result = await _userPersistor.Add(user);
 
             return new ApplicationResponse
             {
