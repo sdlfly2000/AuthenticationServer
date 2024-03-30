@@ -26,6 +26,26 @@ namespace Infra.Core
             return password;
         }
 
+        public static string EncryptoPassword(string password)
+        {
+            // Get Hash Code
+            unchecked
+            {
+                int hash1 = (5381 << 16) + 5381;
+                int hash2 = hash1;
+
+                for (int i = 0; i < password.Length; i += 2)
+                {
+                    hash1 = ((hash1 << 5) + hash1) ^ password[i];
+                    if (i == password.Length - 1)
+                        break;
+                    hash2 = ((hash2 << 5) + hash2) ^ password[i + 1];
+                }
+
+                return (hash1 + (hash2 * 1566083941)).ToString();
+            }            
+        }
+
         #region Private Methods
 
         private static string ConvertBase64ToString(string base64)

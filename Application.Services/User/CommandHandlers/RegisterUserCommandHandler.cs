@@ -2,6 +2,7 @@
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
+using Infra.Core;
 
 namespace Application.Services.User.Commands
 {
@@ -20,7 +21,7 @@ namespace Application.Services.User.Commands
             var domainResult = await _userPersistor.Add(new Domain.User.Entities.User(request.UserName)
             {
                 DisplayName = request.DisplayName,
-                PasswordHash = request.Password
+                PasswordHash = PasswordHelper.EncryptoPassword(request.Password)
             });
 
             return new RegisterUserResponse(domainResult.Message, domainResult.Success);
