@@ -1,5 +1,5 @@
 <H1>{{ title }}</H1>
-<form #Login="ngForm" (ngSubmit)="OnSubmit(Login)">
+<form #Login="ngForm" (ngSubmit)="OnSubmit()">
   <div class="InputBoxContainer">
     <span class="p-float-label">
       <input type="text" id="UserName" name="userName" pInputText [(ngModel)]="loginRequest.username" />

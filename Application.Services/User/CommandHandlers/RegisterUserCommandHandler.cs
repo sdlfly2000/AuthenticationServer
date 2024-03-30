@@ -20,7 +20,7 @@ namespace Application.Services.User.Commands
             var domainResult = await _userPersistor.Add(new Domain.User.Entities.User(request.UserName)
             {
                 DisplayName = request.DisplayName,
-                PasswordHash = request.PasswordHash
+                PasswordHash = request.Password
             });
 
             return new RegisterUserResponse(domainResult.Message, domainResult.Success);

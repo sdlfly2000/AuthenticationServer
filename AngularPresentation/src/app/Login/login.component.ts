@@ -38,7 +38,7 @@ export class loginComponent {
     }
   }
 
-  OnSubmit(form: NgForm) {
+  OnSubmit() {
     if (this.password == "" || this.password == null) {
       return;
     }
@@ -63,7 +63,7 @@ export class loginComponent {
           this.isLoading = false;
           this.statusMessageService.StatusMessage = "Successed";
         }, 
-        error: err => {
+        error: () => {
           this.authService.LoginStatus = false;
           this.isLoading = false;
           this.statusMessageService.StatusMessage = "Failed";

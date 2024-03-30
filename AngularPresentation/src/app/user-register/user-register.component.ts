@@ -17,7 +17,7 @@ export class UserRegisterComponent {
 
   registerUserRequest: RegisterUserRequest = {
     UserName: "",
-    Password: "",
+    PasswordEncrypto: "",
     DisplayName: ""
   };
 
@@ -30,10 +30,10 @@ export class UserRegisterComponent {
 
   }
 
-  OnSubmit(form: NgForm) {
+  OnSubmit() {
     this.isLoading = true;
     this.userRegisterService.Register(this.registerUserRequest).subscribe({
-      next: res => this.router.navigate(["/"]),
+      next: () => this.router.navigate(["/"]),
       error: errReponse => {
         if (errReponse instanceof HttpErrorResponse) {
           this.statusMessageService.StatusMessage = errReponse.message;

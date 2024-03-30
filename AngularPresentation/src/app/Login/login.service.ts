@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Observable, catchError, pipe, throwError } from "rxjs";
+import { Observable, catchError, throwError } from "rxjs";
 import { LoginRequest } from "./Models/LoginRequest";
 import { LoginResponse } from "./Models/LoginResponse";
 import { AuthService } from "../auth.service";

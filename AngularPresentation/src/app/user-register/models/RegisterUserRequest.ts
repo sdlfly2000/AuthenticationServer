@@ -1,5 +1,5 @@
 export interface RegisterUserRequest {
   UserName: string,
-  Password: string,
+  PasswordEncrypto: string,
   DisplayName: string
 }

@@ -14,6 +14,7 @@ export class UserRegisterService {
   }
 
   public Register(request: RegisterUserRequest): Observable<string> {
-    return this.httpClient.post<string>(this.baseUrl + "api/UserManager/Create", JSON.stringify(request), { headers: this.httpHeaders })
+    request.PasswordEncrypto = btoa(request.PasswordEncrypto + "|" + Date.now());
+    return this.httpClient.post<string>(this.baseUrl + "api/UserManager/Register", JSON.stringify(request), { headers: this.httpHeaders })
   }
 }

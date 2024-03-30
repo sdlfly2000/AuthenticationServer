@@ -1,10 +1,12 @@
-﻿using Domain.User.Entities;
+﻿using Common.Core.DependencyInjection;
+using Domain.User.Entities;
 using Domain.User.Persistors;
 using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
 
 namespace Infra.Database.Persistors
 {
+    [ServiceLocate(typeof(IUserPersistor))]
     public class UserPersistor : IUserPersistor
     {
         private readonly IdDbContext _dbContext;

@@ -59,7 +59,7 @@ builder.Services
 builder.Services.AddMemoryCache();
 
 builder.Services
-    .RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core")
+    .RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core","Infra.Core", "Application.Services")
     .RegisterNotifications("Application.Services");
 
 var app = builder.Build();
