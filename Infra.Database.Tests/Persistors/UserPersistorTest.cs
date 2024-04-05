@@ -63,5 +63,25 @@ namespace Infra.Database.Tests.Persistors
             // Assert
             Assert.IsNotNull(result);
         }
+
+        [TestMethod, TestCategory(nameof(TestCategoryType.SystemTest))]
+        public async Task Update_A_Claim()
+        {
+            // Arrange
+            using var services = _serviceCollection?.BuildServiceProvider();
+            var userPersistor = services?.GetRequiredService<IUserPersistor>();
+            var userRepository = services?.GetRequiredService<IUserRepository>();
+            Assert.IsNotNull(userPersistor);
+            Assert.IsNotNull(userRepository);
+
+            var user = await userRepository.Find((UserReference)"d3f2252e-6058-4d41-9de5-9d8c1f52abcb");
+            user!.UpdateClaim(ClaimTypes.Name, "Jay Shi 02");
+
+            // Action
+            var result = await userPersistor.Update(user);
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
     }
 }

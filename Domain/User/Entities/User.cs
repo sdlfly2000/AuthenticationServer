@@ -28,6 +28,8 @@ namespace Domain.User.Entities
             _id = Guid.NewGuid().ToString();
         }
 
+        #region Service Method
+
         public static User Create(string userName)
         {
             return new User(userName);
@@ -39,5 +41,13 @@ namespace Domain.User.Entities
             claim.AssignUser(_id);
             Claims.Add(claim);
         }
+
+        public void UpdateClaim(string name, string value)
+        {
+            var claim = Claims.SingleOrDefault(claim => claim.Name.Equals(name));
+            claim!.SetValue(value);
+        }
+
+        #endregion
     }
 }

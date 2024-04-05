@@ -29,5 +29,10 @@ namespace Domain.User.ValueObjects
         {
             _userId = userId;
         }
+
+        public void SetValue(string value)
+        {
+            Value = value;
+        }
     }
 }

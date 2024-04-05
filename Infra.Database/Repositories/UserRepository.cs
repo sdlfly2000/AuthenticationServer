@@ -32,7 +32,9 @@ namespace Infra.Database.Repositories
 
         public async Task<User?> Find(UserReference reference)
         {
-            return await _context.FindAsync<User>(reference.Code);
+            return await _context.Set<User>()
+                .Include(user => user.Claims)
+                .SingleOrDefaultAsync(user => EF.Property<string>(user, "_id").Equals(reference.Code));
         }
 
         public async Task<List<User>> GetAllUsers()
