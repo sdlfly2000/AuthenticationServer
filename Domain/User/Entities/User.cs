@@ -32,5 +32,12 @@ namespace Domain.User.Entities
         {
             return new User(userName);
         }
+
+        public void AddClaim(string name, string value, string valueType)
+        {
+            var claim = new Claim(name, value, valueType);
+            claim.AssignUser(_id);
+            Claims.Add(claim);
+        }
     }
 }

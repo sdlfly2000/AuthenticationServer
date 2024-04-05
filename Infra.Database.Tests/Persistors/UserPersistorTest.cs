@@ -1,9 +1,12 @@
 using Common.Core.DependencyInjection;
 using Domain.User.Entities;
 using Domain.User.Persistors;
+using Domain.User.Repositories;
+using Domain.User.ValueObjects;
 using Infra.Core.Test;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 
 namespace Infra.Database.Tests.Persistors
 {
@@ -36,6 +39,26 @@ namespace Infra.Database.Tests.Persistors
 
             // Action
             var result  = await userPersistor.Add(user);
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod, TestCategory(nameof(TestCategoryType.SystemTest))]
+        public async Task Create_A_Claim()
+        {
+            // Arrange
+            using var services = _serviceCollection?.BuildServiceProvider();
+            var userPersistor = services?.GetRequiredService<IUserPersistor>();
+            var userRepository = services?.GetRequiredService<IUserRepository>();
+            Assert.IsNotNull(userPersistor);
+            Assert.IsNotNull(userRepository);
+
+            var user = await userRepository.Find((UserReference)"d3f2252e-6058-4d41-9de5-9d8c1f52abcb");
+            user!.AddClaim(ClaimTypes.Name, "Jay Shi", ClaimValueTypes.String);
+
+            // Action
+            var result = await userPersistor.Update(user);
 
             // Assert
             Assert.IsNotNull(result);

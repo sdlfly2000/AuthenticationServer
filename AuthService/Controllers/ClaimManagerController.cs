@@ -21,20 +21,26 @@ namespace AuthService.Controllers
             _eventBus = eventBus;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddUserClaim([FromBody] AddUserClaimRequest request)
-        //{
-        //    var user = await _userManager.FindByNameAsync(request.UserName);
-        //    if (user == null) { return Problem("User does not exist."); }
+        [HttpPost]
+        public async Task<IActionResult> AddUserClaim([FromBody] AddUserClaimRequestModel request)
+        {
+            var userReponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(request.UserId));
 
-        //    var claimName = new Claim(ClaimTypes.Name, request.Claim, ClaimValueTypes.String);
-        //    var claimNameIdentifiers = new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), ClaimValueTypes.String);
+            if (!userReponse.Success) 
+            { 
+                return Problem(userReponse.Message); 
+            }
 
-        //    var result = await _userManager.AddClaimsAsync(user, new[] { claimName, claimNameIdentifiers});
-        //    if (!result.Succeeded) { return Problem("Failed to Add Claim"); }
 
-        //    return Ok();
-        //}
+
+            //var claimName = new Claim(ClaimTypes.Name, request.Claim, ClaimValueTypes.String);
+            //var claimNameIdentifiers = new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), ClaimValueTypes.String);
+
+            //var result = await _userManager.AddClaimsAsync(user, new[] { claimName, claimNameIdentifiers });
+            //if (!result.Succeeded) { return Problem("Failed to Add Claim"); }
+
+            return Ok();
+        }
 
         //[HttpPost]
         //public async Task<IActionResult> UpdateUserClaim([FromBody] UpdateUserClaimRequest request)

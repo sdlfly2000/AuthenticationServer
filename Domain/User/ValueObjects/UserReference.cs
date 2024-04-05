@@ -22,5 +22,10 @@ namespace Domain.User.ValueObjects
         {
             return new UserReference(code);
         }
+
+        public static explicit operator UserReference(string code)
+        {
+            return new UserReference(code);
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Domain.User.ValueObjects
             Value = value;
             ValueType = valueType;
 
-            _id = string.Empty;
+            _id = Guid.NewGuid().ToString();
             _userId = string.Empty;
         }
 
@@ -24,5 +24,10 @@ namespace Domain.User.ValueObjects
         private string _userId { get; set; }
 
         #endregion
+
+        public void AssignUser(string userId)
+        {
+            _userId = userId;
+        }
     }
 }

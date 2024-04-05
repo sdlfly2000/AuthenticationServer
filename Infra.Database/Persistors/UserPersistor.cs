@@ -30,9 +30,20 @@ namespace Infra.Database.Persistors
             };
         }
 
-        public Task<DomainResult<UserReference>> Update(User user)
+        public async Task<DomainResult<UserReference>> Update(User user)
         {
-            throw new NotImplementedException();
+            _dbContext.Update(user);
+
+            user.Claims.Select(claim => _dbContext.Update(claim));
+
+            var result = await _dbContext.SaveChangesAsync();
+
+            return new DomainResult<UserReference>()
+            {
+                Id = (UserReference)user.Id,
+                Message = result > 0 ? "Success" : "Failure",
+                Success = result > 0
+            };
         }
     }
 }

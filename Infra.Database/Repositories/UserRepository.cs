@@ -18,7 +18,9 @@ namespace Infra.Database.Repositories
 
         public async Task<User?> FindUserByUserNamePwd(string userName, string passwordHash)
         {
-            var user = await _context.Set<User>().SingleOrDefaultAsync(
+            var user = await _context.Set<User>()
+                .Include(user => user.Claims)
+                .SingleOrDefaultAsync(
                 user => 
                     user.UserName.Equals(userName) && 
                     user.PasswordHash!.Equals(passwordHash));
