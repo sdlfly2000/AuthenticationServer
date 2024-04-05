@@ -35,7 +35,7 @@ namespace Domain.User.Entities
             return new User(userName);
         }
 
-        public void AddClaim(string name, string value, string valueType)
+        public void AddClaim(string name, string value, string valueType = System.Security.Claims.ClaimValueTypes.String)
         {
             var claim = new Claim(name, value, valueType);
             claim.AssignUser(_id);

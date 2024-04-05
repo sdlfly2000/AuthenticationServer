@@ -24,20 +24,13 @@ namespace AuthService.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserClaim([FromBody] AddUserClaimRequestModel request)
         {
-            var userReponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(request.UserId));
+            var response = await _eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(
+                new AddUserClaimRequest(request.UserId, request.ClaimType, request.ClaimValue));
 
-            if (!userReponse.Success) 
+            if (!response.Success) 
             { 
-                return Problem(userReponse.Message); 
+                return Problem("Failed to Add Claim"); 
             }
-
-
-
-            //var claimName = new Claim(ClaimTypes.Name, request.Claim, ClaimValueTypes.String);
-            //var claimNameIdentifiers = new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), ClaimValueTypes.String);
-
-            //var result = await _userManager.AddClaimsAsync(user, new[] { claimName, claimNameIdentifiers });
-            //if (!result.Succeeded) { return Problem("Failed to Add Claim"); }
 
             return Ok();
         }

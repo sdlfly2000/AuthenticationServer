@@ -1,10 +1,11 @@
 ﻿using Infra.Core.DomainBasics;
+using System.Security.Claims;
 
 namespace Domain.User.ValueObjects
 {
     public class Claim : DomainValueObject
     {
-        public Claim(string name, string value, string valueType)
+        public Claim(string name, string value, string valueType = ClaimValueTypes.String)
         {
             Name = name;
             Value = value;
