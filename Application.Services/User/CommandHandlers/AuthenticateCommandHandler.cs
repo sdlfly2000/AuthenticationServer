@@ -4,7 +4,7 @@ using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
 using Infra.Core;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,14 +16,14 @@ namespace Application.Services.User.CommandHandlers
     public class AuthenticateCommandHandler : IRequestHandler<AuthenticateRequest, AuthenticateResponse>
     {
         private readonly IUserRepository _userRepository;
-        private readonly JWTOptions _options;
+        private readonly IConfiguration _configuration;
 
         public AuthenticateCommandHandler(
             IUserRepository userRepository, 
-            IOptions<JWTOptions> options)
+            IConfiguration configuration)
         {
             _userRepository = userRepository;
-            _options = options.Value;
+            _configuration = configuration;
         }
 
         public async Task<AuthenticateResponse> Handle(AuthenticateRequest request)
@@ -54,12 +54,24 @@ namespace Application.Services.User.CommandHandlers
 
         private string GenerateJwt(IList<Claim> claims)
         {
-            DateTime expires = DateTime.Now.AddSeconds(_options.ExpireSeconds);
-            byte[] keyBytes = Encoding.UTF8.GetBytes(_options.SigningKey);
+            var jwtOptions = _configuration.GetSection("JWT").Get<JWTOptions>();
+
+            if (jwtOptions == null)
+            {
+                jwtOptions = new JWTOptions
+                {
+                    ExpireSeconds = 86400, // 24 hr
+                    Issuer = "AuthenticationService",
+                    SigningKey = "fasdfad&9045dafz222#fadpio@0232"
+                };
+            }
+
+            DateTime expires = DateTime.Now.AddSeconds(jwtOptions.ExpireSeconds);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(jwtOptions.SigningKey);
             var secKey = new SymmetricSecurityKey(keyBytes);
             var credentials = new SigningCredentials(secKey, SecurityAlgorithms.HmacSha256Signature);
             var tokenDescriptor = new JwtSecurityToken(
-                issuer: _options.Issuer,
+                issuer: jwtOptions.Issuer,
                 expires: expires,
                 signingCredentials: credentials,
                 claims: claims);
