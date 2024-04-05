@@ -1,5 +1,5 @@
-using AuthService;
-using AuthService.Middlewares;
+
+using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core.Middlewares;
@@ -51,7 +51,6 @@ builder.Services.AddDataProtection();
 //    .AddUserManager<UserManager<UserEntity>>()
 //    .AddSignInManager<SignInManager<UserEntity>>();
 
-builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
