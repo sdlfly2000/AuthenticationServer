@@ -16,6 +16,18 @@ namespace Infra.Database.Repositories
             _context = context;
         }
 
+        public async Task<User?> FindUserByUserNamePwd(string userName, string passwordHash)
+        {
+            var user = await _context.Set<User>().SingleOrDefaultAsync(
+                user => 
+                    user.UserName.Equals(userName) && 
+                    user.PasswordHash!.Equals(passwordHash));
+
+            return user == default
+                ? default
+                : user;
+        }
+
         public async Task<User?> Find(UserReference reference)
         {
             return await _context.FindAsync<User>(reference.Code);

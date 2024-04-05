@@ -1,5 +1,7 @@
-﻿using AuthService.Actions;
+﻿using Application.Services.User.ReqRes;
 using AuthService.Models;
+using Common.Core.CQRS;
+using Infra.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -11,31 +13,52 @@ namespace AuthService.Controllers
     [Route("api/[controller]/[action]")]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticateAction _authenticateAction;
+        private readonly IEventBus _eventBus;
         private readonly IMemoryCache _memoryCache;
 
         public AuthenticationController(
-            IAuthenticateAction authenticateAction,
-            IMemoryCache memoryCache)
+                    IEventBus eventBus,
+                    IMemoryCache memoryCache)
         {
-            _authenticateAction = authenticateAction;
+            _eventBus = eventBus;
             _memoryCache = memoryCache;
         }
 
         [HttpPost]
         [EnableCors("AllowPolicy")]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest request)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequestModel request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var authResult = await _authenticateAction.AuthenticateAndGenerateJwt(request, HttpContext);
+            var password = PasswordHelper.ExtractPwdWithTimeVerification(request.Password);
 
-            return authResult != null
-                ? Ok(authResult)
-                : Forbid();
+            if (password == null)
+            {
+                return BadRequest();
+            }
+
+            var authenticateResponse = await _eventBus.Send<AuthenticateRequest, AuthenticateResponse>(
+                new AuthenticateRequest(
+                    request.UserName,
+                    password, 
+                    HttpContext.Connection.RemoteIpAddress!.MapToIPv4().ToString(), 
+                    HttpContext.Request.Headers.UserAgent.ToString()));
+
+            if(authenticateResponse != null && authenticateResponse.Success)
+            {
+                return Ok(new AuthenticateResponseModel
+                {
+                    JwtToken = authenticateResponse.JwtToken,
+                    UserId = authenticateResponse.UserId,
+                    UserDisplayName = authenticateResponse.UserDisplayName,
+                    ReturnUrl = request.ReturnUrl
+                });
+            }
+
+            return Forbid();
         }
 
         [HttpGet]

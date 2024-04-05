@@ -7,5 +7,7 @@ namespace Domain.User.Repositories
         Task<Entities.User?> Find(UserReference reference);
 
         Task<List<Entities.User>> GetAllUsers();
+
+        Task<Entities.User?> FindUserByUserNamePwd(string userName, string passwordHash);
     }
 }

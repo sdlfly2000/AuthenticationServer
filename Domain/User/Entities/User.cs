@@ -7,9 +7,9 @@ namespace Domain.User.Entities
     {
         public string UserName { get; set; }
 
-        public string? PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
 
-        public string? DisplayName { get;set;}
+        public string DisplayName { get;set;}
 
         public IList<Claim> Claims { get; private set; }
 
