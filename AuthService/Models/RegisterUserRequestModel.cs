@@ -1,6 +1,6 @@
 ﻿namespace AuthService.Models
 {
-    public class RegisterUserModelRequest
+    public class RegisterUserRequestModel
     {
         public string UserName { get; set; }
         public string PasswordEncrypto { get; set; }

@@ -2,13 +2,8 @@
 
 namespace Infra.Core.DomainBasics
 {
-    public abstract class DomainEntity
+    public interface DomainEntity<out TReference> where TReference : IReference
     {
-        public IReference Id { get; set; }
-
-        protected DomainEntity(IReference id)
-        {
-            Id = id;
-        }
+        public TReference Id { get; }
     }
 }

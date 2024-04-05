@@ -1,10 +1,9 @@
-﻿using AuthService.Models;
-using Infra.Database.Entities;
+﻿using Application.Services.User.ReqRes;
+using AuthService.Models;
+using Common.Core.CQRS;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace AuthService.Controllers
 {
@@ -14,13 +13,13 @@ namespace AuthService.Controllers
     [Authorize]
     public class ClaimManagerController : ControllerBase
     {
-        //private readonly UserManager<UserEntity> _userManager;
+        private readonly IEventBus _eventBus;
 
-        //public ClaimManagerController(
-        //    UserManager<UserEntity> userManager)
-        //{
-        //    _userManager = userManager;
-        //}
+        public ClaimManagerController(
+            IEventBus eventBus )
+        {
+            _eventBus = eventBus;
+        }
 
         //[HttpPost]
         //public async Task<IActionResult> AddUserClaim([FromBody] AddUserClaimRequest request)
@@ -58,16 +57,19 @@ namespace AuthService.Controllers
         //        : Problem(title: string.Join(";", result.Errors), statusCode:500);
         //}
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
-        //{
-        //    var user = await _userManager.FindByIdAsync(id);
-        //    if (user == null) { return Problem("User does not exist."); }
+        [HttpGet]
+        public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
+        {
+            var userReponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id));
 
-        //    var claims = await _userManager.GetClaimsAsync(user);
-        //    var userClaims = claims.Select(claim => new UserClaimModel { Type = claim.Type.Split('/').Last(),Value = claim.Value});
+            if (!userReponse.Success) 
+            { 
+                return Problem(userReponse.Message); 
+            }
 
-        //    return Ok(userClaims);
-        //}
+            var userClaims = userReponse.User!.Claims.Select(claim => new UserClaimModel { Type = claim.Name.Split('/').Last(), Value = claim.Value });
+
+            return Ok(userClaims);
+        }
     }
 }

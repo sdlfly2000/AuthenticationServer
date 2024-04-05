@@ -14,19 +14,16 @@ namespace AuthService.Controllers
     [EnableCors("AllowPolicy")]
     public class UserManagerController : ControllerBase
     {
-        private readonly ILogger<UserManagerController> _logger;
         private readonly IEventBus _eventBus;
 
         public UserManagerController(
-            ILogger<UserManagerController> logger,
             IEventBus eventBus)
         {
-            _logger = logger;
             _eventBus = eventBus;
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserModelRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequestModel request)
         {
             var registerUserRequest = new RegisterUserRequest(
                 request.UserName, 
