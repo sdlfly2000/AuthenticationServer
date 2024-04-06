@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './user.service';
 import { UserClaim } from './Models/UserClaim';
@@ -14,6 +13,12 @@ export class UserComponent implements OnInit{
   UserId: string | null;
   UserClaims: UserClaim[] | undefined;
 
+  UserClaimSelected: UserClaim = {
+    shortTypeName: "",
+    value: "",
+    typeName: ""
+  };
+
   constructor(private route: ActivatedRoute, private userService: UserService) {
     this.UserId = route.snapshot.queryParamMap.get("userid");
   }
@@ -22,8 +27,14 @@ export class UserComponent implements OnInit{
     this.userService.GetUserClaims(this.UserId!).subscribe(claims => this.UserClaims = claims);
   }
 
-  OnSubmit(form: NgForm): void {
-
+  UpdateSelected(userClaim: UserClaim): void {
+    this.UserClaimSelected = userClaim;
   }
 
+  UpdateClaim(): void {
+    this.userService.UpdateUserClaim(this.UserId!, this.UserClaimSelected).subscribe(() => {
+      const closeBtn = document.getElementById("closebtn");
+      closeBtn?.click();
+    });
+  }
 }

@@ -21,7 +21,6 @@ import { NavMenuService } from './nav-menu/nav-menu.service';
 import { UserRegisterComponent } from './user-register/user-register.component';
 import { UserRegisterService } from './user-register/user-register.service';
 
-
 @NgModule({
   declarations: [
     AppComponent,

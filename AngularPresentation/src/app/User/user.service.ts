@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { UserClaim } from "./Models/UserClaim";
@@ -7,6 +7,8 @@ import { UserClaim } from "./Models/UserClaim";
   providedIn: "root"
 })
 export class UserService {
+  private httpHeaders: HttpHeaders = new HttpHeaders({ "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" })
+
   constructor(private httpClient: HttpClient, @Inject("BASE_URL") private BaseUrl: string) {
 
   }
@@ -15,7 +17,7 @@ export class UserService {
     return this.httpClient.get<UserClaim[]>(this.BaseUrl + "api/ClaimManager/GetClaimByUserId?id=" + UserID);
   }
 
-  UpdateUserClaim(): Observable<string> {
-    return this.httpClient.post<string>("", "");
+  UpdateUserClaim(UserId: string, UserClaim: UserClaim): Observable<string> {
+    return this.httpClient.post<string>(this.BaseUrl + "api/ClaimManager/UpdateUserClaim?id=" + UserId, JSON.stringify(UserClaim), { headers: this.httpHeaders });
   }
 }

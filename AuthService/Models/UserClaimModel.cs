@@ -2,7 +2,8 @@
 {
     public class UserClaimModel
     {
-        public string Type {  get; set; }
+        public string TypeName {  get; set; }
+        public string ShortTypeName { get; set; }
         public string Value { get; set; }
     }
 }

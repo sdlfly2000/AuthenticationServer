@@ -36,10 +36,10 @@ namespace AuthService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUserClaim([FromBody] UpdateUserClaimRequestModel request)
+        public async Task<IActionResult> UpdateUserClaim([FromQuery] string id, [FromBody] UpdateUserClaimRequestModel request)
         {
             var response = await _eventBus.Send<UpdateUserClaimRequest, UpdateUserClaimResponse>(
-                new UpdateUserClaimRequest(request.userId, request.newClaim.type, request.newClaim.value));
+                new UpdateUserClaimRequest(id, request.typeName, request.value));
 
             return response.Success
                 ? Ok()
@@ -56,7 +56,7 @@ namespace AuthService.Controllers
                 return Problem(userReponse.Message); 
             }
 
-            var userClaims = userReponse.User!.Claims.Select(claim => new UserClaimModel { Type = claim.Name.Split('/').Last(), Value = claim.Value });
+            var userClaims = userReponse.User!.Claims.Select(claim => new UserClaimModel { ShortTypeName = claim.Name.Split('/').Last(), Value = claim.Value, TypeName = claim.Name });
 
             return Ok(userClaims);
         }

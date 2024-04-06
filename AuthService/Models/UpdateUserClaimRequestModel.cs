@@ -2,8 +2,8 @@
 {
     public class UpdateUserClaimRequestModel
     {
-        public UserClaim oldClaim { get; set; }
-        public UserClaim newClaim { get; set;}
-        public string userId {  get; set; }
+        public string typeName { get; set; }
+        public string shortTypeName { get; set;}
+        public string value {  get; set; }
     }
 }

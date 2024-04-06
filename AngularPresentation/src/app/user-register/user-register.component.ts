@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { RegisterUserRequest } from "./models/RegisterUserRequest";
 import { UserRegisterService } from "./user-register.service";
 import { Router } from "@angular/router";
