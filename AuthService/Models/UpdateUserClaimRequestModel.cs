@@ -1,6 +1,6 @@
 ﻿namespace AuthService.Models
 {
-    public class UpdateUserClaimRequest
+    public class UpdateUserClaimRequestModel
     {
         public UserClaim oldClaim { get; set; }
         public UserClaim newClaim { get; set;}

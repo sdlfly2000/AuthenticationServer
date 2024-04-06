@@ -35,26 +35,16 @@ namespace AuthService.Controllers
             return Ok();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> UpdateUserClaim([FromBody] UpdateUserClaimRequest request)
-        //{
-        //    var user = await _userManager.FindByIdAsync(request.userId);
-        //    if (user == null) { return NotFound("User does not exist."); }
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserClaim([FromBody] UpdateUserClaimRequestModel request)
+        {
+            var response = await _eventBus.Send<UpdateUserClaimRequest, UpdateUserClaimResponse>(
+                new UpdateUserClaimRequest(request.userId, request.newClaim.type, request.newClaim.value));
 
-        //    var allClaims = await _userManager.GetClaimsAsync(user);
-        //    var preClaim = allClaims.Single(
-        //        claim => 
-        //            (claim.Value == request.oldClaim.value) && 
-        //            (claim.Type.Split('/').Last() == request.oldClaim.type));
-
-        //    var newClaim = new Claim(preClaim.Type, request.newClaim.value, preClaim.ValueType);
-
-        //    var result = await _userManager.ReplaceClaimAsync(user, preClaim, newClaim);     
-
-        //    return result.Succeeded
-        //        ? Ok()
-        //        : Problem(title: string.Join(";", result.Errors), statusCode:500);
-        //}
+            return response.Success
+                ? Ok()
+                : Problem(response.Message);
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
