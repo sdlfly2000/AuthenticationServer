@@ -28,7 +28,7 @@ namespace Domain.User.Entities
             _id = Guid.NewGuid().ToString();
         }
 
-        #region Service Method
+        #region Service Methods
 
         public static User Create(string userName)
         {
