@@ -3,6 +3,7 @@
     public enum TestCategoryType
     {
         UnitTest,
-        SystemTest
+        SystemTest,
+        AutomationTest
     }
 }
