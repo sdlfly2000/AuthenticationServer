@@ -27,5 +27,16 @@ namespace Domain.User.ValueObjects
         {
             return new UserReference(code);
         }
+
+        public override bool Equals(object? obj)
+        {
+            var userReference = obj as UserReference;
+            return Code.Equals(userReference?.Code);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
