@@ -3,24 +3,20 @@ using Common.Core.CQRS;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Entities;
-using Domain.User.Persistors;
 using Infra.Core.Test;
 using Infra.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Security.Claims;
 
 namespace Application.Service.AutomationTest.CommandHandlers
 {
     [TestClass]
-    public class AddUserClaimCommandHandlerAutomationTest
+    public class RegisterUserCommandHandlerAutomationTest
     {
         private const string UserName = "UserName";
-        private static string? UserNameId;    
-
         private static ServiceProvider? _serviceProvider;
-        private static IdDbContext? _dbContext;
-        private IRequestHandler<AddUserClaimRequest, AddUserClaimResponse> _handler;
+        private static IdDbContext _dbContext;
+        private IRequestHandler<RegisterUserRequest, RegisterUserResponse> _handler;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -33,11 +29,8 @@ namespace Application.Service.AutomationTest.CommandHandlers
             serviceCollection
                 .RegisterDomain("Infra.Database", "Infra.Shared.Core", "Infra.Core", "Application.Services")
                 .RegisterNotifications("Application.Services");
-            _serviceProvider = serviceCollection.BuildServiceProvider();
 
-            var userPersistor = _serviceProvider.GetRequiredService<IUserPersistor>();
-            var domainResult = userPersistor.Add(User.Create(UserName)).Result;
-            UserNameId = domainResult.Id.Code;
+            _serviceProvider = serviceCollection.BuildServiceProvider();
 
             _dbContext = _serviceProvider.GetRequiredService<IdDbContext>();
         }
@@ -45,11 +38,10 @@ namespace Application.Service.AutomationTest.CommandHandlers
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            var user = _dbContext!.Set<User>()
-                .Include(user => user.Claims)
-                .SingleOrDefault(user => EF.Property<string>(user, "_id").Equals(UserNameId));
-            _dbContext.RemoveRange(user!.Claims);
-            _dbContext.Remove(user);
+            var user = _dbContext?.Set<User>()
+                .SingleOrDefault(user => user.UserName.Equals(UserName));
+
+            _dbContext.Remove<User>(user!);
 
             _dbContext.SaveChanges();
 
@@ -60,19 +52,19 @@ namespace Application.Service.AutomationTest.CommandHandlers
         [TestInitialize]
         public void TestInitialize()
         {
-            _handler = _serviceProvider!.GetRequiredService<IRequestHandler<AddUserClaimRequest, AddUserClaimResponse>>();
+            _handler = _serviceProvider!.GetRequiredService<IRequestHandler<RegisterUserRequest, RegisterUserResponse>>();
         }
 
         [TestMethod,TestCategory(nameof(TestCategoryType.AutomationTest))]
-        public void Given_UserIdAndClaim_When_Handle_Then_ResponseReturn()
+        public async Task Given_UserNameAndPasswordAndDisplayName_When_Handle_Then_ResponseReturn()
         {
             // Arrange
-            var claimType = ClaimTypes.Email;
-            var claimValue = "TestEmail";
-            var request = new AddUserClaimRequest(UserNameId!, claimType, claimValue);
+            var Password = "Password";
+            var DisplayName = "DisplayName";
+            var request = new RegisterUserRequest(UserName, Password, DisplayName);
 
             // Action
-            var response = _handler.Handle(request).Result;
+            var response = await _handler.Handle(request);
 
             // Assert
             Assert.IsNotNull(response);
@@ -80,13 +72,12 @@ namespace Application.Service.AutomationTest.CommandHandlers
 
             // Action
             var user = _dbContext?.Set<User>()
-                .Include(user => user.Claims)
-                .SingleOrDefault(user => EF.Property<string>(user, "_id").Equals(UserNameId));
+                .SingleOrDefault(user => user.UserName.Equals(UserName));
 
             // Assert
             Assert.IsNotNull(user);
-            Assert.IsTrue(user.Claims.Any(c => c.Name.Equals(claimType)));
-            Assert.IsTrue(user.Claims.Any(c => c.Value.Equals(claimValue)));
+            Assert.AreEqual(UserName, user.UserName);
+            Assert.AreEqual(DisplayName, user.DisplayName);
         }
     }
 }
