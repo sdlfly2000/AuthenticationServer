@@ -12,7 +12,6 @@ using System.Text;
 
 namespace Application.Services.User.CommandHandlers
 {
-    [ServiceLocate(typeof(IRequestHandler<AuthenticateRequest, AuthenticateResponse>))]
     public class AuthenticateCommandHandler : IRequestHandler<AuthenticateRequest, AuthenticateResponse>
     {
         private readonly IUserRepository _userRepository;
