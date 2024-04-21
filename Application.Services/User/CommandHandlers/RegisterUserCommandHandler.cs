@@ -1,12 +1,10 @@
 ﻿using Application.Services.User.ReqRes;
 using Common.Core.CQRS.Request;
-using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
 using Infra.Core;
 
 namespace Application.Services.User.Commands
 {
-    [ServiceLocate(typeof(IRequestHandler<RegisterUserRequest, RegisterUserResponse>))]
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserRequest, RegisterUserResponse>
     {
         private readonly IUserPersistor _userPersistor;

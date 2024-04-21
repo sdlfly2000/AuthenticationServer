@@ -2,42 +2,42 @@
 using Application.Services.User.ReqRes;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
+using Domain.User.Persistors;
 using Domain.User.Repositories;
 using Infra.Core.RequestTrace;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace Application.Services.User.Proxies
 {
-    [ServiceLocate(typeof(IRequestHandler<AuthenticateRequest, AuthenticateResponse>))]
-    public class AuthenticateCommandHandlerProxy : IRequestHandler<AuthenticateRequest, AuthenticateResponse>
+    [ServiceLocate(typeof(IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse>))]
+    public class UpdateUserClaimCommandHandlerProxy : IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse>
     {
-        private const string Proxied = nameof(AuthenticateCommandHandler);
+        private const string Proxied = nameof(UpdateUserClaimCommandHandler);
 
         private readonly IUserRepository _userRepository;
-        private readonly IConfiguration _configuration;
+        private readonly IUserPersistor _userPersistor;
         private readonly IRequestTraceService _requestTraceService;
-        private readonly ILogger<AuthenticateCommandHandler> _logger;
+        private readonly ILogger<UpdateUserClaimCommandHandler> _logger;
 
-        private AuthenticateCommandHandler _handler;
+        private UpdateUserClaimCommandHandler _handler;
 
-        public AuthenticateCommandHandlerProxy(
+        public UpdateUserClaimCommandHandlerProxy(
             IUserRepository userRepository,
-            IConfiguration configuration,
+            IUserPersistor userPersistor,
             IRequestTraceService requestTraceService,
-            ILogger<AuthenticateCommandHandler> logger)
+            ILogger<UpdateUserClaimCommandHandler> logger)
         {
+            _userPersistor = userPersistor;
             _userRepository = userRepository;
-            _configuration = configuration;
             _requestTraceService = requestTraceService;
             _logger = logger;
 
-            _handler = new AuthenticateCommandHandler(_userRepository, _configuration);
+            _handler = new UpdateUserClaimCommandHandler(_userRepository, _userPersistor);
         }
 
-        public async Task<AuthenticateResponse> Handle(AuthenticateRequest request)
+        public async Task<UpdateUserClaimResponse> Handle(UpdateUserClaimRequest request)
         {
             var stopWatch = Stopwatch.StartNew();
 

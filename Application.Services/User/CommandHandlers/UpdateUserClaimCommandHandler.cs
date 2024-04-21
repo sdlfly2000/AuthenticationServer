@@ -1,13 +1,11 @@
 ﻿using Application.Services.User.ReqRes;
 using Common.Core.CQRS.Request;
-using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
 
 namespace Application.Services.User.CommandHandlers
 {
-    [ServiceLocate(typeof(IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse>))]
     public class UpdateUserClaimCommandHandler : IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse>
     {
         private readonly IUserRepository _userRepository;
