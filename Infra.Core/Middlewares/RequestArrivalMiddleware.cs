@@ -26,7 +26,7 @@ namespace Infra.Core.Middlewares
         {
             _requestStatitics.AddOrUpdate(context.Request.Path, 1, (key, oldValue) => oldValue + 1);
 
-            _requestTraceService.RequestId = context.TraceIdentifier;
+            _requestTraceService.TraceId = Guid.NewGuid().ToString();
 
             await next.Invoke(context);
 

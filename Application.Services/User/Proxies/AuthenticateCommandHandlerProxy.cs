@@ -6,6 +6,7 @@ using Domain.User.Repositories;
 using Infra.Core.RequestTrace;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Application.Services.User.Proxies
 {
@@ -35,9 +36,13 @@ namespace Application.Services.User.Proxies
 
         public async Task<AuthenticateResponse> Handle(AuthenticateRequest request)
         {
-            _logger.LogInformation("Request Id: {RequsetId} - Executing AuthenticateCommandHandler", _requestTraceService.RequestId);
+            _logger.LogInformation("Trace Id: {RequsetId} - Executing AuthenticateCommandHandler", _requestTraceService.TraceId);
+
             var response = await _handler.Handle(request);
-            _logger.LogInformation("Request Id: {RequestId} - Executed AuthenticateCommandHandler", _requestTraceService.RequestId);
+
+            _logger.LogInformation("Trace Id: {RequestId} - Executed AuthenticateCommandHandler, Reponse: {ExecutionReponse}", 
+                _requestTraceService.TraceId,
+                JsonConvert.SerializeObject(response));
 
             return response;
         }

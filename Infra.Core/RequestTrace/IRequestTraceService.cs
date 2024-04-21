@@ -2,6 +2,6 @@
 {
     public interface IRequestTraceService
     {
-        public string RequestId {  get; set; }
+        public string TraceId {  get; set; }
     }
 }
