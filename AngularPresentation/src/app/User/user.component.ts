@@ -37,4 +37,11 @@ export class UserComponent implements OnInit{
       closeBtn?.click();
     });
   }
+
+  AddClaim(): void {
+    this.userService.AddUserClaim(this.UserId!, this.UserClaimSelected).subscribe(() => {
+      const closeBtn = document.getElementById("closebtn");
+      closeBtn?.click();
+    });
+  }
 }

@@ -22,10 +22,10 @@ namespace AuthService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUserClaim([FromBody] AddUserClaimRequestModel request)
+        public async Task<IActionResult> AddUserClaim([FromQuery] string id, [FromBody] AddUserClaimRequestModel request)
         {
             var response = await _eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(
-                new AddUserClaimRequest(request.UserId, request.ClaimType, request.ClaimValue));
+                new AddUserClaimRequest(id, request.typeName, request.value));
 
             if (!response.Success) 
             { 

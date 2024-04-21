@@ -2,8 +2,8 @@
 {
     public class AddUserClaimRequestModel
     {
-        public string UserId { get; set; }
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
+        public string typeName { get; set; }
+        public string shortTypeName { get; set; }
+        public string value { get; set; }
     }
 }
