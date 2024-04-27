@@ -36,11 +36,11 @@ namespace Application.Services.User.Proxies
         {
             var stopWatch = Stopwatch.StartNew();
 
-            _logger.LogInformation($"Trace Id: {{RequsetId}} - Executing {Proxied}", _requestTraceService.TraceId);
+            _logger.LogInformation($"Trace Id: {{TraceId}} - Executing {Proxied}", _requestTraceService.TraceId);
 
             var response = await _handler.Handle(request);
 
-            _logger.LogInformation($"Trace Id: {{RequestId}} - Executed {Proxied}, Time Elapsed {{TimeElapsedInMs}} ms", _requestTraceService.TraceId, stopWatch.ElapsedMilliseconds);
+            _logger.LogInformation($"Trace Id: {{TraceId}} - Executed {Proxied}, Time Elapsed {{TimeElapsedInMs}} ms", _requestTraceService.TraceId, stopWatch.ElapsedMilliseconds);
 
 
             return response;
