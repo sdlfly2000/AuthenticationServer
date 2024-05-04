@@ -60,5 +60,15 @@ namespace AuthService.Controllers
 
             return Ok(userClaims);
         }
+
+        [HttpGet]
+        public async Task<IList<ClaimTypeValues>> GetClaimTypes()
+        {
+            var response = await _eventBus.Send<GetClaimTypesRequest, GetClaimTypesResponse>(new GetClaimTypesRequest());
+            
+            return response.Success 
+                ? response.ClaimTypes
+                : new List<ClaimTypeValues>();
+        }
     }
 }
