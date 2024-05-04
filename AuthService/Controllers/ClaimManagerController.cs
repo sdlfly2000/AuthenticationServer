@@ -10,7 +10,6 @@ namespace AuthService.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     [EnableCors("AllowPolicy")]
-    [Authorize]
     public class ClaimManagerController : ControllerBase
     {
         private readonly IEventBus _eventBus;

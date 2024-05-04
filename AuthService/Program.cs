@@ -1,7 +1,9 @@
 
+using Common.Core.AOP;
 using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
+using Infra.Core.LogTrace;
 using Infra.Core.Middlewares;
 using Infra.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,7 +42,7 @@ builder.Services
 builder.Services.AddMemoryCache();
 
 builder.Services
-    .RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core","Infra.Core", "Application.Services")
+    .RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core", "Infra.Core", "Application.Services")
     .RegisterNotifications("Application.Services");
 
 var app = builder.Build();
