@@ -1,10 +1,9 @@
-
-using Common.Core.AOP;
 using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core.LogTrace;
 using Infra.Core.Middlewares;
+using Infra.Core.RequestTrace;
 using Infra.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

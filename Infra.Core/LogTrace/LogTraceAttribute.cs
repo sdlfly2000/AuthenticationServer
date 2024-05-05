@@ -1,4 +1,5 @@
 ﻿using ArxOne.MrAdvice.Advice;
+using Serilog;
 using System.Diagnostics;
 
 namespace Infra.Core.LogTrace
@@ -9,11 +10,11 @@ namespace Infra.Core.LogTrace
         {
             var stopWatch = Stopwatch.StartNew();
 
-            LogTraceService.LogInformation($"Executing {context.TargetName}");
+            Log.Information($"Executing {context.TargetName}");
 
             await context.ProceedAsync();
 
-            LogTraceService.LogInformation($"Executed {context.TargetName}, Time elapsed: {stopWatch.ElapsedMilliseconds} ms.");
+            Log.Information($"Executed {context.TargetName}, Time elapsed: {stopWatch.ElapsedMilliseconds} ms.");
         }
     }
 }
