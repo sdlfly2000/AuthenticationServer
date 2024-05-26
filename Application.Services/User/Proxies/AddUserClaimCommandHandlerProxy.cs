@@ -11,7 +11,6 @@ using System.Diagnostics;
 
 namespace Application.Services.User.Proxies
 {
-    [ServiceLocate(typeof(IRequestHandler<AddUserClaimRequest, AddUserClaimResponse>))]
     public class AddUserClaimCommandHandlerProxy : IRequestHandler<AddUserClaimRequest, AddUserClaimResponse>
     {
         private const string Proxied = nameof(AddUserClaimCommandHandler);

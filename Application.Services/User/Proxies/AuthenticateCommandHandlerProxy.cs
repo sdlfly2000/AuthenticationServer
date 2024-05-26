@@ -11,7 +11,6 @@ using System.Diagnostics;
 
 namespace Application.Services.User.Proxies
 {
-    [ServiceLocate(typeof(IRequestHandler<AuthenticateRequest, AuthenticateResponse>))]
     public class AuthenticateCommandHandlerProxy : IRequestHandler<AuthenticateRequest, AuthenticateResponse>
     {
         private const string Proxied = nameof(AuthenticateCommandHandler);

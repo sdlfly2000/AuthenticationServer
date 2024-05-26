@@ -8,8 +8,7 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace Application.Services.User.Proxies
-{
-    [ServiceLocate(typeof(IRequestHandler<GetAllUsersQueryRequest, GetAllUsersQueryResponse>))]
+{    
     public class GetAllUsersQueryRequestHandlerProxy : IRequestHandler<GetAllUsersQueryRequest, GetAllUsersQueryResponse>
     {
         private const string Proxied = nameof(GetAllUsersQueryRequestHandler);

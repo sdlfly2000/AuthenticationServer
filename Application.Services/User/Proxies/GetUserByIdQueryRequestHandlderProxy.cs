@@ -9,7 +9,6 @@ using System.Diagnostics;
 
 namespace Application.Services.User.Proxies
 {
-    [ServiceLocate(typeof(IRequestHandler<GetUserByIdRequest, GetUserByIdResponse>))]
     public class GetUserByIdQueryRequestHandlderProxy : IRequestHandler<GetUserByIdRequest, GetUserByIdResponse>
     {
         private const string Proxied = nameof(GetUserByIdQueryRequestHandlder);

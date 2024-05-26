@@ -9,8 +9,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace Application.Services.User.Proxies
-{
-    [ServiceLocate(typeof(IRequestHandler<RegisterUserRequest, RegisterUserResponse>))]
+{    
     public class RegisterUserCommandHandlerProxy : IRequestHandler<RegisterUserRequest, RegisterUserResponse>
     {
         private const string Proxied = nameof(RegisterUserCommandHandler);

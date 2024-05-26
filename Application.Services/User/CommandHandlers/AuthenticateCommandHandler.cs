@@ -1,8 +1,10 @@
 ﻿using Application.Services.User.ReqRes;
 using Common.Core.Authentication;
 using Common.Core.CQRS.Request;
+using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
 using Infra.Core;
+using Infra.Core.LogTrace;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,19 +13,24 @@ using System.Text;
 
 namespace Application.Services.User.CommandHandlers
 {
+    [ServiceLocate(typeof(IRequestHandler<AuthenticateRequest, AuthenticateResponse>))]
     public class AuthenticateCommandHandler : IRequestHandler<AuthenticateRequest, AuthenticateResponse>
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly IServiceProvider _serviceProvider;
 
         public AuthenticateCommandHandler(
             IUserRepository userRepository, 
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IServiceProvider serviceProvider)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _serviceProvider = serviceProvider;
         }
 
+        [LogTrace]
         public async Task<AuthenticateResponse> Handle(AuthenticateRequest request)
         {
             if (string.IsNullOrEmpty(request.Password))
