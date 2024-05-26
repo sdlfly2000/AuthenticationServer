@@ -9,6 +9,14 @@ namespace Application.Services.User.Queries
     [ServiceLocate(typeof(IRequestHandler<GetClaimTypesRequest, GetClaimTypesResponse>))]
     public class GetAllClaimTypesRequestHandler : IRequestHandler<GetClaimTypesRequest, GetClaimTypesResponse>
     {
+        // Keep the IServiceProvider which is used in AOP
+        private readonly IServiceProvider _serviceProvider;
+
+        public GetAllClaimTypesRequestHandler(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         [LogTrace]
         public async Task<GetClaimTypesResponse> Handle(GetClaimTypesRequest request)
         {

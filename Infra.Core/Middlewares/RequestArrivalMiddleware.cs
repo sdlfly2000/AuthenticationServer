@@ -11,7 +11,6 @@ namespace Infra.Core.Middlewares
     {
         private readonly ILogger<RequestArrivalMiddleware> _logger;
         private readonly IRequestTraceService _requestTraceService;
-        private readonly IServiceProvider _serviceProvider;
 
         private static ConcurrentDictionary<string, int> _requestStatitics = new ConcurrentDictionary<string, int>();
 
@@ -22,7 +21,6 @@ namespace Infra.Core.Middlewares
         {
             _logger = logger;
             _requestTraceService = requestTraceService;
-            _serviceProvider = serviceProvider;
         }
 
         async Task IMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
@@ -31,18 +29,12 @@ namespace Infra.Core.Middlewares
 
             _requestTraceService.TraceId = Guid.NewGuid().ToString();
 
-            var requestTraceScoped = new RequestContext();
-
-            RequestContext.ServiceProvider = _serviceProvider;
-
             await next.Invoke(context);
 
             if (_requestStatitics.TryGetValue(context.Request.Path, out var reqNumberAfter))
             {
                 _logger.LogInformation("RequestStatistics: {RequestPath}, {Count}", context.Request.Path, reqNumberAfter);
             }
-
-            requestTraceScoped.Dispose();
         }
     }
 }

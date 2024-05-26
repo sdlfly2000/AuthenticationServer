@@ -1,4 +1,5 @@
 ﻿using ArxOne.MrAdvice.Advice;
+using Infra.Core.Extentions;
 using Infra.Core.RequestTrace;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -12,13 +13,17 @@ namespace Infra.Core.LogTrace
         {
             var stopWatch = Stopwatch.StartNew();
 
-            var requestTraceService = RequestContext.ServiceProvider.GetRequiredService<IRequestTraceService>();
+            var serviceProvider = context.GetMemberServiceProvider();
 
-            Log.Information($"Trace Id: {{TraceId}}, Executing {context.TargetName}", requestTraceService.TraceId);
+            var requestTraceService = serviceProvider?.GetRequiredService<IRequestTraceService>();
+
+            Log.Information($"Trace Id: {{TraceId}}, Executing {context.Target}", requestTraceService?.TraceId);
 
             await context.ProceedAsync();
 
-            Log.Information($"Trace Id: {{TraceId}}, Time elapsed: {stopWatch.ElapsedMilliseconds} ms.", requestTraceService.TraceId);
+            Log.Information($"Trace Id: {{TraceId}}, Executed {context.Target} in {stopWatch.ElapsedMilliseconds} ms.", requestTraceService?.TraceId);
         }
     }
+
+
 }
