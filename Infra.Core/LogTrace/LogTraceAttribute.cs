@@ -17,11 +17,13 @@ namespace Infra.Core.LogTrace
 
             var requestTraceService = serviceProvider?.GetRequiredService<IRequestTraceService>();
 
-            Log.Information($"Trace Id: {{TraceId}}, Executing {context.Target}", requestTraceService?.TraceId);
+            var logger = serviceProvider?.GetRequiredService<ILogger>();
+
+            logger?.Information($"Trace Id: {{TraceId}}, Executing {context.Target}", requestTraceService?.TraceId);
 
             await context.ProceedAsync();
 
-            Log.Information($"Trace Id: {{TraceId}}, Executed {context.Target} in {stopWatch.ElapsedMilliseconds} ms.", requestTraceService?.TraceId);
+            logger?.Information($"Trace Id: {{TraceId}}, Executed {context.Target} in {stopWatch.ElapsedMilliseconds} ms.", requestTraceService?.TraceId);
         }
     }
 
