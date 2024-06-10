@@ -2,6 +2,6 @@
 {
     public static class CacheFieldNames
     {
-        public static string User { get => "User"; }
+        public const string User = "User"; 
     }
 }

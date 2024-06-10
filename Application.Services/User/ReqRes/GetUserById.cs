@@ -2,7 +2,17 @@
 
 namespace Application.Services.User.ReqRes
 {
-    public record GetUserByIdRequest(string UserId) : IRequest;
+    public class GetUserByIdRequest: ICacheRequest
+    {
+        public GetUserByIdRequest(string userId)
+        {
+            UserId = userId;
+        }
+
+        public string UserId { get; set; }
+
+        public string Id { get => UserId;}
+    }
 
     public record GetUserByIdResponse(string Message, bool Success, Domain.User.Entities.User? User): IResponse;
 }

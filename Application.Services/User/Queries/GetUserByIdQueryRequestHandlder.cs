@@ -3,6 +3,8 @@ using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
+using Infra.Core.Cache;
+using Infra.Core.CacheFieldNames;
 using Infra.Core.LogTrace;
 
 namespace Application.Services.User.Queries
@@ -20,6 +22,7 @@ namespace Application.Services.User.Queries
         }
 
         [LogTrace]
+        [Cache(key: CacheFieldNames.User, subKeyType: typeof(GetUserByIdRequest))]
         public async Task<GetUserByIdResponse> Handle(GetUserByIdRequest request)
         {
             var user = await _userRepository.Find(UserReference.Create(request.UserId));
