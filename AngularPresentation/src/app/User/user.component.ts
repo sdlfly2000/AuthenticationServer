@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './user.service';
 import { UserClaim } from './Models/UserClaim';
+import { ClaimTypeValues } from './Models/ClaimTypeValues';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,21 @@ export class UserComponent implements OnInit{
     typeName: ""
   };
 
+  NewUserClaim: UserClaim = {
+    shortTypeName: "",
+    value: "",
+    typeName: ""
+  };
+
+  ClaimTypes: ClaimTypeValues[] | undefined;
+
   constructor(private route: ActivatedRoute, private userService: UserService) {
     this.UserId = route.snapshot.queryParamMap.get("userid");
   }
 
   ngOnInit(): void {
     this.userService.GetUserClaims(this.UserId!).subscribe(claims => this.UserClaims = claims);
+    this.userService.GetAllClaimTypes().subscribe(types => this.ClaimTypes = types);
   }
 
   UpdateSelected(userClaim: UserClaim): void {
@@ -39,9 +49,13 @@ export class UserComponent implements OnInit{
   }
 
   AddClaim(): void {
-    this.userService.AddUserClaim(this.UserId!, this.UserClaimSelected).subscribe(() => {
-      const closeBtn = document.getElementById("closebtn");
-      closeBtn?.click();
+    this.NewUserClaim.shortTypeName = this.GetTypeShortName(this.NewUserClaim.typeName)!;
+    this.userService.AddUserClaim(this.UserId!, this.NewUserClaim).subscribe(() => {
+
     });
   }
+
+  private GetTypeShortName(typeName: string): string | undefined {
+    return this.ClaimTypes?.find(type => type.typeName == typeName)?.typeShortName;
+  } 
 }

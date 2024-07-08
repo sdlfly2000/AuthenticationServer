@@ -11,6 +11,5 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\app\user-register\models\" />
-    <Folder Include="src\app\User\Models\" />
   </ItemGroup>
 </Project>

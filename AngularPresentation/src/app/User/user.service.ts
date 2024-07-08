@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { UserClaim } from "./Models/UserClaim";
+import { ClaimTypeValues } from "./Models/ClaimTypeValues";
 
 @Injectable({
   providedIn: "root"
@@ -23,5 +24,9 @@ export class UserService {
 
   AddUserClaim(UserId: string, UserClaim: UserClaim): Observable<string> {
     return this.httpClient.post<string>(this.BaseUrl + "api/ClaimManager/AddUserClaim?id=" + UserId, JSON.stringify(UserClaim), { headers: this.httpHeaders });
+  }
+
+  GetAllClaimTypes(): Observable<ClaimTypeValues[]> {
+    return this.httpClient.get<ClaimTypeValues[]>(this.BaseUrl + "api/ClaimManager/GetClaimTypes");
   }
 }

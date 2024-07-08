@@ -8,7 +8,7 @@
             class="btn btn-outline-primary col col-1 form-element" (click)="UpdateSelected(claim)">Update</button>
   </div>
   <div class="row form-element">
-    <button class="btn btn-primary col col-3 form-element">New</button>
+    <button class="btn btn-primary col col-3 form-element "data-bs-toggle="modal" data-bs-target="#NewModal">New</button>
     <button type="reset" class="btn btn-secondary col col-3 form-element">Cancel</button>
   </div>
 </form>
@@ -36,7 +36,7 @@
   </div>
 </div>
 
-<div class="modal fade" #NewClaimModal id="NewModal" tabindex="-1" aria-labelledby="NewModalLabel" aria-hidden="true" >
+<div class="modal fade" #NewClaimModal id="NewModal" tabindex="-1" aria-labelledby="NewModalLabel" aria-hidden="true" *ngIf="ClaimTypes">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -46,8 +46,10 @@
       <div class="modal-body">
         <form>
           <div class="mb-3">
-            <label for="claim-value" class="col-form-label">{{UserClaimSelected.shortTypeName}}</label>
-            <input type="text" class="form-control" id="claim-value" name="claimValue" [(ngModel)]="UserClaimSelected.value" />
+            <label for="claim-type" class="col-form-label">Claim Type</label>
+            <select class="form-select" id="claim-type" aria-label="Claim Type" [(ngModel)]="NewUserClaim.typeName">
+              <option *ngFor="let ClaimType of ClaimTypes" [ngValue]="ClaimType.typeName">{{ClaimType.typeShortName}}</option>
+            </select>
           </div>
         </form>
       </div>
