@@ -51,7 +51,8 @@ export class UserComponent implements OnInit{
   AddClaim(): void {
     this.NewUserClaim.shortTypeName = this.GetTypeShortName(this.NewUserClaim.typeName)!;
     this.userService.AddUserClaim(this.UserId!, this.NewUserClaim).subscribe(() => {
-
+      const closeBtn = document.getElementById("closebtn2");
+      closeBtn?.click();
     });
   }
 

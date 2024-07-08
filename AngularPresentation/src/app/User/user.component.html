@@ -47,14 +47,18 @@
         <form>
           <div class="mb-3">
             <label for="claim-type" class="col-form-label">Claim Type</label>
-            <select class="form-select" id="claim-type" aria-label="Claim Type" [(ngModel)]="NewUserClaim.typeName">
+            <select class="form-select" id="claim-type" aria-label="Claim Type" name="claimtype" [(ngModel)]="NewUserClaim.typeName">
               <option *ngFor="let ClaimType of ClaimTypes" [ngValue]="ClaimType.typeName">{{ClaimType.typeShortName}}</option>
             </select>
+          </div>
+          <div class="mb-3">
+            <label for="claim-value-new" class="col-form-label">Claim Value</label>
+            <input class="form-control" id="claim-value-new" aria-label="Claim Value" name="claimvaluenew" [(ngModel)]="NewUserClaim.value" />
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="closebtn" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" id="closebtn2" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" (click)="AddClaim()">Add</button>
       </div>
     </div>

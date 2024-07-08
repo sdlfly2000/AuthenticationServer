@@ -48,14 +48,14 @@ namespace AuthService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
         {
-            var userReponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id));
+            var userResponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id));
 
-            if (!userReponse.Success) 
+            if (!userResponse.Success) 
             { 
-                return Problem(userReponse.Message); 
+                return Problem(userResponse.Message); 
             }
 
-            var userClaims = userReponse.User!.Claims.Select(claim => new UserClaimModel { ShortTypeName = claim.Name.Split('/').Last(), Value = claim.Value, TypeName = claim.Name });
+            var userClaims = userResponse.User!.Claims.Select(claim => new UserClaimModel { ShortTypeName = claim.Name.Split('/').Last(), Value = claim.Value, TypeName = claim.Name });
 
             return Ok(userClaims);
         }

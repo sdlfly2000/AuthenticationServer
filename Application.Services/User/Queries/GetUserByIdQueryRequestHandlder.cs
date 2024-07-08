@@ -22,7 +22,7 @@ namespace Application.Services.User.Queries
         }
 
         [LogTrace]
-        [Cache(key: CacheFieldNames.User, subKeyType: typeof(GetUserByIdRequest))]
+        //[Cache(key: CacheFieldNames.User, subKeyType: typeof(GetUserByIdRequest))]
         public async Task<GetUserByIdResponse> Handle(GetUserByIdRequest request)
         {
             var user = await _userRepository.Find(UserReference.Create(request.UserId));
