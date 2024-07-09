@@ -1,7 +1,6 @@
 ﻿using Application.Services.User.ReqRes;
 using AuthService.Models;
 using Common.Core.CQRS;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
