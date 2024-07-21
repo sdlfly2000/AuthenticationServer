@@ -1,6 +1,9 @@
 ﻿using Application.Services.User.Queries;
 using Application.Services.User.ReqRes;
+using Infra.Core.RequestTrace;
 using Infra.Core.Test;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Application.Services.Tests.User.Queries
 {
@@ -8,11 +11,17 @@ namespace Application.Services.Tests.User.Queries
     public class GetAllClaimTypesRequestHandlerTest
     {
         private GetAllClaimTypesRequestHandler _getAllClaimTypesRequestHandler;
+        private IServiceProvider _serviceProvider;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _getAllClaimTypesRequestHandler = new GetAllClaimTypesRequestHandler();
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddTransient<ILogger>((service) => Log.Logger);
+            serviceCollection.AddTransient<IRequestTraceService>((service) => new RequestTraceService { TraceId = "TraceId" });
+            _serviceProvider = serviceCollection.BuildServiceProvider();
+
+            _getAllClaimTypesRequestHandler = new GetAllClaimTypesRequestHandler(_serviceProvider);
         }
 
         [TestMethod, TestCategory(nameof(TestCategoryType.UnitTest))]

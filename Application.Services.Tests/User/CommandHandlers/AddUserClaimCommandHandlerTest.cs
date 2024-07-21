@@ -4,8 +4,11 @@ using Domain.User.Persistors;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
+using Infra.Core.RequestTrace;
 using Infra.Core.Test;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Serilog;
 using System.Security.Claims;
 
 namespace Application.Services.Tests.User.CommandHandlers
@@ -18,6 +21,7 @@ namespace Application.Services.Tests.User.CommandHandlers
         private Domain.User.Entities.User _user;
         private Mock<IUserRepository> _userRepositoryMock;
         private Mock<IUserPersistor> _userPersistorMock;
+        private IServiceProvider _serviceProvider;
 
         private AddUserClaimCommandHandler _addUserClaimCommandHandler;
 
@@ -28,6 +32,11 @@ namespace Application.Services.Tests.User.CommandHandlers
 
             _userPersistorMock = new Mock<IUserPersistor>();
             _userRepositoryMock= new Mock<IUserRepository>();
+            
+            var serviceCollection= new ServiceCollection();
+            serviceCollection.AddTransient<ILogger>((service) => Log.Logger);
+            serviceCollection.AddTransient<IRequestTraceService>((service) => new RequestTraceService { TraceId = "TraceId" });
+            _serviceProvider = serviceCollection.BuildServiceProvider();
 
             _userRepositoryMock
                 .Setup(repository => repository.Find(It.IsAny<UserReference>()))
@@ -40,8 +49,8 @@ namespace Application.Services.Tests.User.CommandHandlers
                     Message = string.Empty,
                     Success = true
                 }));
-
-            _addUserClaimCommandHandler = new AddUserClaimCommandHandler(_userRepositoryMock.Object, _userPersistorMock.Object);
+                      
+            _addUserClaimCommandHandler = new AddUserClaimCommandHandler(_userRepositoryMock.Object, _userPersistorMock.Object, _serviceProvider);
         }
 
         [TestMethod, TestCategory(nameof(TestCategoryType.UnitTest))]
