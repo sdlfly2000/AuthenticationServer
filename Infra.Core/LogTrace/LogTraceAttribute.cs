@@ -23,7 +23,7 @@ namespace Infra.Core.LogTrace
 
             await context.ProceedAsync();
 
-            logger?.Information($"Trace Id: {{TraceId}}, Executed {context.Target} in {stopWatch.ElapsedMilliseconds} ms.", requestTraceService?.TraceId);
+            logger?.Information($"Trace Id: {{TraceId}}, Executed {{MetricExecutionTarget}} in {{MetricExecutionTimeInMs}} ms.", requestTraceService?.TraceId, context.Target, stopWatch.ElapsedMilliseconds);
         }
     }
 
