@@ -3,3 +3,6 @@ Powershell.exe ./Build.ps1
 
 # Step 2: Upload to Server
 Powershell.exe ./Deploy.ps1
+
+# Step 3: Restart Service
+Powershell.exe ./RestartService.ps1
