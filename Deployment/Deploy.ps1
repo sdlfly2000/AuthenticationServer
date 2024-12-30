@@ -5,7 +5,7 @@ function UploadProject(){
 	[string]$projectName,
 	[string]$username = "sdlfly2000",
 	[string]$password = "sdl@1215",
-	[string]$urlDestination = "ftp://192.168.71.154/Projects/AuthenticationService"
+	[string]$urlDestination = "ftp://homeserver/Projects/AuthenticationService"
 	)
 	$webclient = New-Object -TypeName System.Net.WebClient
 	$webclient.Credentials = New-Object System.Net.NetworkCredential($username,$password)
