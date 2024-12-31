@@ -8,7 +8,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthService) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler) {
     this.authToken = this.authService.JwtToken;
 
     if (this.authToken != "" || this.authToken != null) {

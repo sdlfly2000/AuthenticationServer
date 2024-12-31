@@ -9,7 +9,7 @@ export class AuthFailureInterceptor implements HttpInterceptor {
 
   constructor(private router: Router, private authService: AuthService) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler) {
 
     return next.handle(req)
       .pipe(
