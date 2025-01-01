@@ -49,7 +49,6 @@ namespace Application.Services.User.CommandHandlers
 
             var claims = user.Claims.Select(claim => new Claim(claim.Name, claim.Value, claim.ValueType)).ToList();
 
-            claims.Add(new Claim(ClaimTypes.Uri, request.IpAddress));
             claims.Add(new Claim(ClaimTypes.UserData, request.UserAgent));
 
             var jwt = GenerateJwt(claims);

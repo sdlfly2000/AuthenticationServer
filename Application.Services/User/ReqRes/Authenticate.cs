@@ -2,7 +2,7 @@
 
 namespace Application.Services.User.ReqRes
 {
-    public record AuthenticateRequest(string UserName, string Password, string IpAddress, string UserAgent) : IRequest;
+    public record AuthenticateRequest(string UserName, string Password, string UserAgent) : IRequest;
 
     public class AuthenticateResponse: IResponse
     {

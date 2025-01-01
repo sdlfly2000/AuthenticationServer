@@ -44,7 +44,6 @@ namespace AuthService.Controllers
                 new AuthenticateRequest(
                     request.UserName,
                     password, 
-                    HttpContext.Connection.RemoteIpAddress!.MapToIPv4().ToString(), 
                     HttpContext.Request.Headers.UserAgent.ToString()));
 
             if(authenticateResponse != null && authenticateResponse.Success)

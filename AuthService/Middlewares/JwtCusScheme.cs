@@ -46,7 +46,6 @@ namespace AuthService.Middlewares
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var remoteIpAdress = Context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
             var userAgent = Request.Headers.UserAgent.ToString();
 
             var token = GetTokenBody(Request.Headers.Authorization.ToString()) as JObject;
@@ -56,7 +55,7 @@ namespace AuthService.Middlewares
                 return AuthenticateResult.NoResult();
             }
 
-            var cacheJwtKey = CreateKey(remoteIpAdress,
+            var cacheJwtKey = CreateKey(
                 token[ClaimTypes.NameIdentifier]?.Value<string>(),
                 token["exp"]?.Value<string>());
 
@@ -65,8 +64,7 @@ namespace AuthService.Middlewares
                 return AuthenticateResult.NoResult();
             }
 
-            if (remoteIpAdress != token[ClaimTypes.Uri]?.Value<string>()
-                || userAgent != token[ClaimTypes.UserData]?.Value<string>())
+            if (userAgent != token[ClaimTypes.UserData]?.Value<string>())
             {
                 return AuthenticateResult.NoResult();
             }
@@ -135,10 +133,10 @@ namespace AuthService.Middlewares
             return Convert.FromBase64String(base64);
         }
 
-        private string CreateKey(string? ip, string? userId, string? timeStamp)
+        private string CreateKey(string? userId, string? timeStamp)
         {
             return string.Join('|',
-                new string?[] { ip, userId, timeStamp }
+                new string?[] { userId, timeStamp }
                     .Where(e => !e.IsNullOrEmpty())
                     .ToArray());
         }
