@@ -5,4 +5,4 @@ Powershell.exe ./Build.ps1
 Powershell.exe ./Deploy.ps1
 
 # Step 3: Restart Service
-Powershell.exe ./RestartService.ps1
+./RestartService.ps1
