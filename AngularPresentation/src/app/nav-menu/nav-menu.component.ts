@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavMenuService } from './nav-menu.service';
-import { AuthService } from '../auth.service';
-import { StatusMessageService } from '../statusmessage.service';
+import { StatusMessageService } from '../../services/statusmessage.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-nav-menu',

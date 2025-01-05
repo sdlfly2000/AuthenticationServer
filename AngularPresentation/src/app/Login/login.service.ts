@@ -3,7 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
 import { LoginRequest } from "./Models/LoginRequest";
 import { LoginResponse } from "./Models/LoginResponse";
-import { AuthService } from "../auth.service";
+import { AuthService } from "../../services/auth.service";
 
 @Injectable({
   providedIn: "root"

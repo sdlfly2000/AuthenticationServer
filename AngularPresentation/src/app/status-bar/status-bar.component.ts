@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StatusMessageService } from '../statusmessage.service';
+import { StatusMessageService } from '../../services/statusmessage.service';
 
 @Component({
   selector: 'app-status-bar',

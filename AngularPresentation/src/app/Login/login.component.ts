@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { LoginRequest } from './Models/LoginRequest';
 import { LoginService } from './login.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { StatusMessageService } from '../statusmessage.service';
+import { StatusMessageService } from '../../services/statusmessage.service';
+import { QueryStringService } from '../../services/shared.QueryString.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -30,8 +31,10 @@ export class loginComponent {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private statusMessageService: StatusMessageService) {
-    this.loginRequest.returnurl = this.route.snapshot.queryParamMap.get("returnUrl");
+    private statusMessageService: StatusMessageService,
+    private queryStringService: QueryStringService) {
+
+    this.loginRequest.returnurl = this.queryStringService.Get("returnUrl");
     if (this.authService.UserId != null) {
       this.router.navigateByUrl("user?userid=" + this.authService.UserId);
     }

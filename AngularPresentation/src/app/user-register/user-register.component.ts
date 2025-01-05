@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { RegisterUserRequest } from "./models/RegisterUserRequest";
 import { UserRegisterService } from "./user-register.service";
 import { Router } from "@angular/router";
-import { StatusMessageService } from "../statusmessage.service";
+import { StatusMessageService } from "../../services/statusmessage.service";
 import { HttpErrorResponse } from "@angular/common/http";
 
 
