@@ -1,7 +1,7 @@
 # Build AngularPresentation
 Write-Host "Building AngularPresentation" -ForegroundColor DarkCyan
 pushd ../AngularPresentation/
-ng build --output-path ../Build/AuthService/wwwroot
+ng build --configuration=production --output-path ../Build/AuthService/wwwroot 
 popd
 
 # Build AuthService
