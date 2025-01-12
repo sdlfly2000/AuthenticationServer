@@ -16,6 +16,7 @@ export class AuthService {
     this.returnUrl = null;
   }
 
+  // Token and JWT
   get JwtToken() : string | null {
     return localStorage.getItem("AuthJwt");
   }
@@ -28,6 +29,7 @@ export class AuthService {
     localStorage.removeItem("AuthJwt");
   }
 
+  // Token and JWT
   get UserId() : string | null{
     return localStorage.getItem("UserID");
   }
@@ -53,6 +55,8 @@ export class AuthService {
     this.displayNameSubject.next(value);
   }
 
+
+  // Events
   get OnLoginSuccess(): Observable<boolean> {
     return this.isLogin.pipe(
       filter(SuccessLogin => SuccessLogin));
@@ -63,10 +67,7 @@ export class AuthService {
       filter(SuccessLogin => !SuccessLogin));
   }
 
-  set LoginStatus(value: boolean) {
-    this.isLogin.next(value);
-  }
-
+  // Return Url
   SetReturnUrl(url: string | null) {
     this.returnUrl = url;
   }
@@ -83,6 +84,11 @@ export class AuthService {
     return this.returnUrl != null ? true : false;
   }
 
+  set LoginStatus(value: boolean) {
+    this.isLogin.next(value);
+  }
+
+  // Login status
   get IsValidLogin(): boolean {
     if (this.JwtToken != null && this.UserDisplayName != null && this.UserId != null) {
       return true;
@@ -90,21 +96,24 @@ export class AuthService {
 
     return false;
   }
-  
-  RemoveLocalUserDisplayName() {
-    localStorage.removeItem("UserDisplayName");
-    this.displayNameSubject.next("");
+
+  CheckLoginStatus() {
+    if (this.IsValidLogin == true) {
+      this.LoginStatus = true;
+    } else {
+      this.LoginStatus = false;
+    }
   }
 
+  // Clean up
   CleanLocalCache() {
     this.RemoveLocalJwt();
     this.RemoveLocalUserDisplayName();
     this.RemoveLocalUserId();
   }
 
-  CheckLoginStatus() {
-    if (this.IsValidLogin == true) {
-      this.LoginStatus = true;
-    }
+  RemoveLocalUserDisplayName() {
+    localStorage.removeItem("UserDisplayName");
+    this.displayNameSubject.next("");
   }
 }
