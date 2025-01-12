@@ -8,12 +8,15 @@ export class AuthService {
 
   private displayNameSubject: Subject<string>;
   private isLogin: Subject<boolean>;
-
+  private returnUrl: string | null;
+ 
   constructor() {
     this.displayNameSubject = new Subject<string>();
     this.isLogin = new Subject<boolean>();
+    this.returnUrl = null;
   }
 
+  // Token and JWT
   get JwtToken() : string | null {
     return localStorage.getItem("AuthJwt");
   }
@@ -26,6 +29,7 @@ export class AuthService {
     localStorage.removeItem("AuthJwt");
   }
 
+  // Token and JWT
   get UserId() : string | null{
     return localStorage.getItem("UserID");
   }
@@ -51,6 +55,8 @@ export class AuthService {
     this.displayNameSubject.next(value);
   }
 
+
+  // Events
   get OnLoginSuccess(): Observable<boolean> {
     return this.isLogin.pipe(
       filter(SuccessLogin => SuccessLogin));
@@ -61,24 +67,53 @@ export class AuthService {
       filter(SuccessLogin => !SuccessLogin));
   }
 
+  // Return Url
+  SetReturnUrl(url: string | null) {
+    this.returnUrl = url;
+  }
+
+  RemoveReturnUrl() {
+    this.returnUrl = null;
+  }
+
+  get ReturnUrl(): string | null {
+    return this.returnUrl;
+  }
+
+  get IsOutSideRequest() : boolean {
+    return this.returnUrl != null ? true : false;
+  }
+
   set LoginStatus(value: boolean) {
     this.isLogin.next(value);
   }
-  
-  RemoveLocalUserDisplayName() {
-    localStorage.removeItem("UserDisplayName");
-    this.displayNameSubject.next("");
+
+  // Login status
+  get IsValidLogin(): boolean {
+    if (this.JwtToken != null && this.UserDisplayName != null && this.UserId != null) {
+      return true;
+    }
+
+    return false;
   }
 
+  CheckLoginStatus() {
+    if (this.IsValidLogin == true) {
+      this.LoginStatus = true;
+    } else {
+      this.LoginStatus = false;
+    }
+  }
+
+  // Clean up
   CleanLocalCache() {
     this.RemoveLocalJwt();
     this.RemoveLocalUserDisplayName();
     this.RemoveLocalUserId();
   }
 
-  CheckLoginStatus() {
-    if (this.JwtToken != null && this.UserDisplayName != null && this.UserId != null) {
-      this.LoginStatus = true;
-    }
+  RemoveLocalUserDisplayName() {
+    localStorage.removeItem("UserDisplayName");
+    this.displayNameSubject.next("");
   }
 }

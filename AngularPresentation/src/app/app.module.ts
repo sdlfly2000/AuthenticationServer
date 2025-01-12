@@ -22,6 +22,9 @@ import { UserRegisterComponent } from './user-register/user-register.component';
 import { UserRegisterService } from './user-register/user-register.service';
 import { QueryStringService } from '../services/shared.QueryString.service';
 
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +40,7 @@ import { QueryStringService } from '../services/shared.QueryString.service';
     BrowserAnimationsModule,
     FormsModule,
     InputTextModule,
+    ConfirmDialogModule,
     RouterModule.forRoot([
       { path: '', component: loginComponent, pathMatch: 'full' },
       { path: 'login', component: loginComponent, pathMatch: 'full' },
@@ -53,6 +57,7 @@ import { QueryStringService } from '../services/shared.QueryString.service';
     { provide: NavMenuService },
     { provide: UserRegisterService },
     { provide: QueryStringService },
+    { provide: ConfirmationService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthFailureInterceptor, multi: true }
   ],
