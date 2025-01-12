@@ -8,10 +8,12 @@ export class AuthService {
 
   private displayNameSubject: Subject<string>;
   private isLogin: Subject<boolean>;
-
+  private returnUrl: string | null;
+ 
   constructor() {
     this.displayNameSubject = new Subject<string>();
     this.isLogin = new Subject<boolean>();
+    this.returnUrl = null;
   }
 
   get JwtToken() : string | null {
@@ -64,6 +66,30 @@ export class AuthService {
   set LoginStatus(value: boolean) {
     this.isLogin.next(value);
   }
+
+  SetReturnUrl(url: string | null) {
+    this.returnUrl = url;
+  }
+
+  RemoveReturnUrl() {
+    this.returnUrl = null;
+  }
+
+  get ReturnUrl(): string | null {
+    return this.returnUrl;
+  }
+
+  get IsOutSideRequest() : boolean {
+    return this.returnUrl != null ? true : false;
+  }
+
+  get IsValidLogin(): boolean {
+    if (this.JwtToken != null && this.UserDisplayName != null && this.UserId != null) {
+      return true;
+    }
+
+    return false;
+  }
   
   RemoveLocalUserDisplayName() {
     localStorage.removeItem("UserDisplayName");
@@ -77,7 +103,7 @@ export class AuthService {
   }
 
   CheckLoginStatus() {
-    if (this.JwtToken != null && this.UserDisplayName != null && this.UserId != null) {
+    if (this.IsValidLogin == true) {
       this.LoginStatus = true;
     }
   }
