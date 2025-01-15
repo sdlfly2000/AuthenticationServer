@@ -15,13 +15,16 @@ namespace AuthService.Controllers
     {
         private readonly IEventBus _eventBus;
         private readonly IMemoryCache _memoryCache;
+        private readonly ILogger<AuthenticationController> _logger;
 
         public AuthenticationController(
+                    ILogger<AuthenticationController> logger,
                     IEventBus eventBus,
                     IMemoryCache memoryCache)
         {
             _eventBus = eventBus;
             _memoryCache = memoryCache;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -37,6 +40,7 @@ namespace AuthService.Controllers
 
             if (password == null)
             {
+                _logger.LogWarning($"{nameof(AuthenticationController)}: password is null.");
                 return BadRequest();
             }
 
