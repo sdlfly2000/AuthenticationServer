@@ -41,9 +41,5 @@
     </ProjectReference>
     <ProjectReference Include="..\Infra.Shared.Core\Infra.Shared.Core.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Logs\" />
-  </ItemGroup>
-  
+    
 </Project>
