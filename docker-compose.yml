@@ -1,0 +1,43 @@
+# Change password of kibana_system
+# curl -k --user elastic:henkepa -X POST 'https://localhost:9200/_security/user/kibana_system/_password' -H 'Content-Type: application/json' -d '{"password" : "81dc9bdb52d04dc20036dbd8313ed055"}'
+
+version: '3.8'
+
+x-service-default: &service-default
+  logging:
+    options:
+      max-size: '100m'
+      max-file: '2'
+
+services:
+  authservice:
+    <<: *service-default
+    image: authservice:last
+    hostname: authservice.homeserver.activator.com
+    networks:
+      traefik_ingress_network:
+
+    ports:
+      - target: 4202
+        published: 4202
+        mode: host
+
+    labels:
+       traefik.enable: 'true'
+       traefik.http.services.authservice-dns.loadbalancer.server.port: '4202'
+       traefik.http.services.authservice-dns.loadbalancer.server.scheme: 'http'
+       traefik.http.routers.authservice-dns-http.rule: 'Host(`authservice.activator.com`)'
+       traefik.http.routers.authservice-dns-http.entrypoints: 'web'
+       traefik.http.routers.authservice-dns-http.priority: '1000'
+       traefik.http.routers.authservice-dns-https.rule: 'Host(`authservice.activator.com`)'
+       traefik.http.routers.authservice-dns-https.entrypoints: 'websecure'
+       traefik.http.routers.authservice-dns-https.priority: '1000'
+       traefik.http.routers.authservice-dns-https.tls:
+       traefik.docker.network: 'traefik-managed-network'
+
+networks:
+  traefik_ingress_network:
+    external: true
+    name: "traefik-managed-network"
+
+
