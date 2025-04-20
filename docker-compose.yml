@@ -27,7 +27,7 @@ services:
         mode: host
 
     labels:
-      co.elastic.logs/enabled: "true"
+      co.elastic.logs/enabled: 'true'
       traefik.enable: 'true'
       traefik.http.services.authservice-dns.loadbalancer.server.port: '4202'
       traefik.http.services.authservice-dns.loadbalancer.server.scheme: 'http'
