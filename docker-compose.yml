@@ -14,9 +14,13 @@ services:
     <<: *service-default
     image: authservice:last
     hostname: authservice.homeserver.activator.com
+    
+    environment:
+      ASPNETCORE_ENVIRONMENT: 'Production'
+    
     networks:
       traefik_ingress_network:
-
+      
     ports:
       - target: 4202
         published: 4202
@@ -34,11 +38,27 @@ services:
       traefik.http.routers.authservice-dns-https.entrypoints: 'websecure'
       traefik.http.routers.authservice-dns-https.priority: '1000'
       traefik.http.routers.authservice-dns-https.tls:
-      traefik.docker.network: 'traefik-managed-network'
+      traefik.docker.network: 'logs-and-monitoring_ingress'
+
+    deploy:
+      mode: global
+      update_config:
+        parallelism: 1
+        delay: 180s
+      labels:
+        traefik.enable: 'true'
+        traefik.http.services.authservice-dns.loadbalancer.server.port: '4202'
+        traefik.http.services.authservice-dns.loadbalancer.server.scheme: 'http'
+        traefik.http.routers.authservice-dns-http.rule: 'Host(`authservice.activator.com`)'
+        traefik.http.routers.authservice-dns-http.entrypoints: 'web'
+        traefik.http.routers.authservice-dns-http.priority: '1000'
+        traefik.http.routers.authservice-dns-https.rule: 'Host(`authservice.activator.com`)'
+        traefik.http.routers.authservice-dns-https.entrypoints: 'websecure'
+        traefik.http.routers.authservice-dns-https.priority: '1000'
+        traefik.http.routers.authservice-dns-https.tls:
+        traefik.docker.network: 'logs-and-monitoring_ingress'
 
 networks:
   traefik_ingress_network:
     external: true
-    name: "traefik-managed-network"
-
-
+    name: "logs-and-monitoring_ingress"

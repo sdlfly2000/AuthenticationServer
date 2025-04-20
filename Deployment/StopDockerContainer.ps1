@@ -1,9 +1,9 @@
 # Restart AuthService -- Install-Module -Name Posh-SSH
-Write-Host "Clear existing image authservice:last" -ForegroundColor DarkCyan
+Write-Host "Stop and Remove authservice:last" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
 $User = "sdlfly2000"
 $ComputerName = "homeserver"
-$Command = "sudo docker-compose -f /home/sdlfly2000/Projects/AuthenticationService/AuthService/docker-compose.yml down"
+$Command = "sudo docker stack rm AuthService"
 $ExpectedString = "[sudo] password for " + $User + ":"
 
 $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force

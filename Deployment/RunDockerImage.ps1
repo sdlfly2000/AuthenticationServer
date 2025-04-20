@@ -1,9 +1,9 @@
 # Restart AuthService -- Install-Module -Name Posh-SSH
-Write-Host "Build authservice:last docker image" -ForegroundColor DarkCyan
+Write-Host "Run Service authservice:last docker image" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
 $User = "sdlfly2000"
 $ComputerName = "homeserver"
-$Command = "sudo docker-compose -f /home/sdlfly2000/Projects/AuthenticationService/AuthService/docker-compose.yml up -d"
+$Command = "sudo docker stack deploy -c /home/sdlfly2000/Projects/AuthenticationService/AuthService/docker-compose.yml AuthService"
 $ExpectedString = "[sudo] password for " + $User + ":"
 
 $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force
