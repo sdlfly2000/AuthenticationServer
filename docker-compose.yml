@@ -23,17 +23,18 @@ services:
         mode: host
 
     labels:
-       traefik.enable: 'true'
-       traefik.http.services.authservice-dns.loadbalancer.server.port: '4202'
-       traefik.http.services.authservice-dns.loadbalancer.server.scheme: 'http'
-       traefik.http.routers.authservice-dns-http.rule: 'Host(`authservice.activator.com`)'
-       traefik.http.routers.authservice-dns-http.entrypoints: 'web'
-       traefik.http.routers.authservice-dns-http.priority: '1000'
-       traefik.http.routers.authservice-dns-https.rule: 'Host(`authservice.activator.com`)'
-       traefik.http.routers.authservice-dns-https.entrypoints: 'websecure'
-       traefik.http.routers.authservice-dns-https.priority: '1000'
-       traefik.http.routers.authservice-dns-https.tls:
-       traefik.docker.network: 'traefik-managed-network'
+      co.elastic.logs/enabled: "true"
+      traefik.enable: 'true'
+      traefik.http.services.authservice-dns.loadbalancer.server.port: '4202'
+      traefik.http.services.authservice-dns.loadbalancer.server.scheme: 'http'
+      traefik.http.routers.authservice-dns-http.rule: 'Host(`authservice.activator.com`)'
+      traefik.http.routers.authservice-dns-http.entrypoints: 'web'
+      traefik.http.routers.authservice-dns-http.priority: '1000'
+      traefik.http.routers.authservice-dns-https.rule: 'Host(`authservice.activator.com`)'
+      traefik.http.routers.authservice-dns-https.entrypoints: 'websecure'
+      traefik.http.routers.authservice-dns-https.priority: '1000'
+      traefik.http.routers.authservice-dns-https.tls:
+      traefik.docker.network: 'traefik-managed-network'
 
 networks:
   traefik_ingress_network:
