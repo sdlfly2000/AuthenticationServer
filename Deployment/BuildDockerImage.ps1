@@ -2,7 +2,7 @@
 Write-Host "Build authservice:last docker image" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
 $User = "sdlfly2000"
-$ComputerName = "homeserver"
+$ComputerName = "homeserver2"
 $Command = "sudo docker image build -t authservice:last /home/sdlfly2000/Projects/AuthenticationService/AuthService/"
 $ExpectedString = "[sudo] password for " + $User + ":"
 

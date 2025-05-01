@@ -19,7 +19,7 @@ services:
       ASPNETCORE_ENVIRONMENT: 'Production'
     
     networks:
-      traefik_ingress_network:
+      authservice_ingress_network:
       
     ports:
       - target: 4202
@@ -38,7 +38,7 @@ services:
       traefik.http.routers.authservice-dns-https.entrypoints: 'websecure'
       traefik.http.routers.authservice-dns-https.priority: '1000'
       traefik.http.routers.authservice-dns-https.tls:
-      traefik.docker.network: 'logs-and-monitoring_ingress'
+      traefik.docker.network: 'auth-service-ingress'
 
     deploy:
       mode: global
@@ -56,9 +56,9 @@ services:
         traefik.http.routers.authservice-dns-https.entrypoints: 'websecure'
         traefik.http.routers.authservice-dns-https.priority: '1000'
         traefik.http.routers.authservice-dns-https.tls:
-        traefik.docker.network: 'logs-and-monitoring_ingress'
+        traefik.docker.network: 'auth-service-ingress'
 
 networks:
-  traefik_ingress_network:
+  authservice_ingress_network:
     external: true
-    name: "logs-and-monitoring_ingress"
+    name: "auth-service-ingress"

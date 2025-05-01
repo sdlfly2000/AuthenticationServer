@@ -2,8 +2,8 @@
 Write-Host "Stop and Remove authservice:last" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
 $User = "sdlfly2000"
-$ComputerName = "homeserver"
-$Command = "sudo docker stack rm AuthService"
+$ComputerName = "homeserver2"
+$Command = "sudo docker service rm APP_authservice"
 $ExpectedString = "[sudo] password for " + $User + ":"
 
 $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force

@@ -2,8 +2,8 @@
 Write-Host "Run Service authservice:last docker image" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
 $User = "sdlfly2000"
-$ComputerName = "homeserver"
-$Command = "sudo docker stack deploy -c /home/sdlfly2000/Projects/AuthenticationService/AuthService/docker-compose.yml AuthService"
+$ComputerName = "homeserver2"
+$Command = "sudo docker stack deploy -c /home/sdlfly2000/Projects/AuthenticationService/AuthService/docker-compose.yml APP"
 $ExpectedString = "[sudo] password for " + $User + ":"
 
 $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force
