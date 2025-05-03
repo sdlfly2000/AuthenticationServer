@@ -1,37 +1,37 @@
 # Step Build
-Powershell.exe ./Build.ps1
+Powershell.exe ./1-Build.ps1
 
 # step Zip Buid
-./ZipBuilt.ps1
+./2-ZipBuilt.ps1
 
 # step Clean Up deployment folder
-./CleanUpDeployFolder.ps1
+./3-CleanUpDeployFolder.ps1
 Start-Sleep -Seconds 2
 
 # step Deploy zip file
-./Deploy.ps1
+./4-Deploy.ps1
 Start-Sleep -Seconds 2
 
 # step unzip file
-./UnZip.ps1
+./5-UnZip.ps1
 Start-Sleep -Seconds 2
 
 # step remove zip file
-./RemoveZip.ps1
+./6-RemoveZip.ps1
 Start-Sleep -Seconds 2
 
 # Step: Stop running container
-./StopDockerContainer.ps1
+./7-StopDockerContainer.ps1
 Start-Sleep -Seconds 2
 
 # Step: Clear Existing Image
-./ClearDockerImage.ps1
+./8-ClearDockerImage.ps1
 Start-Sleep -Seconds 2
 
 # Step: Build Image
-./BuildDockerImage.ps1
+./9-BuildDockerImage.ps1
 Start-Sleep -Seconds 2
 
 # Step 6: Run container
-./RunDockerImage.ps1
+./10-RunDockerImage.ps1
 Start-Sleep -Seconds 2

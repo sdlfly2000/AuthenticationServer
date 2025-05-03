@@ -13,13 +13,15 @@ function UploadProject(){
 	Write-Host "Uploading File: $sourceFile" -ForegroundColor DarkCyan
 	$webclient.UploadFile("$urlDestination/AuthService.zip", $sourceFile)
 
-    Write-Host "Uploading File: $sourceFile Successful" -ForegroundColor DarkCyan
+    Write-Host "Uploaded File: $sourceFile Successful to $urlDestination" -ForegroundColor DarkCyan
 	$webclient.Dispose()
 }
 
 # Upload AuthService - existing Directory
 Write-Host "Uploading AuthenticationService" -ForegroundColor DarkCyan
 $source = "../Build/AuthService.zip"
-$projectName= "AuthenticationService"
+$urlDests= @("ftp://homeserver2/Projects/AuthenticationService","ftp://homeserver/Projects/AuthenticationService")
 
-UploadProject -sourceFile $source -projectName $projectName
+foreach($urlDest in $urlDests){
+	UploadProject -sourceFile $source -urlDestination $urlDest
+}

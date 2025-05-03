@@ -1,9 +1,9 @@
 # Restart AuthService -- Install-Module -Name Posh-SSH
-Write-Host "Stop and Remove authservice:last" -ForegroundColor DarkCyan
+Write-Host "Run Service authservice:last docker image" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
 $User = "sdlfly2000"
-$ComputerName = "homeserver2"
-$Command = "sudo docker service rm APP_authservice"
+$ComputerName = "homeserver2" # Manager NodeNode
+$Command = "sudo docker stack deploy -c /home/sdlfly2000/Projects/AuthenticationService/docker-compose.yml APP"
 $ExpectedString = "[sudo] password for " + $User + ":"
 
 $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force
@@ -12,5 +12,5 @@ $SessionID = New-SSHSession -ComputerName $ComputerName -Credential $Credentials
 $stream = $SessionID.Session.CreateShellStream("PS-SSH", 0, 0, 0, 0, 1000)
 $result = Invoke-SSHStreamExpectSecureAction -ShellStream $stream -Command $Command -ExpectString $ExpectedString -SecureAction $secpasswd
 
-Write-Host "Restarted: "$result -ForegroundColor DarkCyan
-
+Write-Host "Run Service authservice:last: "$result -ForegroundColor DarkCyan
+$stream.Read()
