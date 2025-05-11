@@ -1,4 +1,6 @@
-﻿using Application.Services.User.ReqRes;
+﻿using Application.Services.Events;
+using Application.Services.Events.Messages;
+using Application.Services.User.ReqRes;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
@@ -11,11 +13,13 @@ namespace Application.Services.User.Commands
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserRequest, RegisterUserResponse>
     {
         private readonly IUserPersistor _userPersistor;
+        private readonly IBusService _busService;
         private readonly IServiceProvider _serviceProvider;
 
-        public RegisterUserCommandHandler(IUserPersistor userPersistor, IServiceProvider serviceProvider)
+        public RegisterUserCommandHandler(IUserPersistor userPersistor, IBusService busService, IServiceProvider serviceProvider)
         {
             _userPersistor = userPersistor;
+            _busService = busService;
             _serviceProvider = serviceProvider;
         }
 
@@ -28,6 +32,10 @@ namespace Application.Services.User.Commands
                 PasswordHash = PasswordHelper.EncryptoPassword(request.Password)
             });
 
+            await _busService.publish(
+                new UserMessage { UserId = Guid.Parse(domainResult.Id.Code), UserName = request.DisplayName },
+                "register");
+            
             return new RegisterUserResponse(domainResult.Message, domainResult.Success);
         }
     }

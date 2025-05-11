@@ -3,6 +3,7 @@ using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core.Middlewares;
 using Infra.Database;
+using Infra.MessageQueue.Extentions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -36,10 +37,12 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
 
+builder.Services.AddRabbitMQBus(builder.Configuration);
+
 builder.Services.AddMemoryCache();
 
 builder.Services
-    .RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core", "Infra.Core", "Application.Services")
+    .RegisterDomain("AuthService", "Infra.Database", "Infra.MessageQueue", "Infra.Shared.Core", "Infra.Core", "Application.Services")
     .RegisterNotifications("Application.Services");
 
 var app = builder.Build();

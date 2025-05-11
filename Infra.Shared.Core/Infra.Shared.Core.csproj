@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyNetQ" Version="7.8.0" />
+    <PackageReference Include="EasyNetQ.DI.Microsoft" Version="7.8.0" />
+    <PackageReference Include="EasyNetQ.Logging.Microsoft" Version="7.8.0" />
+    <PackageReference Include="EasyNetQ.Serialization.SystemTextJson" Version="7.8.0" />
     <PackageReference Include="IdeaActivator.Common.Core" Version="1.1.6" />
     <PackageReference Include="MrAdvice" Version="2.15.0" />
   </ItemGroup>

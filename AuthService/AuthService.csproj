@@ -39,6 +39,7 @@
     <ProjectReference Include="..\AngularPresentation\AngularPresentation.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\Infra.MessageQueue\Infra.MessageQueue.csproj" />
     <ProjectReference Include="..\Infra.Shared.Core\Infra.Shared.Core.csproj" />
   </ItemGroup>
 
