@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Events.Messages
+﻿namespace Infra.Core.MessageQueue.Marks
 {
     public abstract class BaseMessage
     {

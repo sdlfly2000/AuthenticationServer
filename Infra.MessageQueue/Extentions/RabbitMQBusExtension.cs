@@ -11,14 +11,14 @@ namespace Infra.MessageQueue.Extentions
         {
             var rabbitMqConfig = configuration.GetSection("RabbitMQ").Get<RabbitMQConfig>();
 
-            services.AddScoped<IAdvancedBus>(svc => RabbitHutch.CreateBus(
+            services.AddSingleton<IBus>(svc => RabbitHutch.CreateBus(
                 rabbitMqConfig.Host,
                 rabbitMqConfig.Port,
                 rabbitMqConfig.VirtualHost,
                 rabbitMqConfig.UserName,
                 rabbitMqConfig.Password,
                 TimeSpan.FromSeconds(30),
-                s => s.EnableSystemTextJson()).Advanced);
+                s => s.EnableSystemTextJson()));
 
             return services;
         }

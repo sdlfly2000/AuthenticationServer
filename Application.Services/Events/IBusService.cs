@@ -1,4 +1,4 @@
-﻿using Application.Services.Events.Messages;
+﻿using Infra.Core.MessageQueue.Marks;
 
 namespace Application.Services.Events
 {

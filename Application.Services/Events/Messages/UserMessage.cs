@@ -1,4 +1,6 @@
-﻿namespace Application.Services.Events.Messages
+﻿using Infra.Core.MessageQueue.Marks;
+
+namespace Application.Services.Events.Messages
 {
     public class UserMessage : BaseMessage
     {
