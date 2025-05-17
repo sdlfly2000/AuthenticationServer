@@ -1,9 +1,9 @@
 ﻿using EasyNetQ;
-using Infra.MessageQueue.Config;
+using MessageQueue.RabbitMQ.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infra.MessageQueue.Extentions
+namespace MessageQueue.RabbitMQ.Extentions
 {
     public static class RabbitMqBusExtension
     {
@@ -11,7 +11,7 @@ namespace Infra.MessageQueue.Extentions
         {
             var rabbitMqConfig = configuration.GetSection("RabbitMQ").Get<RabbitMQConfig>();
 
-            services.AddSingleton<IBus>(svc => RabbitHutch.CreateBus(
+            services.AddSingleton(svc => RabbitHutch.CreateBus(
                 rabbitMqConfig.Host,
                 rabbitMqConfig.Port,
                 rabbitMqConfig.VirtualHost,

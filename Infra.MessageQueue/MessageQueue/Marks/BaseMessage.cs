@@ -1,4 +1,4 @@
-﻿namespace Infra.Core.MessageQueue.Marks
+﻿namespace MessageQueue.RabbitMQ.MessageQueue.Marks
 {
     public abstract class BaseMessage
     {

@@ -1,4 +1,4 @@
-﻿namespace Infra.Core.MessageQueue.Attributes
+﻿namespace MessageQueue.RabbitMQ.MessageQueue.Attributes
 {
     public class AMQPConsumerAttribute : Attribute
     {

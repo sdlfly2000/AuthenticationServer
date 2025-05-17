@@ -1,4 +1,4 @@
-﻿using Infra.Core.MessageQueue.Marks;
+﻿using MessageQueue.RabbitMQ.MessageQueue.Marks;
 
 namespace Application.Services.Events.Messages
 {
