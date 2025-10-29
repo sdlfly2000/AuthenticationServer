@@ -11,7 +11,7 @@ config:
 classDiagram
 
 User --> UserReference : use
-User "1" --|> "0..*" Claim
+User "1" --> "0..*" Claim
 
 class User:::Entity {
     <<Entity>>
