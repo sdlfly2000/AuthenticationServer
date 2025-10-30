@@ -9,7 +9,7 @@ namespace MessageQueue.RabbitMQ.Extentions
     {
         public static IServiceCollection AddRabbitMQBus(this IServiceCollection services, IConfiguration configuration)
         {
-            var rabbitMqConfig = configuration.GetSection("RabbitMQ").Get<RabbitMQConfig>();
+            var rabbitMqConfig = configuration.GetSection("RabbitMQ").Get<RabbitMQConfig>()!;
 
             services.AddSingleton(svc => RabbitHutch.CreateBus(
                 rabbitMqConfig.Host,
