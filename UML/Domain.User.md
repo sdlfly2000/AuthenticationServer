@@ -23,22 +23,16 @@ class User:::Entity {
 }
 
 class UserReference:::ValueObject {
-    <<ValueObject>>
     + Code: string
     + CacheFieldName: string
     + CacheCode: string
 }
 
-class Claim:::ValueObject {
+class Claim:::Interface {
     <<ValueObject>>
     + Name: string
     + Value: string
     + ValueType: string
 }
-
-%%{Format}%%
-classDef Entity: stroke-width: 1px, stroke-dasharray: none, stroke: #808080ff, fill: #ffda95ff 
-
-classDef ValueObject: stroke-width: 1px, stroke-dasharray: 1 5
 
 ```
