@@ -10,7 +10,7 @@ classDiagram
 
 
 %%{Format}%%
-classDef Entity: stroke-width: 1px, stroke-dasharray: none, stroke: #808080ff, fill: #ffffeaff, color: #00000000;
+classDef Entity: stroke-width: 1px, stroke-dasharray: none, stroke: #808080ff, fill: #ffda95ff 
 
 classDef ValueObject: stroke-width: 1px, stroke-dasharray: 1 5
 
