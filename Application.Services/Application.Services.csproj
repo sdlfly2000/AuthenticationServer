@@ -15,9 +15,4 @@
     <ProjectReference Include="..\Infra.Core\Infra.Core.csproj" />
     <ProjectReference Include="..\Infra.MessageQueue\MessageQueue.RabbitMQ.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="User\Mappers\" />
-  </ItemGroup>
-
 </Project>
