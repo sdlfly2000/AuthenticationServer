@@ -1,9 +1,9 @@
-# Cleanup deploy folder -- Install-Module -Name Posh-SSH
-Write-Host "Cleanup deploy folder" -ForegroundColor DarkCyan
+# Install-Module -Name Posh-SSH
+Write-Host "Execute Build and Push Image Script Remotely" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
 $User = "devops"
 $ComputerNames = @("homeserver2")
-$Command = "sudo rm -r /home/devops/Projects/AuthenticationService/*"
+$Command = "sudo bash /home/devops/Projects/AuthenticationService/ImageBuildAndPush.sh"
 $ExpectedString = "[sudo] password for " + $User + ":"
 
 $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force
@@ -14,3 +14,5 @@ foreach($ComputerName in $ComputerNames){
 	$result = Invoke-SSHStreamExpectSecureAction -ShellStream $stream -Command $Command -ExpectString $ExpectedString -SecureAction $secpasswd
 	$stream.Read()
 }
+
+

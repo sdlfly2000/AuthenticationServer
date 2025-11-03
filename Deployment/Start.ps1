@@ -16,22 +16,10 @@ Start-Sleep -Seconds 2
 ./5-UnZip.ps1
 Start-Sleep -Seconds 2
 
-# step remove zip file
-./6-RemoveZip.ps1
+# step build and push image
+./6-ExecuteImageBuildPush.ps1
 Start-Sleep -Seconds 2
 
-# Step: Stop running container
-./7-StopDockerContainer.ps1
-Start-Sleep -Seconds 2
-
-# Step: Clear Existing Image
-./8-ClearDockerImage.ps1
-Start-Sleep -Seconds 2
-
-# Step: Build Image
-./9-BuildDockerImage.ps1
-Start-Sleep -Seconds 2
-
-# Step 6: Run container
-./10-RunDockerImage.ps1
+# step k8s deploy
+./7-ExectueDeployImage.ps1
 Start-Sleep -Seconds 2

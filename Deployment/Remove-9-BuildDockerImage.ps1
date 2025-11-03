@@ -1,9 +1,9 @@
 # Restart AuthService -- Install-Module -Name Posh-SSH
 Write-Host "Build authservice:last docker image" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
-$User = "sdlfly2000"
-$ComputerNames = @("homeserver2","homeserver")
-$Command = "sudo docker image build -t authservice:last /home/sdlfly2000/Projects/AuthenticationService/"
+$User = "devops"
+$ComputerNames = @("homeserver2")
+$Command = "sudo docker image build -t registry.activator.com/authservice/authservice:last /home/devops/Projects/AuthenticationService/"
 $ExpectedString = "[sudo] password for " + $User + ":"
 
 $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force

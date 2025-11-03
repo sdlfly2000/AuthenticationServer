@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: activator-authservice
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authservice
+  namespace: activator-authservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authservice
+  template:
+    metadata:
+      labels:
+        app: authservice
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: authservice
+          image: registry.activator.com/authservice/authservice:${AUTH_SERVICE_VERSION}
+          env:
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Production"
+          ports:
+          - name: http
+            containerPort: 4200
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authservice
+  namespace: activator-authservice
+spec:
+  selector:
+    app: authservice
+  ports:
+    - protocol: TCP
+      port: 4200
+      targetPort: 4200
+      name: kb-port-ex
+  type: ClusterIP
