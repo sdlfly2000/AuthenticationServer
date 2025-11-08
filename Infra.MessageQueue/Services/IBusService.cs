@@ -4,6 +4,6 @@ namespace Application.Services.Events
 {
     public interface IBusService
     {
-        public Task publish<TMessage>(TMessage message, string routingKey) where TMessage: BaseMessage;
+        public Task Publish<TMessage>(TMessage message, string routingKey) where TMessage: BaseMessage;
     }
 }

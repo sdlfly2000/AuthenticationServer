@@ -32,7 +32,7 @@ namespace Application.Services.User.Commands
                 PasswordHash = PasswordHelper.EncryptoPassword(request.Password)
             });
 
-            await _busService.publish(
+            await _busService.Publish(
                 new UserMessage { UserId = Guid.Parse(domainResult.Id.Code), UserName = request.DisplayName },
                 "register");
             

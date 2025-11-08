@@ -19,15 +19,25 @@ namespace MessageQueue.RabbitMQ.Services
             _logger = logger;
         }
 
-        public async Task publish<TMessage>(TMessage message, string routingKey) where TMessage : BaseMessage
+        public async Task Publish<TMessage>(TMessage message, string routingKey) where TMessage : BaseMessage
         {
-            var exchange = new Exchange(message.GetType().Name, ExchangeType.Topic);
+            var exchange = await CreateExchangeIfNotExist(message.GetType().Name);
 
             var amqpMessage = new Message<TMessage>(message);
 
             await _bus.PublishAsync(exchange, "register", false, amqpMessage);
 
             _logger.LogInformation($"{nameof(BusService)}: Message published to exchange {{Exchange}} with routing key {{RoutingKey}}, amqpMessageId: {{amqpMessageId}}", exchange.Name, routingKey, amqpMessage.Body.Id);
+        }
+
+        private async Task<Exchange> CreateExchangeIfNotExist(string exchangeName)
+        {
+            return await _bus.ExchangeDeclareAsync(exchangeName, (configuration) =>
+            {
+                configuration
+                    .AsDurable(true)
+                    .WithType(ExchangeType.Topic);
+            });
         }
     }
 }
