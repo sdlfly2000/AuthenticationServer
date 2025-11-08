@@ -1,3 +1,5 @@
+# kubectl create secret tls authservice-tls -n activator-authservice --key=/home/sdlfly2000/Projects/Certificates/authservice-server-certificate.key --cert=/home/sdlfly2000/Projects/Certificates/authservice-server-certificate.crt
+
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -19,9 +21,9 @@ spec:
         app: authservice
     spec:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
       terminationGracePeriodSeconds: 10
       containers:
         - name: authservice
@@ -55,3 +57,33 @@ spec:
       targetPort: 4200
       name: kb-port-ex
   type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    kubernetes.io/tls-acme: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: authservice
+  namespace: activator-authservice
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - authservice.activator.com
+    secretName: authservice-tls
+  rules:
+  - host: authservice.activator.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: authservice
+            port:
+              number: 4200

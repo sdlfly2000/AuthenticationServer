@@ -12,5 +12,5 @@ docker image build -t registry.activator.com/authservice/authservice:$version /h
 ## Push Docker Image to Private Registry
 docker push registry.activator.com/authservice/authservice:$version
 
-## Update/Deploy to Kubernetes Cluster
-# envsubst < /home/devops/Projects/AuthenticationService/k8s-deployment.yaml | kubectl apply -f -
+## Executable to DeployImage.sh
+chmod + x /home/devops/Projects/AuthenticationService/DeployImage.sh

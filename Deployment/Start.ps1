@@ -21,5 +21,5 @@ Start-Sleep -Seconds 2
 Start-Sleep -Seconds 2
 
 # step k8s deploy
-./7-ExectueDeployImage.ps1
+./7-ExecuteDeployImage.ps1
 Start-Sleep -Seconds 2
