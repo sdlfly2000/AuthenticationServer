@@ -19,6 +19,8 @@ spec:
     metadata:
       labels:
         app: authservice
+      annotations:
+        co.elastic.logs/enabled: "true"
     spec:
       securityContext:
         runAsUser: 0
