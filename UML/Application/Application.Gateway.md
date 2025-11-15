@@ -17,7 +17,7 @@ flowchart TB
 
         subgraph insert_user_database[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:48em'>Application.Services.User.Commands.RegisterUserCommandHandler</div>]
             direction TB
-            InsertUser[Insert User to Database]
+            InsertUser["`Insert **User** with Repository`"]
             PublishUserMessage["`Publish **UserRegisterdEvent** to MessageBus`"]
         end
     end
