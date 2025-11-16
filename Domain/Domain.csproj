@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infra.Core\Infra.Core.csproj" />
+    <ProjectReference Include="..\Infra.MessageQueue\Infra.Core.MessageQueue.RabbitMQ.csproj" />
   </ItemGroup>
 
 </Project>

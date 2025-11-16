@@ -33,8 +33,12 @@ namespace Application.Services.User.Commands
             });
 
             await _busService.Publish(
-                new UserMessage { UserId = Guid.Parse(domainResult.Id.Code), UserName = request.DisplayName },
-                "register");
+                new UserRegisterdEvent 
+                { 
+                    UserId = Guid.Parse(domainResult.Id.Code), 
+                    UserName = request.DisplayName 
+                },
+                UserRegisterdEvent.RoutingKeyRegister);
             
             return new RegisterUserResponse(domainResult.Message, domainResult.Success);
         }

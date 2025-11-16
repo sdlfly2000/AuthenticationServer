@@ -2,9 +2,12 @@
 
 namespace Application.Services.Events.Messages
 {
-    public class UserMessage : BaseMessage
+    public class UserRegisterdEvent : DomainEvent
     {
+        public DateTime CreatedOnUTC { get; set; } = DateTime.UtcNow;
         public Guid UserId { get; set; }
         public string UserName { get; set; }
+
+        public static string RoutingKeyRegister => "register";
     }
 }

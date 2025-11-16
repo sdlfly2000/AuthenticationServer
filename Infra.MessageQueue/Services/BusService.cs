@@ -4,6 +4,7 @@ using EasyNetQ;
 using EasyNetQ.Topology;
 using MessageQueue.RabbitMQ.MessageQueue.Marks;
 using Microsoft.Extensions.Logging;
+using Infra.Core.LogTrace;
 
 namespace MessageQueue.RabbitMQ.Services
 {
@@ -12,20 +13,23 @@ namespace MessageQueue.RabbitMQ.Services
     {
         private readonly IAdvancedBus _bus;
         private readonly ILogger<BusService> _logger;
+        private readonly IServiceProvider _serviceProvider;
 
-        public BusService(IBus eventbus, ILogger<BusService> logger)
+        public BusService(IBus eventbus, ILogger<BusService> logger, IServiceProvider serviceProvider)
         {
             _bus = eventbus.Advanced;
             _logger = logger;
+            _serviceProvider = serviceProvider;
         }
 
-        public async Task Publish<TMessage>(TMessage message, string routingKey) where TMessage : BaseMessage
+        [LogTrace]
+        public async Task Publish<TMessage>(TMessage message, string routingKey) where TMessage : DomainEvent
         {
             var exchange = await CreateExchangeIfNotExist(message.GetType().Name);
 
             var amqpMessage = new Message<TMessage>(message);
 
-            await _bus.PublishAsync(exchange, "register", false, amqpMessage);
+            await _bus.PublishAsync(exchange, routingKey, false, amqpMessage);
 
             _logger.LogInformation($"{nameof(BusService)}: Message published to exchange {{Exchange}} with routing key {{RoutingKey}}, amqpMessageId: {{amqpMessageId}}", exchange.Name, routingKey, amqpMessage.Body.Id);
         }
