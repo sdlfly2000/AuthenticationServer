@@ -19,11 +19,11 @@ namespace Infra.Core.LogTrace
 
             var logger = serviceProvider?.GetRequiredService<ILogger>();
 
-            logger?.Information($"Trace Id: {{TraceId}}, Executing {context.Target}", requestTraceService?.TraceId);
+            logger?.Information($"Trace Id: {{TraceId}}, Executing {{MetricExecutionTarget}}", requestTraceService?.TraceId, context.Target);
 
             await context.ProceedAsync();
 
-            logger?.Information($"Trace Id: {{TraceId}}, Executed {{MetricExecutionTarget}} in {{MetricExecutionTimeInMs}} ms.", requestTraceService?.TraceId, context.Target, stopWatch.ElapsedMilliseconds);
+            logger?.Information($"Trace Id: {{TraceId}}, Executed {{MetricExecutionTargetSuccess}} in {{MetricExecutionTimeInMs}} ms.", requestTraceService?.TraceId, context.Target, stopWatch.ElapsedMilliseconds);
         }
     }
 
