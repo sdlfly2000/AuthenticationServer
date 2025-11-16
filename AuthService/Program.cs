@@ -42,7 +42,7 @@ builder.Services.AddRabbitMQBus(builder.Configuration);
 builder.Services.AddMemoryCache();
 
 builder.Services
-    .RegisterDomain("AuthService", "Infra.Database", "MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services")
+    .RegisterDomain("AuthService", "Infra.Database", "MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services", "Application.Gateway")
     .RegisterNotifications("Application.Services");
 
 var app = builder.Build();

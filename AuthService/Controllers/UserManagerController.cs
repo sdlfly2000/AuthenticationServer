@@ -1,8 +1,9 @@
+using Application.Gateway.User;
+using Application.Gateway.User.Models;
 using Application.Services.User.ReqRes;
 using AuthService.Models;
 using Common.Core.CQRS;
 using Domain.User.Entities;
-using Infra.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -15,22 +16,25 @@ namespace AuthService.Controllers
     public class UserManagerController : ControllerBase
     {
         private readonly IEventBus _eventBus;
+        private readonly IUserGateway _userGateway;
 
         public UserManagerController(
-            IEventBus eventBus)
+            IEventBus eventBus,
+            IUserGateway userGateway)
         {
             _eventBus = eventBus;
+            _userGateway = userGateway;
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserRequestModel request)
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequestModel request, CancellationToken token)
         {
-            var registerUserRequest = new RegisterUserRequest(
+            var registerUserRequest = new RegisterUserRawRequest(
                 request.UserName, 
-                PasswordHelper.ExtractPwdWithTimeVerification(request.PasswordEncrypto) ?? string.Empty, 
-                request.DisplayName) ;
+                request.PasswordEncrypto,
+                request.DisplayName);
 
-            var result = await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest);
+            var result =  await _userGateway.Register(registerUserRequest, token);
 
             if (result != null && !result.Success)
             {

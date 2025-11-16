@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application.Gateway\Application.Gateway.csproj" />
     <ProjectReference Include="..\Application.Services\Application.Services.csproj" />
     <ProjectReference Include="..\Infra.Core\Infra.Core.csproj" />
     <ProjectReference Include="..\Infra.Database\Infra.Database.csproj" />
