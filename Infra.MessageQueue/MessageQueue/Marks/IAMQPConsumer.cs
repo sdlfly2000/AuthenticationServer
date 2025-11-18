@@ -1,6 +1,6 @@
 ﻿using EasyNetQ;
 
-namespace MessageQueue.RabbitMQ.MessageQueue.Marks
+namespace Infra.Core.MessageQueue.RabbitMQ.MessageQueue.Marks
 {
     public interface IAMQPConsumer
     {

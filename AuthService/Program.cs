@@ -1,9 +1,9 @@
 using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
+using Infra.Core.MessageQueue.RabbitMQ.Extentions;
 using Infra.Core.Middlewares;
 using Infra.Database;
-using MessageQueue.RabbitMQ.Extentions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Serilog;

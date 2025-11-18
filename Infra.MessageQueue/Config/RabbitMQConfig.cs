@@ -1,4 +1,4 @@
-﻿namespace MessageQueue.RabbitMQ.Config
+﻿namespace Infra.Core.MessageQueue.RabbitMQ.Config
 {
     public class RabbitMQConfig
     {

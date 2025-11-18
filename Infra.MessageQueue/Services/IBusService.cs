@@ -1,6 +1,6 @@
 ﻿using MessageQueue.RabbitMQ.MessageQueue.Marks;
 
-namespace Application.Services.Events
+namespace Infra.Core.MessageQueue.RabbitMQ.Services
 {
     public interface IBusService
     {

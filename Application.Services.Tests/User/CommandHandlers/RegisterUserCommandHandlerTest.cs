@@ -1,10 +1,10 @@
-﻿using Application.Services.Events;
-using Application.Services.Events.Messages;
+﻿using Application.Services.Events.Messages;
 using Application.Services.User.Commands;
 using Application.Services.User.ReqRes;
 using Domain.User.Persistors;
 using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
+using Infra.Core.MessageQueue.RabbitMQ.Services;
 using Infra.Core.RequestTrace;
 using Infra.Core.Test;
 using Microsoft.Extensions.DependencyInjection;
