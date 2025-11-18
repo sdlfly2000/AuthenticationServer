@@ -73,7 +73,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
             _handler = _serviceProvider!.GetRequiredService<IRequestHandler<RegisterUserRequest, RegisterUserResponse>>();
         }
 
-        [TestMethod,TestCategory(nameof(TestCategoryType.AutomationTest))]
+        [TestMethod,TestCategory(nameof(TestCategoryType.IntegrationTest))]
         public async Task Given_UserNameAndPasswordAndDisplayName_When_Handle_Then_ResponseReturn()
         {
             // Arrange
