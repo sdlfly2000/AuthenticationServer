@@ -17,6 +17,7 @@ namespace Infra.Database.EntityConfigurations
             builder.Ignore(u => u.Claims);
 
             builder.HasKey("_id");
+            builder.HasIndex(u => u.UserName).IsUnique();
 
             builder.HasMany(u => u.Claims)
                 .WithOne()

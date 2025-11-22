@@ -32,13 +32,16 @@ namespace Application.Services.User.Commands
                 PasswordHash = PasswordHelper.EncryptoPassword(request.Password)
             });
 
-            await _busService.Publish(
-                new UserRegisterdEvent 
-                { 
-                    UserId = Guid.Parse(domainResult.Id.Code), 
-                    UserName = request.DisplayName 
-                },
-                UserRegisterdEvent.RoutingKeyRegister);
+            if (domainResult.Success)
+            {
+                await _busService.Publish(
+                    new UserRegisterdEvent
+                    {
+                        UserId = Guid.Parse(domainResult.Id.Code),
+                        DisplayName = request.DisplayName
+                    },
+                    UserRegisterdEvent.RoutingKeyRegister);
+            }
             
             return new RegisterUserResponse(domainResult.Message, domainResult.Success);
         }

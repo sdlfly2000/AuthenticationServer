@@ -6,7 +6,7 @@ namespace Application.Services.Events.Messages
     {
         public DateTime CreatedOnUTC { get; set; } = DateTime.UtcNow;
         public Guid UserId { get; set; }
-        public string UserName { get; set; }
+        public string DisplayName { get; set; }
 
         public static string RoutingKeyRegister => "register";
     }

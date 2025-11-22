@@ -1,7 +1,7 @@
 ﻿using Domain.User.Entities;
+using Domain.User.ValueObjects;
 using Infra.Database.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
-using Domain.User.ValueObjects;
 
 namespace Infra.Database
 {
