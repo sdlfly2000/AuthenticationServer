@@ -18,16 +18,28 @@ namespace Infra.Database.Persistors
 
         public async Task<DomainResult<UserReference>> Add(User user)
         {
-            _ = await _dbContext.AddAsync(user);
-
-            var result = await _dbContext.SaveChangesAsync();
-
-            return new DomainResult<UserReference>()
+            try
             {
-                Id = (UserReference)user.Id,
-                Message = result > 0 ? "Success" : "Failure",
-                Success = result > 0
-            };
+                _ = await _dbContext.AddAsync(user);
+
+                var result = await _dbContext.SaveChangesAsync();
+
+                return new DomainResult<UserReference>()
+                {
+                    Id = (UserReference)user.Id,
+                    Message = result > 0 ? "Success" : "Failure",
+                    Success = result > 0
+                };
+            }
+            catch (Exception ex)
+            {
+                return new DomainResult<UserReference>()
+                {
+                    Id = null,
+                    Message = ex.Message,
+                    Success = false
+                };
+            }
         }
 
         public async Task<DomainResult<UserReference>> Update(User user)

@@ -1,11 +1,11 @@
-﻿using Application.Services.Events;
-using Application.Services.Events.Messages;
+﻿using Application.Services.Events.Messages;
 using Application.Services.User.ReqRes;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
 using Infra.Core;
 using Infra.Core.LogTrace;
+using Infra.Core.MessageQueue.RabbitMQ.Services;
 
 namespace Application.Services.User.Commands
 {
@@ -32,9 +32,16 @@ namespace Application.Services.User.Commands
                 PasswordHash = PasswordHelper.EncryptoPassword(request.Password)
             });
 
-            await _busService.Publish(
-                new UserMessage { UserId = Guid.Parse(domainResult.Id.Code), UserName = request.DisplayName },
-                "register");
+            if (domainResult.Success)
+            {
+                await _busService.Publish(
+                    new UserRegisterdEvent
+                    {
+                        UserId = Guid.Parse(domainResult.Id.Code),
+                        DisplayName = request.DisplayName
+                    },
+                    UserRegisterdEvent.RoutingKeyRegister);
+            }
             
             return new RegisterUserResponse(domainResult.Message, domainResult.Success);
         }

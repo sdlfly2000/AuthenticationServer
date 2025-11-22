@@ -25,7 +25,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            var connectionString = "server=192.168.71.82;database=Identity;uid=sdlfly2000;password=sdl@1215;TrustServerCertificate=true";
+            var connectionString = "server=homeserver2;database=IdentityTest;uid=sdlfly2000;password=sdl@1215;TrustServerCertificate=true";
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddDbContextPool<IdDbContext>(
                 options => options.UseSqlServer(connectionString)
@@ -63,7 +63,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
             _handler = _serviceProvider!.GetRequiredService<IRequestHandler<AddUserClaimRequest, AddUserClaimResponse>>();
         }
 
-        [TestMethod,TestCategory(nameof(TestCategoryType.AutomationTest))]
+        [TestMethod,TestCategory(nameof(TestCategoryType.IntegrationTest))]
         public void Given_UserIdAndClaim_When_Handle_Then_ResponseReturn()
         {
             // Arrange

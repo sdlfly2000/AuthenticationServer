@@ -73,3 +73,13 @@ openssl rsa -in AuthenticationServiceCert.key -out AuthenticationServiceCert.key
 openssl x509 -req -days 365 -in AuthenticationServiceCert.csr -signkey AuthenticationServiceCert.key -out AuthenticationServiceCert.crt
 openssl x509 -in AuthenticationServiceCert.crt -out AuthenticationServiceCert.pem -outform PEM
 ```
+
+# Add Migrate to Database
+In VS Package Manager Console
+```
+Add-Migration "comments"
+Update-Database
+```
+Note: 
+1. AuthService should be as default startup project
+2. Default Project should be Infra.Database

@@ -30,11 +30,6 @@ namespace Infra.Core.Middlewares
             _requestTraceService.TraceId = Guid.NewGuid().ToString();
 
             await next.Invoke(context);
-
-            if (_requestStatitics.TryGetValue(context.Request.Path, out var reqNumberAfter))
-            {
-                _logger.LogInformation("RequestStatistics: {RequestPath}, {Count}", context.Request.Path, reqNumberAfter);
-            }
         }
     }
 }

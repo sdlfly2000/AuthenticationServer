@@ -1,12 +1,12 @@
 ﻿using Common.Core.DependencyInjection;
 using EasyNetQ;
 using EasyNetQ.Topology;
-using MessageQueue.RabbitMQ.MessageQueue.Attributes;
-using MessageQueue.RabbitMQ.MessageQueue.Marks;
+using Infra.Core.MessageQueue.RabbitMQ.MessageQueue.Attributes;
+using Infra.Core.MessageQueue.RabbitMQ.MessageQueue.Marks;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace MessageQueue.RabbitMQ.MessageQueue
+namespace Infra.Core.MessageQueue.RabbitMQ.MessageQueue
 {
     [ServiceLocate(default)]
     public class MessageQueueRegister

@@ -1,9 +1,9 @@
 ﻿using EasyNetQ;
-using MessageQueue.RabbitMQ.Config;
+using Infra.Core.MessageQueue.RabbitMQ.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MessageQueue.RabbitMQ.Extentions
+namespace Infra.Core.MessageQueue.RabbitMQ.Extentions
 {
     public static class RabbitMqBusExtension
     {

@@ -7,32 +7,38 @@ config:
         hideEmptyMembersBox: true
 ---
 
-
 classDiagram
+    class User:::Entity {
+        <<Entity>>
+        + Id: UserReference
+        + UserName: string
+        + PasswordHash: string?
+        + DisplayName: string?
+        + Create(userName: string): User
+    }
 
-User --> UserReference : use
-User "1" --> "0..*" Claim
+    class UserReference:::ValueObject {
+        + Code: string
+        + CacheFieldName: string
+        + CacheCode: string
+    }
 
-class User:::Entity {
-    <<Entity>>
-    + Id: UserReference
-    + UserName: string
-    + PasswordHash: string?
-    + DisplayName: string?
-    + Create(userName: string): User
-}
+    class Claim:::Interface {
+        <<ValueObject>>
+        + Name: string
+        + Value: string
+        + ValueType: string
+    }
 
-class UserReference:::ValueObject {
-    + Code: string
-    + CacheFieldName: string
-    + CacheCode: string
-}
+    class UserRegisterdEvent {
+        <<DomainEvent>>
+        + CreatedOnUTC: DateTime
+        + UserId: Guid
+        + UserName: string
+    }
 
-class Claim:::Interface {
-    <<ValueObject>>
-    + Name: string
-    + Value: string
-    + ValueType: string
-}
+    %%{{Relationship}}%%
+    User --> UserReference : use
+    User "1" --> "0..*" Claim
 
 ```

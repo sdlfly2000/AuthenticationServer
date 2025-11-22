@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infra.Shared.Core\Infra.Shared.Core.csproj" />
+    <ProjectReference Include="..\Application.Services\Application.Services.csproj" />
+    <ProjectReference Include="..\Infra.Core\Infra.Core.csproj" />
   </ItemGroup>
 
 </Project>

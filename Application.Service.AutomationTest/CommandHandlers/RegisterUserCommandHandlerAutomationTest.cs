@@ -3,10 +3,13 @@ using Common.Core.CQRS;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Entities;
+using Infra.Core.MessageQueue.RabbitMQ.Extentions;
 using Infra.Core.Test;
 using Infra.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Application.Service.AutomationTest.CommandHandlers
 {
@@ -21,14 +24,29 @@ namespace Application.Service.AutomationTest.CommandHandlers
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            var connectionString = "server=192.168.71.82;database=Identity;uid=sdlfly2000;password=sdl@1215;TrustServerCertificate=true";
+            var configuration = new ConfigurationManager()
+                                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                                    .Build();
+
             var serviceCollection = new ServiceCollection();
+
+            // Test Database
             serviceCollection.AddDbContextPool<IdDbContext>(
-                options => options.UseSqlServer(connectionString)
+                options => options.UseSqlServer(configuration.GetConnectionString("IdentityDatabaseTest"))
             );
+
+            // Register Services
             serviceCollection
-                .RegisterDomain("Infra.Database", "Infra.Shared.Core", "Infra.Core", "Application.Services")
+                .RegisterDomain("Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services")
                 .RegisterNotifications("Application.Services");
+
+            // Add Serilog
+            serviceCollection.AddSerilog(
+                (configure) =>
+                    configure.ReadFrom.Configuration(configuration));
+
+            // Add RabbitMQ support
+            serviceCollection.AddRabbitMQBus(configuration);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
@@ -41,7 +59,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
             var user = _dbContext?.Set<User>()
                 .SingleOrDefault(user => user.UserName.Equals(UserName));
 
-            _dbContext.Remove<User>(user!);
+            _dbContext.Remove<User>(user);
 
             _dbContext.SaveChanges();
 
@@ -55,7 +73,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
             _handler = _serviceProvider!.GetRequiredService<IRequestHandler<RegisterUserRequest, RegisterUserResponse>>();
         }
 
-        [TestMethod,TestCategory(nameof(TestCategoryType.AutomationTest))]
+        [TestMethod,TestCategory(nameof(TestCategoryType.IntegrationTest))]
         public async Task Given_UserNameAndPasswordAndDisplayName_When_Handle_Then_ResponseReturn()
         {
             // Arrange

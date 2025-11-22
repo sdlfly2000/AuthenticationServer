@@ -4,6 +4,7 @@
     {
         UnitTest,
         SystemTest,
-        AutomationTest
+        IntegrationTest,
+        AcceptenceTest
     }
 }

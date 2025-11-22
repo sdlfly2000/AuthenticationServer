@@ -1,9 +1,9 @@
 using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
+using Infra.Core.MessageQueue.RabbitMQ.Extentions;
 using Infra.Core.Middlewares;
 using Infra.Database;
-using MessageQueue.RabbitMQ.Extentions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -13,13 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSerilog(
-    (configure) => 
-        configure.ReadFrom.Configuration(builder.Configuration));
-
+// Add Database
 var connectionString = builder.Configuration.GetConnectionString("IdentityDatabase");
 builder.Services.AddDbContextPool<IdDbContext>(
     options => options.UseSqlServer(
@@ -27,22 +23,32 @@ builder.Services.AddDbContextPool<IdDbContext>(
         b => b.MigrationsAssembly("Infra.Database"))
 );
 
+// Add CORS to allow cross domain query
 builder.Services.AddCors(option =>
 {
     option.AddPolicy("AllowPolicy", builder => builder.AllowAnyOrigin().AllowAnyHeader());
 });
 
+// Add Serilog Support
+builder.Services.AddSerilog(
+    (configure) =>
+        configure.ReadFrom.Configuration(builder.Configuration));
+
+// Add Authentication
 builder.Services.AddDataProtection();
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
 
+// Add RabbitMQ support
 builder.Services.AddRabbitMQBus(builder.Configuration);
 
+// Add Local Cache Support
 builder.Services.AddMemoryCache();
 
+// Register Services
 builder.Services
-    .RegisterDomain("AuthService", "Infra.Database", "MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services")
+    .RegisterDomain("AuthService", "Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services", "Application.Gateway")
     .RegisterNotifications("Application.Services");
 
 var app = builder.Build();
@@ -58,14 +64,13 @@ if (app.Environment.IsDevelopment())
 
 }
 
-//app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("AllowPolicy");
 app.MapControllers();
 
+// Generate TraceId
 app.UseMiddleware<RequestArrivalMiddleware>();
 
 app.Run();

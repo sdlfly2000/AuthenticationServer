@@ -1,4 +1,4 @@
-# Application.Gateway - User.Register
+# Application.Gateway.User - UserGateway.Register
 
 ```mermaid
 ---
@@ -8,7 +8,7 @@ title: "Procedure: User Registartion Procedure"
 flowchart TB
     start_overall((start))
 
-    subgraph user_register[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:50em'>Application.Gateway.User.Register</div>]
+    subgraph user_register[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:50em'>Application.Gateway.User.UserGateway.Register</div>]
 
         subgraph password_extraction_verification[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:48em'>PasswordHelper.ExtractPwdWithTimeVerification</div>]
             direction TB
