@@ -16,7 +16,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
     [TestClass]
     public class RegisterUserCommandHandlerAutomationTest
     {
-        private const string UserName = "UserName";
+        private const string UserName = "UserNameForRegisteruserAutomationTest";
         private static ServiceProvider? _serviceProvider;
         private static IdDbContext _dbContext;
         private IRequestHandler<RegisterUserRequest, RegisterUserResponse> _handler;

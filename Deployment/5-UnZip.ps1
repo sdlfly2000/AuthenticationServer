@@ -1,3 +1,7 @@
+if ((Get-Content -Path "devops.status") -ne "success") {
+    exit $LASTEXITCODE
+}
+
 # Unzip deploy folder -- Install-Module -Name Posh-SSH
 Write-Host "UnZip AuthService" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
@@ -15,5 +19,10 @@ foreach($ComputerName in $ComputerNames){
     Write-Host "UnZip AuthService on $ComputerName : $result" -ForegroundColor DarkCyan
     $stream.Read()
     Start-Sleep -Seconds 2
+}
+
+if ($LASTEXITCODE -ne 0) {
+    Set-Content -Path "devops.status" -Value "error" -NoNewline
+    exit $LASTEXITCODE
 }
 

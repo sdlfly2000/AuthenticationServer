@@ -24,6 +24,10 @@ function UploadProject(){
 	}
 }
 
+if ((Get-Content -Path "devops.status") -ne "success") {
+    exit $LASTEXITCODE
+}
+
 # Upload AuthService - existing Directory
 Write-Host "Uploading AuthenticationService" -ForegroundColor DarkCyan
 $source = "../Build/AuthService.zip"
@@ -31,4 +35,9 @@ $urlDests= @("ftp://homeserver2/Projects/AuthenticationService")
 
 foreach($urlDest in $urlDests){
 	UploadProject -sourceFile $source -urlDestination $urlDest
+}
+
+if ($LASTEXITCODE -ne 0) {
+    Set-Content -Path "devops.status" -Value "error" -NoNewline
+    exit $LASTEXITCODE
 }

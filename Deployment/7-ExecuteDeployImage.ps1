@@ -1,3 +1,7 @@
+if ((Get-Content -Path "devops.status") -ne "success") {
+    exit $LASTEXITCODE
+}
+
 # Install-Module -Name Posh-SSH
 Write-Host "Execute Image Script Remotely" -ForegroundColor DarkCyan
 $Password = "sdl@1215"
@@ -13,4 +17,7 @@ foreach($ComputerName in $ComputerNames){
 	$result.Output
 }
 
-
+if ($LASTEXITCODE -ne 0) {
+    Set-Content -Path "devops.status" -Value "error" -NoNewline
+    exit $LASTEXITCODE
+}
