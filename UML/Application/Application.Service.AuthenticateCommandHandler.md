@@ -22,7 +22,7 @@ flowchart TB
 
     subgraph GenerateJwt["Generate Jwt (private)"]
         direction TB
-        GenerateJwtInput[input -> Claims: List~**Claim**~ ] -->
+        GenerateJwtInput["input -> Claims: List<**Claim**>"] -->
         readConfig["Read **Issuer, SigningKey and ExpireSeconds** from appsetting.json"] -->
         expireDateTime[Expire: CurrentTime + ExpireSeconds] -->
         secKey[SecKey: SymmetricSecurityKey with SigningKey] -->
