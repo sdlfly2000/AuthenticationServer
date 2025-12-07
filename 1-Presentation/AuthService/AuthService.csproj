@@ -27,33 +27,33 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application.Gateway\Application.Gateway.csproj" />
-    <ProjectReference Include="..\Application.Services\Application.Services.csproj" />
-    <ProjectReference Include="..\Infra.Core\Infra.Core.csproj" />
-    <ProjectReference Include="..\Infra.Database\Infra.Database.csproj" />
+    <ProjectReference Include="..\..\2-Application\Application.Gateway\Application.Gateway.csproj" />
+    <ProjectReference Include="..\..\2-Application\Application.Services\Application.Services.csproj" />
+    <ProjectReference Include="..\..\4-Infrastructure\Infra.Database\Infra.Database.csproj" />
+    <ProjectReference Include="..\..\5-Core\Infra.Core\Infra.Core.csproj" />
+    <ProjectReference Include="..\..\5-Core\Infra.Shared.Core\Infra.Shared.Core.csproj" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\AngularPresentation\AngularPresentation.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\Infra.Shared.Core\Infra.Shared.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="../Dockerfile">
+    <Content Include="../../Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="../docker-compose.yml">
+    <Content Include="../../docker-compose.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="../k8s-deployment.yaml">
+    <Content Include="../../k8s-deployment.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="../ImageBuildAndPush.sh">
+    <Content Include="../../ImageBuildAndPush.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="../DeployImage.sh">
+    <Content Include="../../DeployImage.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

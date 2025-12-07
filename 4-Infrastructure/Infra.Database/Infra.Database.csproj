@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Infra.Shared.Core\Infra.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\3-Domain\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\5-Core\Infra.Shared.Core\Infra.Shared.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Infra.Core\Infra.Core.csproj" />
-    <ProjectReference Include="..\Infra.MessageQueue\Infra.Core.MessageQueue.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\3-Domain\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\5-Core\Infra.Core\Infra.Core.csproj" />
+    <ProjectReference Include="..\..\5-Core\Infra.MessageQueue\Infra.Core.MessageQueue.RabbitMQ.csproj" />
   </ItemGroup>
 </Project>

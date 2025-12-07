@@ -29,10 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application.Services\Application.Services.csproj" />
-    <ProjectReference Include="..\AuthService\AuthService.csproj" />
-    <ProjectReference Include="..\Infra.Database\Infra.Database.csproj" />
-    <ProjectReference Include="..\Infra.Shared.Core\Infra.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\..\1-Presentation\AuthService\AuthService.csproj" />
+    <ProjectReference Include="..\..\..\2-Application\Application.Services\Application.Services.csproj" />
+    <ProjectReference Include="..\..\..\4-Infrastructure\Infra.Database\Infra.Database.csproj" />
+    <ProjectReference Include="..\..\..\5-Core\Infra.Shared.Core\Infra.Shared.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

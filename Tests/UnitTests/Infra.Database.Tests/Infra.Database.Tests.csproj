@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infra.Core\Infra.Core.csproj" />
-    <ProjectReference Include="..\Infra.Database\Infra.Database.csproj" />
-    <ProjectReference Include="..\Infra.Shared.Core\Infra.Shared.Core.csproj" />
+    <ProjectReference Include="..\..\..\4-Infrastructure\Infra.Database\Infra.Database.csproj" />
+    <ProjectReference Include="..\..\..\5-Core\Infra.Core\Infra.Core.csproj" />
+    <ProjectReference Include="..\..\..\5-Core\Infra.Shared.Core\Infra.Shared.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
