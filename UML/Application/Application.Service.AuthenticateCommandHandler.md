@@ -2,7 +2,7 @@
 
 ```mermaid
 flowchart TB
-    subgraph main [<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:50em'>Application.Service.AuthenticateCommandHandler</div>]
+    subgraph main [<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:60em'>Application.Service.AuthenticateCommandHandler</div>]
         direction TB
         start((Start)) -->
         check1{Password is empty?} --"yes"-->
@@ -14,25 +14,25 @@ flowchart TB
         check2N[AuthenticateResponse: Success -> false, ErrorMessage: User Name or Password does not match.]
         check2 --"yes"-->
         AddClaim1[Add Claims from User] -->
-        AddClaim2[Add Claims from request UserAgent] -->
-        GenerateJWTmain[Generate JWT] -->
+        AddClaim2[Add Claims from request UserAgent]
+
+        subgraph GenerateJwt[Private - GenerateJwt]
+            direction TB
+            GenerateJwtInput["input -> Claims: List<**Claim**>"] -->
+            readConfig["Read **Issuer, SigningKey and ExpireSeconds** from appsetting.json"] -->
+            expireDateTime[Expire: CurrentTime + ExpireSeconds] -->
+            secKey[SecKey: SymmetricSecurityKey with SigningKey] -->
+            credentials[credentials: SigningCredentials with SecKey by HmacSha256Signature] -->
+            tokenDescriptor[Create JWT by JwtSecurityToken with Issuer, Expire, credentials and Claims]
+        end
+
         return[AuthenticateResponse: jwt, userId] -->
         terminal(End)
     end
 
-    subgraph GenerateJwt["Generate Jwt (private)"]
-        direction TB
-        GenerateJwtInput["input -> Claims: List<**Claim**>"] -->
-        readConfig["Read **Issuer, SigningKey and ExpireSeconds** from appsetting.json"] -->
-        expireDateTime[Expire: CurrentTime + ExpireSeconds] -->
-        secKey[SecKey: SymmetricSecurityKey with SigningKey] -->
-        credentials[credentials: SigningCredentials with SecKey by HmacSha256Signature] -->
-        tokenDescriptor[Create JWT by JwtSecurityToken with Issuer, Expire, credentials and Claims]
-    end
-
     %%{Class Relationship}%%
-    GenerateJWTmain -..-> GenerateJwtInput
-    tokenDescriptor -..-> return
+    AddClaim2 --> GenerateJwtInput
+    tokenDescriptor --> return
 
 
 ```

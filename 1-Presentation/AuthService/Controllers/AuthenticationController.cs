@@ -63,7 +63,7 @@ namespace AuthService.Controllers
 
             if (authenticateResponse != null && authenticateResponse.Success == false)
             {
-                _logger.LogWarning($"{nameof(AuthenticationController)}: failed due to {authenticateResponse.Message}.");
+                _logger.LogWarning($"{nameof(AuthenticationController)}: failed due to {authenticateResponse.ErrorMessage}.");
             }
 
             return Forbid();
