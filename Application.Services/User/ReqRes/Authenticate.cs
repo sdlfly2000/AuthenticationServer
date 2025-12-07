@@ -1,28 +1,17 @@
-﻿using Common.Core.CQRS.Request;
+﻿using Infra.Core.ApplicationBasics;
 
 namespace Application.Services.User.ReqRes
 {
-    public record AuthenticateRequest(string UserName, string Password, string UserAgent) : IRequest;
+    public record AuthenticateRequest(string UserName, string Password, string UserAgent) : AppRequest;
 
-    public class AuthenticateResponse: IResponse
+    public record AuthenticateResponse: AppResponse
     {
-        public AuthenticateResponse(string Message, bool Success, string JwtToken, string UserId, string UserDisplayName)
-        {
-            this.Message = Message;
-            this.Success = Success;
-            this.JwtToken = JwtToken;
-            this.UserId = UserId;
-            this.UserDisplayName = UserDisplayName;
+        public AuthenticateResponse(string errorMessage, bool Success, string JwtToken, string UserId, string UserDisplayName) : base(errorMessage, Success) 
+        { 
         }
 
-        public AuthenticateResponse(string Message, bool Success) : this(Message, Success, string.Empty, string.Empty, string.Empty)
+        public AuthenticateResponse(string errorMessage, bool Success) : this(errorMessage, Success, string.Empty, string.Empty, string.Empty)
         {
         }
-
-        public string Message { get; private set; }
-        public bool Success { get; private set; }
-        public string JwtToken { get; private set; }
-        public string UserId { get; private set; }
-        public string UserDisplayName { get; private set; }
     }
 }
