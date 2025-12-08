@@ -1,6 +1,6 @@
 Feature: Authenticate User
 
-Authenticate User by UserName and PWD
+AuthenticateCommandHandler: Authenticate User by UserName and PWD
 
 @UserAcceptanceTest
 Scenario: Authenticate User Successful
