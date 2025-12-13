@@ -27,7 +27,7 @@ namespace Application.Services.BDD.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Authenticate User", "Authenticate User by UserName and PWD", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Authenticate User", "AuthenticateCommandHandler: Authenticate User by UserName and PWD", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "AuthenticateCommand.feature"
 #line hidden
@@ -49,7 +49,7 @@ namespace Application.Services.BDD.Features
         {
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.ClassCleanupAttribute(Microsoft.VisualStudio.TestTools.UnitTesting.ClassCleanupBehavior.EndOfClass)]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.ClassCleanupAttribute()]
         public static async global::System.Threading.Tasks.Task FeatureTearDownAsync()
         {
             await global::Reqnroll.TestRunnerManager.ReleaseFeatureAsync(featureInfo);
@@ -120,7 +120,7 @@ namespace Application.Services.BDD.Features
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/AuthenticateCommand.feature.ndjson", 3);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Authenticate User Successful")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="Authenticate User Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Authenticate User Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Authenticate User")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]

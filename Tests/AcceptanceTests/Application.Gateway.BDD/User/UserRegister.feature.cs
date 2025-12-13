@@ -49,7 +49,7 @@ namespace Application.Gateway.BDD.User
         {
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.ClassCleanupAttribute(Microsoft.VisualStudio.TestTools.UnitTesting.ClassCleanupBehavior.EndOfClass)]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.ClassCleanupAttribute()]
         public static async global::System.Threading.Tasks.Task FeatureTearDownAsync()
         {
             await global::Reqnroll.TestRunnerManager.ReleaseFeatureAsync(featureInfo);
@@ -133,7 +133,7 @@ namespace Application.Gateway.BDD.User
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("User/UserRegister.feature.ndjson", 4);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("User Registration Successful")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="User Registration Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("User Registration Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "User Register")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]
@@ -177,7 +177,7 @@ await this.FeatureBackgroundAsync();
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("User Registration Failed due to Existing User")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="User Registration Failed due to Existing User")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("User Registration Failed due to Existing User")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "User Register")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]

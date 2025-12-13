@@ -21,9 +21,12 @@ namespace Application.Services.BDD.Support
 
             var serviceCollection = new ServiceCollection();
 
+            // Register Configuration
+            serviceCollection.AddScoped<IConfiguration>(sp => configuration);
+
             // Register Services
             serviceCollection
-                .RegisterDomain("Application.Gateway", "Application.Services", "Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core")
+                .RegisterDomain("Application.Services", "Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core")
                 .RegisterNotifications("Application.Services");
 
             // Test Database
