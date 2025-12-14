@@ -1,5 +1,5 @@
 ﻿using ArxOne.MrAdvice.Advice;
-using Infra.Core.Extentions;
+using Common.Core.AOP;
 using Infra.Core.RequestTrace;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
