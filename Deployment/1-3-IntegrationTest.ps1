@@ -1,5 +1,5 @@
 # Run Integration Tests
-$TestProjects = @("../Application.Service.AutomationTest/")
+$TestProjects = @("../Tests/IntegrationTests/Application.Service.AutomationTest/")
 
 Write-Host "Running Integration Tests" -ForegroundColor DarkCyan
 

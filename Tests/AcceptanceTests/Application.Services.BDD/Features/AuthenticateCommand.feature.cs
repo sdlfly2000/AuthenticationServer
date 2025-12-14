@@ -145,7 +145,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                 await this.ScenarioStartAsync();
 #line 7
  await testRunner.GivenAsync("an AuthenticateRequest with UserName \"TestUser\", Password \"Password123\" and UserA" +
-                        "gent: \"Chrome...\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+                        "gent: \"Chrome Edge Firefox...\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
  await testRunner.WhenAsync("Authenticate(Handle) is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

@@ -1,7 +1,7 @@
 # Build AngularPresentation
 Write-Host "Building AngularPresentation" -ForegroundColor DarkCyan
-pushd ../AngularPresentation/
-ng build --configuration=production --output-path ../Build/AuthService/wwwroot 
+pushd ../1-Presentation/AngularPresentation/
+ng build --configuration=production --output-path ../../Build/AuthService/wwwroot 
 popd
 
 if ($LASTEXITCODE -ne 0) {
@@ -11,8 +11,8 @@ if ($LASTEXITCODE -ne 0) {
 
 # Build AuthService
 Write-Host "Building AuthService" -ForegroundColor DarkCyan
-pushd ../AuthService/
-dotnet build --configuration release --output ../Build/AuthService/
+pushd ../1-Presentation/AuthService/
+dotnet build --configuration release --output ../../Build/AuthService/
 popd
 
 # Version

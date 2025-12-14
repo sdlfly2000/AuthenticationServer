@@ -1,5 +1,5 @@
 # Run Unit Tests
-$TestProjects = @("../Application.Services.Tests/", "../Domain.Tests/", "../Infra.Database.Tests/")
+$TestProjects = @("../Tests/UnitTests/Application.Services.Tests/", "../Tests/UnitTests/Domain.Tests/", "../Tests/UnitTests/Infra.Database.Tests/")
 
 Write-Host "Running Unit Tests" -ForegroundColor DarkCyan
 

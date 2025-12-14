@@ -1,5 +1,5 @@
 # Run Unit Tests, need to dotnet version 10
-$TestProjects = @("../Application.Gateway.BDD/")
+$TestProjects = @("../Tests/AcceptanceTests/Application.Gateway.BDD/","../Tests/AcceptanceTests/Application.Services.BDD/")
 
 Write-Host "Running BDD Tests" -ForegroundColor DarkCyan
 
