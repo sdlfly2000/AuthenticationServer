@@ -66,7 +66,7 @@ namespace Application.Services.User.CommandHandlers
                 {
                     ExpireSeconds = 86400, // 24 hr
                     Issuer = "AuthenticationService",
-                    SigningKey = "fasdfad&9045dafz222#fadpio@0232"
+                    SigningKey = "fasdfad&9045dafz222#fadpio@0232121582"
                 };
             }
 

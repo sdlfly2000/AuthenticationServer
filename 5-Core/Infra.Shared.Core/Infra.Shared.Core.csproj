@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -11,10 +11,11 @@
     <PackageReference Include="EasyNetQ.DI.Microsoft" Version="7.8.0" />
     <PackageReference Include="EasyNetQ.Logging.Microsoft" Version="7.8.0" />
     <PackageReference Include="EasyNetQ.Serialization.SystemTextJson" Version="7.8.0" />
-    <PackageReference Include="IdeaActivator.Common.Core" Version="1.1.6" />
-    <PackageReference Include="MrAdvice" Version="2.15.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-    <PackageReference Include="Serilog.Formatting.Elasticsearch" Version="9.0.3" />
+    <PackageReference Include="IdeaActivator.Common.Core" Version="1.1.13" />
+    <PackageReference Include="MrAdvice" Version="2.19.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Serilog.Formatting.Elasticsearch" Version="10.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.1" />
   </ItemGroup>
 
 </Project>
