@@ -1,8 +1,7 @@
 ﻿using ArxOne.MrAdvice.Advice;
-using Infra.Core.Extentions;
+using Common.Core.AOP;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 
 namespace Infra.Core.Cache;
 
