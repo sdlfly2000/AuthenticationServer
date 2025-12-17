@@ -2,25 +2,24 @@
 function UploadProject(){
 	param(
 	[string]$sourceFile,
+	[string]$fileName,
+	[string]$ftpHost,
 	[string]$projectName,
 	[string]$username = "devops",
 	[string]$password = "sdl@1215",
-	[string]$urlDestination = "ftp://homeserver2/Projects/AuthenticationService"
+	[string]$urlDest = "Projects/AuthenticationService"
+	# [string]$urlDestination = "ftp://homeserver2/Projects/AuthenticationService"
 	)
-	$webclient = New-Object -TypeName System.Net.WebClient
-	$webclient.Credentials = New-Object System.Net.NetworkCredential($username,$password)
 
 	try{
 		Write-Host "Uploading File: $sourceFile" -ForegroundColor DarkCyan
-		$webclient.UploadFile("$urlDestination/AuthService.zip", $sourceFile)
-
-		Write-Host "Uploaded File: $sourceFile Successful to $urlDestination" -ForegroundColor DarkCyan
+		FTPClient.exe upload --host $ftpHost --userName $username --password $password --remotePath "$urlDest/$fileName" --localFile $sourceFile
+		
+		Write-Host
+		Write-Host "Uploaded File: $sourceFile Successful to $urlDest/$fileName" -ForegroundColor DarkCyan
 	}
 	catch {
 		write-Error "An unexpected error occurred: $($_.Exception.Message)"
-	}
-	finally{
-		$webclient.Dispose()
 	}
 }
 
@@ -30,11 +29,13 @@ if ((Get-Content -Path "devops.status") -ne "success") {
 
 # Upload AuthService - existing Directory
 Write-Host "Uploading AuthenticationService" -ForegroundColor DarkCyan
-$source = "../Build/AuthService.zip"
-$urlDests= @("ftp://homeserver2/Projects/AuthenticationService")
+$fileName="AuthService.zip"
+$source = "../Build/$fileName"
+$ftpHosts = @("homeserver2")
+$urlDest= "Projects/AuthenticationService"
 
-foreach($urlDest in $urlDests){
-	UploadProject -sourceFile $source -urlDestination $urlDest
+foreach($ftpHost in $ftpHosts){
+	UploadProject -fileName $fileName -sourceFile $source -ftpHost $ftpHost -urlDestination $urlDest
 }
 
 if ($LASTEXITCODE -ne 0) {
