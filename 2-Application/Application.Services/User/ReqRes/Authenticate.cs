@@ -3,7 +3,7 @@ using Infra.Core.ApplicationBasics;
 
 namespace Application.Services.User.ReqRes
 {
-    public record AuthenticateRequest(string UserName, string Password, string UserAgent) : AppRequest, IRequest;
+    public record AuthenticateRequest(string UserName, string RawPassword, string UserAgent) : AppRequest, IRequest;
 
     public record AuthenticateResponse: AppResponse, IResponse
     {

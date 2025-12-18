@@ -33,12 +33,14 @@ namespace Application.Services.User.CommandHandlers
         [LogTrace]
         public async Task<AuthenticateResponse> Handle(AuthenticateRequest request)
         {
-            if (string.IsNullOrEmpty(request.Password))
+            var password = PasswordHelper.ExtractPwdWithTimeVerification(request.RawPassword);
+
+            if (string.IsNullOrEmpty(password))
             {
                 return new AuthenticateResponse("Password is empty", false);
             }
 
-            var passwordEncry = PasswordHelper.EncryptoPassword(request.Password);
+            var passwordEncry = PasswordHelper.EncryptoPassword(password);
 
             var user = await _userRepository.FindUserByUserNamePwd(request.UserName, passwordEncry);
 

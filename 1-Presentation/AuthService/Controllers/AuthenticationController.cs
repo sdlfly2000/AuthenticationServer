@@ -36,18 +36,10 @@ namespace AuthService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var password = PasswordHelper.ExtractPwdWithTimeVerification(request.Password);
-
-            if (password == null)
-            {
-                _logger.LogWarning($"{nameof(AuthenticationController)}: password is null.");
-                return BadRequest();
-            }
-
             var authenticateResponse = await _eventBus.Send<AuthenticateRequest, AuthenticateResponse>(
                 new AuthenticateRequest(
                     request.UserName,
-                    password, 
+                    request.Password, 
                     HttpContext.Request.Headers.UserAgent.ToString()));
 
             if(authenticateResponse != null && authenticateResponse.Success)
