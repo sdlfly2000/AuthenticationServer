@@ -4,7 +4,18 @@
 flowchart TB
     subgraph main [<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:60em'>Application.Service.AuthenticateCommandHandler</div>]
         direction TB
-        start((Start)) -->
+        start((Start)) 
+
+        subgraph ExtractPwdWithTimeVerification[PasswordHelper.ExtractPwdWithTimeVerification]
+            direction TB
+            ConvertBase64ToString -->
+            pwdAndDatetime[Password and Datetime sent] -->
+            checkWithinTimeLimit{CurrentTime - DatetimeSent > DEFAULT_ALLOW_DELAY_IN_SEC?} --"yes"-->
+            returnNullPassword[Return Null/Empty Password]
+            checkWithinTimeLimit --"no"-->
+            returnPassword[Return Password]
+        end
+        
         check1{Password is empty?} --"yes"-->
         check1Y[AuthenticateResponse: Success -> false, ErrorMessage: Password is empty]
         check1 --"no"--> 
@@ -31,6 +42,9 @@ flowchart TB
     end
 
     %%{Class Relationship}%%
+    start --> ConvertBase64ToString
+    returnNullPassword --> check1
+    returnPassword --> check1
     AddClaim2 --> GenerateJwtInput
     tokenDescriptor --> return
 
@@ -68,7 +82,7 @@ classDiagram
 
     class AuthenticateRequest { 
         + UserName: string
-        + Password: string
+        + RawPassword: string
         + DisplayName: string
     }
 
