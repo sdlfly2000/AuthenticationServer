@@ -46,6 +46,9 @@ builder.Services.AddRabbitMQBus(builder.Configuration);
 // Add Local Cache Support
 builder.Services.AddMemoryCache();
 
+// Add JWT Options
+builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
+
 // Register Services
 builder.Services
     .RegisterDomain("AuthService", "Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services", "Application.Gateway")
