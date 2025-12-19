@@ -20,7 +20,10 @@ namespace Application.Services.BDD.StepDefinitions
         [Given("an AuthenticateRequest with UserName {string}, Password {string} and UserAgent: {string}")]
         public void GivenAnAuthenticateRequestWithUserNamePasswordAndUserAgent(string testUser, string pwd, string userAgent)
         {
-            _authenticateRequest = new AuthenticateRequest(testUser, pwd, userAgent);
+            var pwdEncoded = Convert.ToBase64String(
+            System.Text.Encoding.UTF8.GetBytes(
+                string.Concat(pwd, "|", DateTime.Now.Ticks.ToString())));
+            _authenticateRequest = new AuthenticateRequest(testUser, pwdEncoded, userAgent);
         }
 
         [When("Authenticate\\(Handle) is called")]
