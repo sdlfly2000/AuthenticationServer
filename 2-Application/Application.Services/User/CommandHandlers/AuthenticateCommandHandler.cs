@@ -6,6 +6,7 @@ using Domain.User.Repositories;
 using Infra.Core;
 using Infra.Core.LogTrace;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,16 +18,16 @@ namespace Application.Services.User.CommandHandlers
     public class AuthenticateCommandHandler : IRequestHandler<AuthenticateRequest, AuthenticateResponse>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IConfiguration _configuration;
+        private readonly IOptions<JWTOptions> _jwtOptions;
         private readonly IServiceProvider _serviceProvider;
 
         public AuthenticateCommandHandler(
             IUserRepository userRepository, 
-            IConfiguration configuration,
+            IOptions<JWTOptions> jwtOptions,
             IServiceProvider serviceProvider)
         {
             _userRepository = userRepository;
-            _configuration = configuration;
+            _jwtOptions = jwtOptions;
             _serviceProvider = serviceProvider;
         }
 
@@ -60,8 +61,7 @@ namespace Application.Services.User.CommandHandlers
 
         private string GenerateJwt(IList<Claim> claims)
         {
-            var jwtOptions = _configuration.GetSection("JWT").Get<JWTOptions>();
-
+            var jwtOptions = _jwtOptions.Value;
             if (jwtOptions == null)
             {
                 jwtOptions = new JWTOptions
