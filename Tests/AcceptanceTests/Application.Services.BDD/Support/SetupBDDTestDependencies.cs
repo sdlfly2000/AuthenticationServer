@@ -1,4 +1,5 @@
-﻿using Common.Core.CQRS;
+﻿using Common.Core.Authentication;
+using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core.MessageQueue.RabbitMQ.Extentions;
 using Infra.Database;
@@ -33,6 +34,9 @@ namespace Application.Services.BDD.Support
             serviceCollection.AddDbContextPool<IdDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("IdentityDatabaseTest"))
             );
+
+            // Add JWT Options
+            serviceCollection.Configure<JWTOptions>(configuration.GetSection("JWT"));
 
             // Add Serilog
             serviceCollection.AddSerilog(
