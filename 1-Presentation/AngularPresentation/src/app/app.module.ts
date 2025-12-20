@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -25,42 +25,36 @@ import { QueryStringService } from '../services/shared.QueryString.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    loginComponent,
-    UserComponent,
-    StatusBarComponent,
-    UserRegisterComponent
-  ],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    RouterModule.forRoot([
-      { path: '', component: loginComponent, pathMatch: 'full' },
-      { path: 'login', component: loginComponent, pathMatch: 'full' },
-      { path: 'user', component: UserComponent, pathMatch: 'full' },
-      { path: 'register', component: UserRegisterComponent, pathMatch: 'full' }
-    ]),
-  ],
-  providers: [
-    { provide: "BASE_URL", useValue: document.getElementsByTagName('base')[0].href },
-    { provide: LoginService },
-    { provide: AuthService },
-    { provide: UserService },
-    { provide: StatusMessageService },
-    { provide: NavMenuService },
-    { provide: UserRegisterService },
-    { provide: QueryStringService },
-    { provide: ConfirmationService },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthFailureInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        NavMenuComponent,
+        loginComponent,
+        UserComponent,
+        StatusBarComponent,
+        UserRegisterComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        BrowserAnimationsModule,
+        FormsModule,
+        InputTextModule,
+        ConfirmDialogModule,
+        RouterModule.forRoot([
+            { path: '', component: loginComponent, pathMatch: 'full' },
+            { path: 'login', component: loginComponent, pathMatch: 'full' },
+            { path: 'user', component: UserComponent, pathMatch: 'full' },
+            { path: 'register', component: UserRegisterComponent, pathMatch: 'full' }
+        ])], providers: [
+        { provide: "BASE_URL", useValue: document.getElementsByTagName('base')[0].href },
+        { provide: LoginService },
+        { provide: AuthService },
+        { provide: UserService },
+        { provide: StatusMessageService },
+        { provide: NavMenuService },
+        { provide: UserRegisterService },
+        { provide: QueryStringService },
+        { provide: ConfirmationService },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthFailureInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
