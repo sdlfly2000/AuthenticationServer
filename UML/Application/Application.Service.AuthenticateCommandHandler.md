@@ -6,7 +6,7 @@ flowchart TB
         direction TB
         start((Start)) 
 
-        subgraph ExtractPwdWithTimeVerification[PasswordHelper.ExtractPwdWithTimeVerification]
+        subgraph ExtractPwdWithTimeVerification[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:45em'>PasswordHelper.ExtractPwdWithTimeVerification</div>]
             direction TB
             ConvertBase64ToString -->
             pwdAndDatetime[Password and Datetime sent] -->
