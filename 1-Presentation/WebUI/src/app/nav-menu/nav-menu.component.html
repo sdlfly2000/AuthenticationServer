@@ -3,22 +3,27 @@
     <a class="navbar-brand" [routerLink]="['/']">Authentication</a>
     <div class="d-sm-inline-flex flex-sm-row-reverse">
       <ul class="navbar-nav flex-grow">
-        <li class="nav-item" *ngIf="!isLoginStatus"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link text-dark" [routerLink]="['/']">Login</a>
-        </li>
-        <li class="nav-item" *ngIf="!isLoginStatus"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link text-dark" [routerLink]="['register']">Register</a>
-        </li>
-        <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoginStatus">
-          <a class="nav-link text-dark" [routerLink]="['/']" (click)="Logout()">Logout</a>
-        </li>
-        <li class="nav-item">
-          <span class="nav-link text-dark">{{displayName}}</span>
-        </li>
+        @if (!isLoginStatus){
+          <li class="nav-item"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link text-dark" [routerLink]="['/']">Login</a>
+          </li>
+          <li class="nav-item"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link text-dark" [routerLink]="['register']">Register</a>
+          </li>
+        }
+        @if (isLoginStatus){
+          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link text-dark" [routerLink]="['/']" (click)="Logout()">Logout</a>
+          </li>
+
+          <li class="nav-item">
+            <span class="nav-link text-dark">{{displayName}}</span>
+          </li>
+        }
       </ul>
     </div>
   </div>

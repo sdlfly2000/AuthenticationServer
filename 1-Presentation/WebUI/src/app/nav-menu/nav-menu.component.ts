@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { NavMenuService } from './nav-menu.service';
 import { StatusMessageService } from '../../services/statusmessage.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+  styleUrls: ['./nav-menu.component.css'],
+  imports: [RouterModule]
 })
 export class NavMenuComponent {
   isExpanded = false;
