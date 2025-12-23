@@ -29,18 +29,21 @@ import { StatusMessageService } from '../../../services/statusmessage.service';
 
             <div class="layout-topbar-menu hidden lg:block">
                 <div class="layout-topbar-menu-content">
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-calendar"></i>
-                        <span>Calendar</span>
-                    </button>
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-inbox"></i>
-                        <span>Messages</span>
-                    </button>
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-user"></i>
-                        <span>Profile</span>
-                    </button>
+                    @if(isSignIn) {
+                        <button type="button" class="layout-topbar-action">
+                            <i class="pi pi-sign-out"></i>
+                            <span>Sign Out</span>
+                        </button>
+                        <button type="button" class="layout-topbar-action">
+                            <i class="pi pi-user"></i>
+                            <span>{{displayName}}</span>
+                        </button>
+                    } @else {
+                        <button type="button" class="layout-topbar-action">
+                            <i class="pi pi-user-plus"></i>
+                            <span>Register</span>
+                        </button>
+                    }                 
                 </div>
             </div>
         </div>
@@ -49,7 +52,7 @@ import { StatusMessageService } from '../../../services/statusmessage.service';
 export class AppTopbar {
     displayName: string | null = null;
 
-    isLoginStatus: boolean = false;
+    isSignIn: boolean = false;
     
     constructor(
         public layoutService: LayoutService, 
@@ -62,20 +65,16 @@ export class AppTopbar {
         this.displayName = this.authService.UserDisplayName
 
         this.authService.OnLoginSuccess.subscribe(() => {
-        this.isLoginStatus = true;
+        this.isSignIn = true;
         });
 
         this.authService.OnLoginFailure.subscribe(() => {
-        this.isLoginStatus = false;
+        this.isSignIn = false;
         })
 
         this.authService.CheckLoginStatus();
     }
-
-    toggleDarkMode() {
-        this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
-    }
-    
+   
     Logout() {
         this.appTopBarService.logout().subscribe(() =>
         {
