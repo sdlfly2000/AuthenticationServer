@@ -30,7 +30,7 @@ import { StatusMessageService } from '../../../services/statusmessage.service';
             <div class="layout-topbar-menu hidden lg:block">
                 <div class="layout-topbar-menu-content">
                     @if(isSignIn) {
-                        <button type="button" class="layout-topbar-action">
+                        <button type="button" class="layout-topbar-action" (click)="Logout()">
                             <i class="pi pi-sign-out"></i>
                             <span>Sign Out</span>
                         </button>
