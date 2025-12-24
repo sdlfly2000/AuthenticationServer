@@ -6,11 +6,12 @@ import { LayoutService } from '../service/layout.service';
 import { AppTopBarService } from '../service/app.topbar.service';
 import { AuthService } from '../../../services/auth.service';
 import { StatusMessageService } from '../../../services/statusmessage.service';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule],
+    imports: [RouterModule, CommonModule, StyleClassModule, ConfirmDialogModule],
     template: `<div class="layout-topbar">
         <div class="layout-topbar-logo-container">
             <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
