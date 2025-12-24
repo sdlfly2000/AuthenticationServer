@@ -28,5 +28,5 @@ export const appConfig: ApplicationConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthFailureInterceptor, multi: true },
     provideHttpClient(withInterceptorsFromDi())
-    ]
+  ]
 };

@@ -4,6 +4,7 @@ import { Observable, catchError, throwError } from "rxjs";
 import { LoginRequest } from "./models/LoginRequest";
 import { LoginResponse } from "./models/LoginResponse";
 import { AuthService } from "../../../services/auth.service";
+import { BASE_URL } from "../../app.config";
 
 @Injectable({
   providedIn: "root"
@@ -11,12 +12,7 @@ import { AuthService } from "../../../services/auth.service";
 export class LoginService{
 
   private httpHeaders: HttpHeaders = new HttpHeaders({ "Content-Type": "application/json" , "Access-Control-Allow-Origin":"*"});
-
-  private baseUrl: string;
-
-  constructor(private httpClient: HttpClient, private authService: AuthService) {
-      this.baseUrl = Inject("BASE_URL");
-  }
+    constructor(private httpClient: HttpClient, private authService: AuthService, @Inject(BASE_URL) private baseUrl: string) {}
 
   private ErrorHandler(errorResponse: HttpErrorResponse) {
     this.authService.JwtToken = "";

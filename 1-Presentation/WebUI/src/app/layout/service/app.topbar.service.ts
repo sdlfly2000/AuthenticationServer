@@ -7,10 +7,7 @@ import { Observable} from "rxjs";
   providedIn: "root"
 })
 export class AppTopBarService {
-  private baseUrl: string;
-
-  constructor(private httpClient: HttpClient) {
-    this.baseUrl = Inject(BASE_URL);
+  constructor(private httpClient: HttpClient, @Inject(BASE_URL) private baseUrl: string) {
   }
 
   public logout(): Observable<string> {
