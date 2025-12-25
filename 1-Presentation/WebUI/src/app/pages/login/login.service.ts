@@ -1,6 +1,6 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Observable, catchError, throwError } from "rxjs";
+import { Observable } from "rxjs";
 import { LoginRequest } from "./models/LoginRequest";
 import { LoginResponse } from "./models/LoginResponse";
 import { AuthService } from "../../../services/auth.service";
@@ -12,18 +12,11 @@ import { BASE_URL } from "../../app.config";
 export class LoginService{
 
   private httpHeaders: HttpHeaders = new HttpHeaders({ "Content-Type": "application/json" , "Access-Control-Allow-Origin":"*"});
-    constructor(private httpClient: HttpClient, private authService: AuthService, @Inject(BASE_URL) private baseUrl: string) {}
 
-  private ErrorHandler(errorResponse: HttpErrorResponse) {
-    this.authService.JwtToken = "";
-    return throwError(() => new Error(errorResponse.error));
-  }
+  constructor(private httpClient: HttpClient, private authService: AuthService, @Inject(BASE_URL) private baseUrl: string) { }
 
   public Authenticate(request: LoginRequest): Observable<LoginResponse> {
     return this.httpClient
-      .post<LoginResponse>(this.baseUrl + "api/Authentication/Authenticate", JSON.stringify(request), { headers: this.httpHeaders })
-      .pipe(
-        catchError(this.ErrorHandler)
-      );
+      .post<LoginResponse>(this.baseUrl + "api/Authentication/Authenticate", JSON.stringify(request), { headers: this.httpHeaders });
   }
 }

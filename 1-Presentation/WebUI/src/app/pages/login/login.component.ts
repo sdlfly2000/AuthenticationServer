@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginRequest } from './models/LoginRequest';
 import { LoginService } from './login.service';
 import { Router, RouterLink } from '@angular/router';
-import { StatusMessageService } from '../../../services/statusmessage.service';
+import { EnumInfoSeverity, StatusMessageModel, StatusMessageService } from '../../../services/statusmessage.service';
 import { QueryStringService } from '../../../services/shared.QueryString.service';
 import { AuthService } from '../../../services/auth.service';
 import { ConfirmationService } from 'primeng/api';
@@ -17,7 +17,7 @@ import { DividerModule } from 'primeng/divider';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./lgoin.component.css'],
-    imports: [FormsModule, ConfirmDialogModule, InputTextModule, FloatLabelModule, ButtonModule, DividerModule, RouterLink],
+  imports: [FormsModule, ConfirmDialogModule, InputTextModule, FloatLabelModule, ButtonModule, DividerModule, RouterLink],
   providers: [ConfirmationService]
 })
 export class LoginComponent implements OnInit {
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.statusMessageService.StatusMessage = "In Progress";
+    this.statusMessageService.StatusMessage = new StatusMessageModel("In Authentication Progress...", EnumInfoSeverity.Info);
 
     this.loginRequest.password = btoa(this.password + "|" + Date.now());
     this.loginService.Authenticate(this.loginRequest)
@@ -95,12 +95,13 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl("user?userid=" + response.userId);
           }
           this.isLoading = false;
-          this.statusMessageService.StatusMessage = "Successed";
+          this.statusMessageService.StatusMessage = new StatusMessageModel("Authentication Success...", EnumInfoSeverity.Info);
         }, 
-        error: () => {
+        error: (errResp) => {
           this.authService.LoginStatus = false;
+          this.authService.JwtToken = "";
           this.isLoading = false;
-          this.statusMessageService.StatusMessage = "Failed";
+          this.statusMessageService.StatusMessage = new StatusMessageModel(errResp.message, EnumInfoSeverity.Error);
         }
     });
   }

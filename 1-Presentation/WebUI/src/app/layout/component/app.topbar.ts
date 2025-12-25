@@ -81,7 +81,6 @@ export class AppTopbar {
         {
             this.authService.CleanLocalCache();
             this.authService.LoginStatus = false;
-            this.statusMessageService.StatusMessage = "";
             this.router.navigate(["/"]);
         });
     }

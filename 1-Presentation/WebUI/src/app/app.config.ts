@@ -11,6 +11,7 @@ import { StatusMessageService } from '../services/statusmessage.service';
 import { AuthFailureInterceptor } from './auth-failure.interceptor';
 import { AuthInterceptor } from './auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { LoginService } from './pages/login/login.service';
 
 export const BASE_URL = new InjectionToken<string>('BASE_URL');
 
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
     { provide: BASE_URL, useValue: document.getElementsByTagName('base')[0].href },
+    { provide: LoginService },
     { provide: AuthService },
     { provide: StatusMessageService },
     { provide: QueryStringService },
