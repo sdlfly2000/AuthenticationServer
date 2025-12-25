@@ -1,0 +1,75 @@
+<H1>{{ title }}</H1>
+<p-divider />
+@if (UserClaims?.length) {
+    <form #UserForm="ngForm" class="row g-3">
+      @for(claim of UserClaims; track claim.typeName ) {  
+        <div class="row form-element">
+          <label [for]="claim.typeName" class="form-label form-element">{{claim.shortTypeName}}</label>
+          <input type="text" class="form-control form-element col" [id]="claim.typeName" [value]="claim.value" disabled />
+          <button type="button" data-bs-toggle="modal"
+                  data-bs-target="#updateModal"
+                  class="btn btn-outline-primary col col-1 form-element" (click)="UpdateSelected(claim)">Update</button>
+        </div>
+      }  
+      <div class="row form-element">
+        <p-button class="btn btn-primary col col-3 form-element "data-bs-toggle="modal" data-bs-target="#NewModal">New</p-button>
+        <p-button type="reset" class="btn btn-secondary col col-3 form-element">Cancel</p-button>
+      </div>
+    </form>
+}
+
+@if (UserClaimSelected){
+    <div class="modal fade" #UpdateClaimModal id="updateModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true" >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="UpdateModalLabel">Update Claim</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="claim-value" class="col-form-label">{{UserClaimSelected.shortTypeName}}</label>
+                <input type="text" class="form-control" id="claim-value" name="claimValue" [(ngModel)]="UserClaimSelected.value"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closebtn" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="UpdateClaim()">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+}
+
+
+    <!--<div class="modal fade" #NewClaimModal id="NewModal" tabindex="-1" aria-labelledby="NewModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="NewModalLabel">New Claim</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="claim-type" class="col-form-label">Claim Type</label>
+                <select class="form-select" id="claim-type" aria-label="Claim Type" name="claimtype" [(ngModel)]="NewUserClaim.typeName">
+                  <option *ngFor="let ClaimType of ClaimTypes" [ngValue]="ClaimType.typeName">{{ClaimType.typeShortName}}</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="claim-value-new" class="col-form-label">Claim Value</label>
+                <input class="form-control" id="claim-value-new" aria-label="Claim Value" name="claimvaluenew" [(ngModel)]="NewUserClaim.value" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closebtn2" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="AddClaim()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+

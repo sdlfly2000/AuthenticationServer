@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit {
           if (response.returnUrl != undefined) {
             window.location.href = response.returnUrl + "?jwtToken=" + response.jwtToken + "&userid=" + response.userId + "&userDisplayName=" + response.userDisplayName;
           } else {
-            this.router.navigateByUrl("user?userid=" + response.userId);
+            this.router.navigateByUrl("app/user?userid=" + response.userId);
           }
           this.isLoading = false;
           this.statusMessageService.StatusMessage = new StatusMessageModel("Authentication Success...", EnumInfoSeverity.Info);
