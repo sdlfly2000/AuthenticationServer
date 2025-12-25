@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginRequest } from './models/LoginRequest';
 import { LoginService } from './login.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { StatusMessageService } from '../../../services/statusmessage.service';
 import { QueryStringService } from '../../../services/shared.QueryString.service';
 import { AuthService } from '../../../services/auth.service';
@@ -17,7 +17,7 @@ import { DividerModule } from 'primeng/divider';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./lgoin.component.css'],
-  imports: [FormsModule, ConfirmDialogModule, InputTextModule, FloatLabelModule, ButtonModule, DividerModule],
+    imports: [FormsModule, ConfirmDialogModule, InputTextModule, FloatLabelModule, ButtonModule, DividerModule, RouterLink],
   providers: [ConfirmationService]
 })
 export class LoginComponent implements OnInit {
