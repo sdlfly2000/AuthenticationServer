@@ -27,7 +27,7 @@ namespace AuthService.Controllers
 
             if (!response.Success) 
             { 
-                return Problem("Failed to Add Claim"); 
+                return Problem(response.ErrorMessage); 
             }
 
             return Ok();
@@ -51,10 +51,13 @@ namespace AuthService.Controllers
 
             if (!userResponse.Success) 
             { 
-                return Problem(userResponse.Message); 
+                return Problem(userResponse.ErrorMessage); 
             }
 
-            var userClaims = userResponse.User!.Claims.Select(claim => new UserClaimModel { ShortTypeName = claim.Name.Split('/').Last(), Value = claim.Value, TypeName = claim.Name });
+            var userClaims = userResponse.User!.Claims.Select(claim => 
+                new UserClaimModel { 
+                    ClaimType = new ClaimTypeValues(TypeShortName: claim.Name.Split('/').Last(), TypeName: claim.Name), 
+                    Value = claim.Value });
 
             return Ok(userClaims);
         }

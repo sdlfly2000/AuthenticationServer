@@ -13,6 +13,8 @@ import { Dialog } from 'primeng/dialog';
 import { Select } from 'primeng/select';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { StatusMessageService, EnumInfoSeverity, StatusMessageModel } from '../../../services/statusmessage.service';
 
 @Component({
   selector: 'app-root',
@@ -32,22 +34,25 @@ export class UserClaimComponent implements OnInit{
   isPopupAddClaimDialog: boolean = false;
 
   UserClaimSelected: UserClaim = {
-    ClaimType: {
+    claimType: {
         typeShortName: '',
         typeName: ''
     },
-    Value: ''
+    value: ''
   };
 
   NewUserClaim: UserClaim = {
-    ClaimType: {
+    claimType: {
         typeShortName: '',
         typeName: ''
     },
-    Value: "",
+    value: "",
   };  
 
-  constructor(private route: ActivatedRoute, private userClaimService: UserClaimService) {
+  constructor(
+      private route: ActivatedRoute,
+      private userClaimService: UserClaimService,
+      private statusMessageService: StatusMessageService) {
     this.UserId = route.snapshot.queryParamMap.get("userid");
   }
 
@@ -71,14 +76,32 @@ export class UserClaimComponent implements OnInit{
   }
 
   AddClaim(): void {
-    this.userClaimService.AddUserClaim(this.UserId!, this.NewUserClaim).subscribe(() => {
-      const closeBtn = document.getElementById("closebtn2");
-      closeBtn?.click();
+    this.userClaimService.AddUserClaim(this.UserId!, this.NewUserClaim).subscribe({
+      complete: () => {
+        this.ShowAddClaimDialog(false);
+      },
+      error: (errReponse) => {
+        if (errReponse instanceof HttpErrorResponse) {
+          this.statusMessageService.StatusMessage = new StatusMessageModel(errReponse.message, EnumInfoSeverity.Error);
+        }
+      },
+      next: () => {
+        this.statusMessageService.StatusMessage = new StatusMessageModel("Successfully add a Claim", EnumInfoSeverity.Info);
+      },
     });
   }
 
   ShowAddClaimDialog(isShow: boolean){
     this.isPopupAddClaimDialog = isShow;
+    if (!isShow) {
+      this.NewUserClaim = {
+        claimType: {
+          typeShortName: '',
+          typeName: ''
+        },
+        value: "",
+      };
+    }
   }
 
   private GetTypeShortName(typeName: string): string | undefined {

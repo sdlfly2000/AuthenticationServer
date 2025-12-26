@@ -1,18 +1,18 @@
 ﻿using Common.Core.CQRS.Request;
+using Infra.Core.ApplicationBasics;
 
 namespace Application.Services.User.ReqRes
 {
-    public class GetUserByIdRequest: ICacheRequest
+    public record GetUserByIdRequest(string userId) : AppRequest, IRequest;
+
+    public record GetUserByIdResponse: AppResponse, IResponse
     {
-        public GetUserByIdRequest(string userId)
+        public GetUserByIdResponse(string Message, bool Success, Domain.User.Entities.User? user) : base(Message, Success)
         {
-            UserId = userId;
+            User = user;
         }
 
-        public string UserId { get; set; }
+        public Domain.User.Entities.User? User { get; private set; }
 
-        public string Id { get => UserId;}
-    }
-
-    public record GetUserByIdResponse(string Message, bool Success, Domain.User.Entities.User? User): IResponse;
+    };
 }
