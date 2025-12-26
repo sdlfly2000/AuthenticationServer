@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { UserService } from './user.service';
+import { UserClaimService } from './user-claim.service';
 import { UserClaim } from './models/UserClaim';
 import { ClaimTypeValues } from './models/ClaimTypeValues';
 import { FormsModule } from '@angular/forms';
@@ -9,17 +9,21 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DividerModule } from 'primeng/divider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
+import { Dialog } from 'primeng/dialog';
+import { Select } from 'primeng/select';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
-  imports: [FormsModule, ConfirmDialogModule, InputTextModule, FloatLabelModule, ButtonModule, DividerModule ]
+  templateUrl: './user-claim.component.html',
+  styleUrls: ['./user-claim.component.css'],
+  imports: [FormsModule, ConfirmDialogModule, InputTextModule, FloatLabelModule, ButtonModule, DividerModule, Dialog, Select ]
 })
-export class UserComponent implements OnInit{
-  title = 'User Profile';
+export class UserClaimComponent implements OnInit{
+  title = 'User Claims';
   UserId: string | null;
   UserClaims: UserClaim[] | undefined;
+
+  isPopupAddClaimDialog: boolean = false;
 
   UserClaimSelected: UserClaim = {
     shortTypeName: "",
@@ -35,13 +39,13 @@ export class UserComponent implements OnInit{
 
   ClaimTypes: ClaimTypeValues[] | undefined;
 
-  constructor(private route: ActivatedRoute, private userService: UserService) {
+  constructor(private route: ActivatedRoute, private userClaimService: UserClaimService) {
     this.UserId = route.snapshot.queryParamMap.get("userid");
   }
 
   ngOnInit(): void {
-    this.userService.GetUserClaims(this.UserId!).subscribe(claims => this.UserClaims = claims);
-    this.userService.GetAllClaimTypes().subscribe(types => this.ClaimTypes = types);
+    this.userClaimService.GetUserClaims(this.UserId!).subscribe(claims => this.UserClaims = claims);
+    this.userClaimService.GetAllClaimTypes().subscribe(types => this.ClaimTypes = types);
   }
 
   UpdateSelected(userClaim: UserClaim): void {
@@ -49,7 +53,7 @@ export class UserComponent implements OnInit{
   }
 
   UpdateClaim(): void {
-    this.userService.UpdateUserClaim(this.UserId!, this.UserClaimSelected).subscribe(() => {
+    this.userClaimService.UpdateUserClaim(this.UserId!, this.UserClaimSelected).subscribe(() => {
       const closeBtn = document.getElementById("closebtn");
       closeBtn?.click();
     });
@@ -57,10 +61,14 @@ export class UserComponent implements OnInit{
 
   AddClaim(): void {
     this.NewUserClaim.shortTypeName = this.GetTypeShortName(this.NewUserClaim.typeName)!;
-    this.userService.AddUserClaim(this.UserId!, this.NewUserClaim).subscribe(() => {
+    this.userClaimService.AddUserClaim(this.UserId!, this.NewUserClaim).subscribe(() => {
       const closeBtn = document.getElementById("closebtn2");
       closeBtn?.click();
     });
+  }
+
+  ShowAddClaimDialog(isShow: boolean){
+    this.isPopupAddClaimDialog = isShow;
   }
 
   private GetTypeShortName(typeName: string): string | undefined {

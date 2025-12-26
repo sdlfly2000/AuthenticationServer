@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from './layout/component/app.layout';
-import { UserComponent } from './pages/user/user.component';
+import { UserClaimComponent } from './pages/user-claim/user-claim.component';
 import { LoginComponent } from './pages/login/login.component';
 import { UserRegisterComponent } from './pages/user-register/user-register.component';
 
@@ -11,7 +11,7 @@ export const routes: Routes = [
     path: 'app',
     component: AppLayout,
     children: [
-      { path: 'user', component: UserComponent }
+      { path: 'claim', component: UserClaimComponent }
     ]
   },
   //{ path: '**', redirectTo: '/notfound' }

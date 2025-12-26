@@ -8,7 +8,7 @@ import { BASE_URL } from "../../app.config";
 @Injectable({
   providedIn: "root"
 })
-export class UserService {
+export class UserClaimService {
   private httpHeaders: HttpHeaders = new HttpHeaders({ "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" })
 
   constructor(private httpClient: HttpClient, @Inject(BASE_URL) private BaseUrl: string) {

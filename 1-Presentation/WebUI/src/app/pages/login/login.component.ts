@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     this.authService.SetReturnUrl(returnUrl);
 
     if (this.authService.UserId != null && this.authService.IsOutSideRequest == false) {
-      this.router.navigateByUrl("user?userid=" + this.authService.UserId);
+      this.router.navigateByUrl("app/claim?userid=" + this.authService.UserId);
     }
 
     if (this.authService.IsValidLogin == true && this.authService.IsOutSideRequest == true) {
@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit {
           if (response.returnUrl != undefined) {
             window.location.href = response.returnUrl + "?jwtToken=" + response.jwtToken + "&userid=" + response.userId + "&userDisplayName=" + response.userDisplayName;
           } else {
-            this.router.navigateByUrl("app/user?userid=" + response.userId);
+            this.router.navigateByUrl("app/claim?userid=" + response.userId);
           }
           this.isLoading = false;
           this.statusMessageService.StatusMessage = new StatusMessageModel("Authentication Success...", EnumInfoSeverity.Info);
