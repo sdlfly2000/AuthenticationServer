@@ -1,5 +1,6 @@
+import { ClaimTypeValues } from "./ClaimTypeValues"
+
 export interface UserClaim {
-  typeName: string,
-  shortTypeName: string,
-  value: string
+  ClaimType: ClaimTypeValues
+  Value: string
 }
