@@ -1,9 +1,10 @@
-﻿namespace AuthService.Models
+﻿using Application.Services.User.ReqRes;
+
+namespace AuthService.Models
 {
     public class AddUserClaimRequestModel
     {
-        public string typeName { get; set; }
-        public string shortTypeName { get; set; }
+        public ClaimTypeValues claimType { get; set; }
         public string value { get; set; }
     }
 }

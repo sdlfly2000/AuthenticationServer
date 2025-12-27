@@ -22,12 +22,17 @@ namespace AuthService.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserClaim([FromQuery] string id, [FromBody] AddUserClaimRequestModel request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var response = await _eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(
-                new AddUserClaimRequest(id, request.typeName, request.value));
+                new AddUserClaimRequest(id, request.claimType.TypeName, request.value));
 
             if (!response.Success) 
             { 
-                return Problem("Failed to Add Claim"); 
+                return Problem(response.ErrorMessage); 
             }
 
             return Ok();
@@ -36,8 +41,13 @@ namespace AuthService.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUserClaim([FromQuery] string id, [FromBody] UpdateUserClaimRequestModel request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var response = await _eventBus.Send<UpdateUserClaimRequest, UpdateUserClaimResponse>(
-                new UpdateUserClaimRequest(id, request.typeName, request.value));
+                new UpdateUserClaimRequest(id, request.ClaimType.TypeName, request.Value));
 
             return response.Success
                 ? Ok()
@@ -47,14 +57,22 @@ namespace AuthService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userResponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id));
 
             if (!userResponse.Success) 
             { 
-                return Problem(userResponse.Message); 
+                return Problem(userResponse.ErrorMessage); 
             }
 
-            var userClaims = userResponse.User!.Claims.Select(claim => new UserClaimModel { ShortTypeName = claim.Name.Split('/').Last(), Value = claim.Value, TypeName = claim.Name });
+            var userClaims = userResponse.User!.Claims.Select(claim => 
+                new UserClaimModel { 
+                    ClaimType = new ClaimTypeValues(TypeShortName: claim.Name.Split('/').Last(), TypeName: claim.Name), 
+                    Value = claim.Value });
 
             return Ok(userClaims);
         }

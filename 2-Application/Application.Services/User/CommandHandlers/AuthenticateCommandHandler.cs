@@ -4,8 +4,8 @@ using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
 using Infra.Core;
+using Infra.Core.CatchException;
 using Infra.Core.LogTrace;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -32,6 +32,7 @@ namespace Application.Services.User.CommandHandlers
         }
 
         [LogTrace]
+        [CatchAppException(returnType: typeof(AuthenticateResponse))]
         public async Task<AuthenticateResponse> Handle(AuthenticateRequest request)
         {
             var password = PasswordHelper.ExtractPwdWithTimeVerification(request.RawPassword);

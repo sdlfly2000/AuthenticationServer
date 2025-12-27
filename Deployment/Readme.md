@@ -84,6 +84,12 @@ Update-Database
 ```
 dotnet ef database update --project .\4-Infrastructure\Infra.Database\Infra.Database.csproj --startup-project .\1-Presentation\AuthService\AuthService.csproj
 ```
+
+```
+dotnet ef migrations add "" --project .\4-Infrastructure\Infra.Database\Infra.Database.csproj --startup-project .\1-Presentation\AuthService\AuthService.csproj
+```
+
 Note: 
 1. AuthService should be as default startup project
 2. Default Project should be Infra.Database
+
