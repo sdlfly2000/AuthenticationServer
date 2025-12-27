@@ -92,6 +92,7 @@ export class UserClaimComponent implements OnInit{
     this.userClaimService.AddUserClaim(this.UserId!, this.NewUserClaim).subscribe({
       complete: () => {
         this.ShowAddClaimDialog(false);
+        this.ngOnInit();
       },
       error: (errReponse) => {
         if (errReponse instanceof HttpErrorResponse) {
@@ -128,10 +129,6 @@ export class UserClaimComponent implements OnInit{
         value: "",
       };
     }
-  }
-
-  private GetTypeShortName(typeName: string): string | undefined {
-    return this.ClaimTypes?.find(type => type.typeName == typeName)?.typeShortName;
   }
 
   private Clone(userClaim: UserClaim): UserClaim {
