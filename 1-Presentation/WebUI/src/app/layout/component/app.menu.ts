@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AppMenuitem } from './app.menuitem';
-import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-menu',
@@ -18,10 +17,6 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class AppMenu {
     model: MenuItem[] = [];
-
-    constructor(
-        private authService: AuthService) {
-    }
 
     ngOnInit() {
         this.model = [
