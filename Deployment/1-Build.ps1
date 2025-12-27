@@ -1,7 +1,7 @@
 # Build AngularPresentation
 Write-Host "Building AngularPresentation" -ForegroundColor DarkCyan
-pushd ../1-Presentation/AngularPresentation/
-ng build --configuration=production --output-path ../../Build/AuthService/wwwroot 
+pushd ../1-Presentation/WebUI/
+ng build --configuration=production --output-path ../../Build/AuthService/wwwroot --delete-output-path
 popd
 
 if ($LASTEXITCODE -ne 0) {
