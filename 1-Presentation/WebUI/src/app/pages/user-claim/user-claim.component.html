@@ -22,29 +22,22 @@
   }
 </div>
 
-
-        <!--<div class="modal fade" #UpdateClaimModal id="updateModal" tabindex="-1" aria-labelledby="UpdateModalLabel" aria-hidden="true" >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="UpdateModalLabel">Update Claim</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="mb-3">
-                    <label for="claim-value" class="col-form-label">{{UserClaimSelected.shortTypeName}}</label>
-                    <input type="text" class="form-control" id="claim-value" name="claimValue" [(ngModel)]="UserClaimSelected.value"/>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="closebtn" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" (click)="UpdateClaim()">Update</button>
-              </div>
-            </div>
-          </div>
-        </div>-->
+@if (UserClaims$ | async){
+<p-dialog header="Update Claim" [modal]="true" [(visible)]="isPopupUpdateClaimDialog" [contentStyle]="{'overflow-y': 'visible'}" [style]="{ width: '30rem' }">
+    <form>
+        <div>
+            <label for="claim-value">{{UserClaimSelected.claimType.typeShortName}}</label>
+        </div>
+        <div>
+            <input type="text" id="claim-value" class="dialog-update-claim-input" name="claimValue" pInputText [(ngModel)]="UserClaimSelected.value" />
+        </div>
+        <div class="dialog-update-claim-sec-button">
+            <p-button class="dialog-update-claim-button" (click)="UpdateClaim()" label="Update" />
+            <p-button class="dialog-update-claim-button" label="Close" (click)="ShowUpdateClaimDialog(false)" />
+        </div>
+    </form>
+</p-dialog>
+}
 
 @if(ClaimTypes$ | async){
 <p-dialog header="Add Claim" [modal]="true" [(visible)]="isPopupAddClaimDialog" [contentStyle]="{'overflow-y': 'visible'}" [style]="{ width: '30rem' }">

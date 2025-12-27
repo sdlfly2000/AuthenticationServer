@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserClaimService } from './user-claim.service';
 import { UserClaim } from './models/UserClaim';
 import { ClaimTypeValues } from './models/ClaimTypeValues';
@@ -32,6 +32,7 @@ export class UserClaimComponent implements OnInit{
   ClaimTypes$: Observable<ClaimTypeValues[]> | undefined;
 
   isPopupAddClaimDialog: boolean = false;
+  isPopupUpdateClaimDialog: boolean = false;
 
   UserClaimSelected: UserClaim = {
     claimType: {
@@ -40,7 +41,7 @@ export class UserClaimComponent implements OnInit{
     },
     value: ''
   };
-
+  
   NewUserClaim: UserClaim = {
     claimType: {
         typeShortName: '',
@@ -51,9 +52,10 @@ export class UserClaimComponent implements OnInit{
 
   constructor(
       private route: ActivatedRoute,
+      private router: Router,
       private userClaimService: UserClaimService,
       private statusMessageService: StatusMessageService) {
-    this.UserId = route.snapshot.queryParamMap.get("userid");
+    this.UserId = this.route.snapshot.queryParamMap.get("userid");
   }
 
   ngOnInit(): void {
@@ -65,13 +67,24 @@ export class UserClaimComponent implements OnInit{
   }
 
   UpdateSelected(userClaim: UserClaim): void {
-    this.UserClaimSelected = userClaim;
+    this.UserClaimSelected = this.Clone(userClaim);
+    this.ShowUpdateClaimDialog(true);
   }
 
   UpdateClaim(): void {
-    this.userClaimService.UpdateUserClaim(this.UserId!, this.UserClaimSelected).subscribe(() => {
-      const closeBtn = document.getElementById("closebtn");
-      closeBtn?.click();
+    this.userClaimService.UpdateUserClaim(this.UserId!, this.UserClaimSelected).subscribe({
+      complete: () => {
+        this.ShowUpdateClaimDialog(false);
+        this.ngOnInit();
+      },
+      error: (errReponse) => {
+        if (errReponse instanceof HttpErrorResponse) {
+          this.statusMessageService.StatusMessage = new StatusMessageModel(errReponse.message, EnumInfoSeverity.Error);
+        }
+      },
+      next: () => {
+        this.statusMessageService.StatusMessage = new StatusMessageModel("Successfully update a Claim", EnumInfoSeverity.Info);
+      }
     });
   }
 
@@ -87,7 +100,7 @@ export class UserClaimComponent implements OnInit{
       },
       next: () => {
         this.statusMessageService.StatusMessage = new StatusMessageModel("Successfully add a Claim", EnumInfoSeverity.Info);
-      },
+      }
     });
   }
 
@@ -104,7 +117,30 @@ export class UserClaimComponent implements OnInit{
     }
   }
 
+  ShowUpdateClaimDialog(isShow: boolean) {
+    this.isPopupUpdateClaimDialog = isShow;
+    if (!isShow) {
+      this.UserClaimSelected = {
+        claimType: {
+          typeShortName: '',
+          typeName: ''
+        },
+        value: "",
+      };
+    }
+  }
+
   private GetTypeShortName(typeName: string): string | undefined {
     return this.ClaimTypes?.find(type => type.typeName == typeName)?.typeShortName;
-  } 
+  }
+
+  private Clone(userClaim: UserClaim): UserClaim {
+    return {
+      claimType: {
+        typeShortName: userClaim.claimType.typeShortName,
+        typeName: userClaim.claimType.typeName
+      },
+      value: userClaim.value,
+    };  
+  }
 }

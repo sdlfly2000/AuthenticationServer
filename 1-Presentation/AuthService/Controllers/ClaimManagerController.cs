@@ -22,6 +22,11 @@ namespace AuthService.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUserClaim([FromQuery] string id, [FromBody] AddUserClaimRequestModel request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var response = await _eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(
                 new AddUserClaimRequest(id, request.claimType.TypeName, request.value));
 
@@ -36,8 +41,13 @@ namespace AuthService.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUserClaim([FromQuery] string id, [FromBody] UpdateUserClaimRequestModel request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var response = await _eventBus.Send<UpdateUserClaimRequest, UpdateUserClaimResponse>(
-                new UpdateUserClaimRequest(id, request.typeName, request.value));
+                new UpdateUserClaimRequest(id, request.ClaimType.TypeName, request.Value));
 
             return response.Success
                 ? Ok()
@@ -47,6 +57,11 @@ namespace AuthService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userResponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id));
 
             if (!userResponse.Success) 
