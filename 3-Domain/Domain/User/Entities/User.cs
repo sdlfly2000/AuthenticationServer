@@ -48,6 +48,14 @@ namespace Domain.User.Entities
             claim!.SetValue(value);
         }
 
+        public bool DeleteClaim(string typeName, string value)
+        {
+            var claimToDelete = Claims
+                .Single(c => c.Name.Equals(typeName) && c.Value.Equals(value));
+
+            return Claims.Remove(claimToDelete);
+        } 
+
         #endregion
     }
 }
