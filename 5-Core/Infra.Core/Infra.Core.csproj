@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infra.Shared.Core\Infra.Shared.Core.csproj" />
+    <PackageReference Include="MrAdvice" Version="2.20.0" />
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.1" />
   </ItemGroup>
