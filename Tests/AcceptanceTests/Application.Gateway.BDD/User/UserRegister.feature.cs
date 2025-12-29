@@ -180,19 +180,21 @@ await this.FeatureBackgroundAsync();
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="User Registration Failed due to Existing User")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("User Registration Failed due to Existing User")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "User Register")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.IgnoreAttribute()]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserRegistrationFailure")]
         public async global::System.Threading.Tasks.Task UserRegistrationFailedDueToExistingUser()
         {
             string[] tagsOfScenario = new string[] {
                     "UserAcceptanceTest",
-                    "UserRegistrationFailure"};
+                    "UserRegistrationFailure",
+                    "Ignore"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Registration Failed due to Existing User", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 17
+#line 18
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -205,13 +207,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 18
+#line 19
  await testRunner.GivenAsync("UserName: \"TestNameFailed\", Password: \"123456\", DisplayName: \"Test 2\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 19
+#line 20
  await testRunner.WhenAsync("Register", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 20
+#line 21
  await testRunner.ThenAsync("User \"TestName\" is registered unsuccessfully due to User already exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

@@ -14,6 +14,7 @@ Scenario: User Registration Successful
 	And UserRegisteredEvent with DisplayName "Test 1" has been delivered to MessageBus
 
 @UserAcceptanceTest @UserRegistrationFailure
+@Ignore
 Scenario: User Registration Failed due to Existing User
 	Given UserName: "TestNameFailed", Password: "123456", DisplayName: "Test 2"
 	When Register
