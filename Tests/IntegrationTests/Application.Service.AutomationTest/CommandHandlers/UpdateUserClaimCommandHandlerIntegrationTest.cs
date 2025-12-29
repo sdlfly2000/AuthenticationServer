@@ -20,7 +20,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
     [TestClass]
     public class UpdateUserClaimCommandHandlerIntegrationTest
     {
-        private static string UserId = "90bcee8a-5120-4453-afad-6aeff61aa6f9";
+        private static string UserId = "daca6f11-8ca8-4cd9-8197-2068ac993dec";
         private static string NewClaimValue = "NewClaimValue";
 
         private static ServiceProvider? _serviceProvider;
