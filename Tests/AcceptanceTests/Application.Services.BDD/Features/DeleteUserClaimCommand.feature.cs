@@ -144,8 +144,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 7
- await testRunner.GivenAsync("an DeleteUserClaimRequest with UserName \"TestUser\" with UserId: \"90bcee8a-5120-44" +
-                        "53-afad-6aeff61aa6f9\", ClaimType: \"Version\", ClaimValue: \"2.0.1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("an DeleteUserClaimRequest with UserName \"TestUser\" with UserId: \"daca6f11-8ca8-4c" +
+                        "d9-8197-2068ac993dec\", ClaimType: \"Version\", ClaimValue: \"2.0.1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
  await testRunner.WhenAsync("DeleteUserClaim(Handle) is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
