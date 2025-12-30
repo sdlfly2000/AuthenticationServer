@@ -46,8 +46,6 @@ namespace Infra.Database.Persistors
         {
             _dbContext.Update(user);
 
-            user.Claims.Select(claim => _dbContext.Update(claim));
-
             var result = await _dbContext.SaveChangesAsync();
 
             return new DomainResult<UserReference>()

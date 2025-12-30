@@ -54,6 +54,22 @@ namespace AuthService.Controllers
                 : Problem(response.Message);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteUserClaim([FromQuery] string id, [FromBody] DeleteUserClaimRequestModel request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await _eventBus.Send<DeleteUserClaimRequest, DeleteUserClaimResponse>(
+                new DeleteUserClaimRequest(id, request.ClaimType.TypeName, request.Value));
+
+            return response.Success
+                ? Ok()
+                : Problem(response.ErrorMessage);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
         {

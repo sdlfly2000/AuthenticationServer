@@ -11,14 +11,14 @@
 #region Designer generated code
 #pragma warning disable
 using Reqnroll;
-namespace Application.Gateway.BDD.User
+namespace Application.Services.BDD.Features
 {
     
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
-    public partial class UserRegisterFeature
+    public partial class DeleteUserClaimFeature
     {
         
         private global::Reqnroll.ITestRunner testRunner;
@@ -27,9 +27,9 @@ namespace Application.Gateway.BDD.User
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "User", "User Register", "User Register", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Delete User Claim", "DeleteUserClaimCommandHandler: Delete User Claim by UserName and Claim", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
-#line 1 "UserRegister.feature"
+#line 1 "DeleteUserClaimCommand.feature"
 #line hidden
         
         public virtual Microsoft.VisualStudio.TestTools.UnitTesting.TestContext TestContext
@@ -115,40 +115,27 @@ namespace Application.Gateway.BDD.User
             await testRunner.CollectScenarioErrorsAsync();
         }
         
-        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
-        {
-#line 5
-#line hidden
-#line 6
- await testRunner.GivenAsync("Connect to Database \"IdentityTest\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 7
- await testRunner.AndAsync("Connect to MessageBus with host: \"rabbitmq.activator.com\", Port: 5672, vhost: \"BD" +
-                    "D\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-        }
-        
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("User/UserRegister.feature.ndjson", 4);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/DeleteUserClaimCommand.feature.ndjson", 3);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="User Registration Successful")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("User Registration Successful")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "User Register")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="Delete User Claim Successful")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete User Claim Successful")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete User Claim")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserRegistrationSuccessfull")]
-        public async global::System.Threading.Tasks.Task UserRegistrationSuccessful()
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("DeleteUserClaimSuccessful")]
+        public async global::System.Threading.Tasks.Task DeleteUserClaimSuccessful()
         {
             string[] tagsOfScenario = new string[] {
                     "UserAcceptanceTest",
-                    "UserRegistrationSuccessfull"};
+                    "DeleteUserClaimSuccessful"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Registration Successful", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete User Claim Successful", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 10
+#line 6
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -158,63 +145,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 5
-await this.FeatureBackgroundAsync();
+#line 7
+ await testRunner.GivenAsync("an DeleteUserClaimRequest with UserName \"TestUser\" with UserId: \"daca6f11-8ca8-4c" +
+                        "d9-8197-2068ac993dec\", ClaimType: \"Version\", ClaimValue: \"2.0.1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 11
- await testRunner.GivenAsync("UserName: \"TestName\", Password: \"123456\", DisplayName: \"Test 1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 8
+ await testRunner.WhenAsync("DeleteUserClaim(Handle) is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 12
- await testRunner.WhenAsync("Register", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 13
- await testRunner.ThenAsync("User \"TestName\" is registered successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 14
- await testRunner.AndAsync("UserRegisteredEvent with DisplayName \"Test 1\" has been delivered to MessageBus", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="User Registration Failed due to Existing User")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("User Registration Failed due to Existing User")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "User Register")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.IgnoreAttribute()]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserRegistrationFailure")]
-        public async global::System.Threading.Tasks.Task UserRegistrationFailedDueToExistingUser()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "UserAcceptanceTest",
-                    "UserRegistrationFailure",
-                    "Ignore"};
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Registration Failed due to Existing User", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 18
-this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 5
-await this.FeatureBackgroundAsync();
-#line hidden
-#line 19
- await testRunner.GivenAsync("UserName: \"TestNameFailed\", Password: \"123456\", DisplayName: \"Test 2\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 20
- await testRunner.WhenAsync("Register", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 21
- await testRunner.ThenAsync("User \"TestName\" is registered unsuccessfully due to User already exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 9
+ await testRunner.ThenAsync("the response should indicate successful claim deletion", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
