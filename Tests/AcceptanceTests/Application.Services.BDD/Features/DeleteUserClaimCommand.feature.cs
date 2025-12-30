@@ -124,10 +124,12 @@ namespace Application.Services.BDD.Features
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete User Claim Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete User Claim")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("DeleteUserClaimSuccessful")]
         public async global::System.Threading.Tasks.Task DeleteUserClaimSuccessful()
         {
             string[] tagsOfScenario = new string[] {
-                    "UserAcceptanceTest"};
+                    "UserAcceptanceTest",
+                    "DeleteUserClaimSuccessful"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Delete User Claim Successful", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);

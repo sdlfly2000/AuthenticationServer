@@ -25,8 +25,8 @@ public class DeleteUserClaimStepDefinitions
         _handler = handler;
     }
 
-    [BeforeScenario]
-    public async Task BeforeSenario()
+    [BeforeScenario("DeleteUserClaimSuccessful")]
+    public async Task BeforeScenario()
     {
         // Add a Claim to user, with value version 2.0.1
         await _dbContext.Database.ExecuteSqlRawAsync($"INSERT INTO [IdentityTest].[dbo].[Claim] (ClaimId, UserId, Name, Value, ValueType) VALUES ('{ClaimId}', '{UserId}', '{ClaimTypes.Version}', '2.0.1', '{ClaimValueTypes.String}')").ConfigureAwait(false);
