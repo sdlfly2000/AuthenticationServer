@@ -4,9 +4,12 @@
 flowchart TB
     subgraph main [<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:60em'>Application.Service.DeleteUserClaimCommandHandler</div>]
         direction TB
-        start((Start)) 
-
-
+        start((Start)) -->
+        FindUser[Find User By UserId] -->
+        check1{Found?} --"no"-->
+        userNotFound["Throw Not found exception"]      
+        check1 --"yes"--> userFound["Delete Claim from User"] -->
+        updateDatabase[Save to Database] -->
         return[AuthenticateResponse] -->
         terminal(End)
     end
@@ -40,7 +43,7 @@ classDiagram
 
     class DeleteUserClaimCommandHandler {
         - userPersistor: IUserPersistor
-        - busService: IBusService
+        - userRepository: IUserRepository
         - serviceProvider: IServiceProvider
         + Handle(request: RegisterUserRequest): RegisterUserResponse
     }
