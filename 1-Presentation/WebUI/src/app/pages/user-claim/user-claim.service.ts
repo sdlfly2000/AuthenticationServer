@@ -23,6 +23,10 @@ export class UserClaimService {
     return this.httpClient.post<string>(this.BaseUrl + "api/ClaimManager/UpdateUserClaim?id=" + UserId, JSON.stringify(UserClaim), { headers: this.httpHeaders });
   }
 
+  DeleteUserClaim(UserId: string, UserClaim: UserClaim): Observable<string> {
+    return this.httpClient.post<string>(this.BaseUrl + "api/ClaimManager/DeleteUserClaim?id=" + UserId, JSON.stringify(UserClaim), { headers: this.httpHeaders });
+  }
+
   AddUserClaim(UserId: string, UserClaim: UserClaim): Observable<string> {
     return this.httpClient.post<string>(this.BaseUrl + "api/ClaimManager/AddUserClaim?id=" + UserId, JSON.stringify(UserClaim), { headers: this.httpHeaders });
   }

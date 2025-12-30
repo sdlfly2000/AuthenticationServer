@@ -71,6 +71,22 @@ export class UserClaimComponent implements OnInit{
     this.ShowUpdateClaimDialog(true);
   }
 
+  DeleteClaim(userClaim: UserClaim): void {
+      this.userClaimService.DeleteUserClaim(this.UserId!, userClaim).subscribe({
+      complete: () => {
+        this.ngOnInit();
+      },
+      error: (errReponse) => {
+        if (errReponse instanceof HttpErrorResponse) {
+          this.statusMessageService.StatusMessage = new StatusMessageModel(errReponse.message, EnumInfoSeverity.Error);
+        }
+      },
+      next: () => {
+        this.statusMessageService.StatusMessage = new StatusMessageModel("Successfully delete a Claim", EnumInfoSeverity.Info);
+      }
+    });
+  }
+
   UpdateClaim(): void {
     this.userClaimService.UpdateUserClaim(this.UserId!, this.UserClaimSelected).subscribe({
       complete: () => {
