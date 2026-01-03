@@ -4,7 +4,6 @@ using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
-using Infra.Core.CatchException;
 using Infra.Core.LogTrace;
 
 namespace Application.Services.User.CommandHandlers
@@ -23,8 +22,7 @@ namespace Application.Services.User.CommandHandlers
             _serviceProvider = serviceProvider;
         }
 
-        [LogTrace]
-        [CatchAppException(returnType: typeof(AddUserClaimResponse))]
+        [LogTrace(returnType: typeof(AddUserClaimResponse))]
         public async Task<AddUserClaimResponse> Handle(AddUserClaimRequest request)
         {
             var user = await _userRepository.Find((UserReference)request.UserId);

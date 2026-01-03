@@ -3,7 +3,6 @@ using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
-using Infra.Core.CatchException;
 using Infra.Core.LogTrace;
 
 namespace Application.Services.User.Queries
@@ -20,8 +19,7 @@ namespace Application.Services.User.Queries
             _serviceProvider = serviceProvider;
         }
 
-        [LogTrace]
-        [CatchAppException(returnType: typeof(GetUserByIdResponse))]
+        [LogTrace(returnType: typeof(GetUserByIdResponse))]
         public async Task<GetUserByIdResponse> Handle(GetUserByIdRequest request)
         {
             var user = await _userRepository.Find(UserReference.Create(request.userId));

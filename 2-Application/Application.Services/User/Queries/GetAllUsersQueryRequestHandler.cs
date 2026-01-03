@@ -18,7 +18,7 @@ namespace Application.Services.User.Queries
             _serviceProvider = serviceProvider;
         }
 
-        [LogTrace]
+        [LogTrace(returnType: typeof(GetAllUsersQueryResponse))]
         public async Task<GetAllUsersQueryResponse> Handle(GetAllUsersQueryRequest request)
         {
             var users = await _userRepository.GetAllUsers();

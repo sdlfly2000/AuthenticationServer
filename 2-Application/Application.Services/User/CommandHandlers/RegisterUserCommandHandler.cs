@@ -23,7 +23,7 @@ namespace Application.Services.User.Commands
             _serviceProvider = serviceProvider;
         }
 
-        [LogTrace]
+        [LogTrace(returnType: typeof(RegisterUserResponse))]
         public async Task<RegisterUserResponse> Handle(RegisterUserRequest request)
         {
             var domainResult = await _userPersistor.Add(new Domain.User.Entities.User(request.UserName)

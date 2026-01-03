@@ -18,7 +18,6 @@ namespace Infra.Core.MessageQueue.RabbitMQ.Services
             _serviceProvider = serviceProvider;
         }
 
-        [LogTrace]
         public async Task Publish<TMessage>(TMessage message, string routingKey) where TMessage : DomainEvent
         {
             var exchange = await CreateExchangeIfNotExist(message.GetType().Name);

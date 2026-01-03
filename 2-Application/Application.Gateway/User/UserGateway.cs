@@ -3,7 +3,6 @@ using Application.Services.User.ReqRes;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core;
-using Infra.Core.CatchException;
 using Infra.Core.LogTrace;
 
 
@@ -22,8 +21,7 @@ namespace Application.Gateway.User
             _serviceProvider = serviceProvider;
         }
 
-        [LogTrace]
-        [CatchAppException(returnType: typeof(RegisterUserResponse))]
+        [LogTrace(returnType: typeof(RegisterUserResponse))]
         public async Task<RegisterUserResponse> Register(RegisterUserRawRequest request, CancellationToken token)
         {
             var pwdExtracted = PasswordHelper.ExtractPwdWithTimeVerification(request.rawPassword) ?? string.Empty; 
