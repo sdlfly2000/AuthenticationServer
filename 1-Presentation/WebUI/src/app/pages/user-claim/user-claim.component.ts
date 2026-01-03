@@ -112,7 +112,7 @@ export class UserClaimComponent implements OnInit{
       },
       error: (errReponse) => {
         if (errReponse instanceof HttpErrorResponse) {
-          this.statusMessageService.StatusMessage = new StatusMessageModel(errReponse.message, EnumInfoSeverity.Error);
+          this.statusMessageService.StatusMessage = new StatusMessageModel(errReponse.error.detail, EnumInfoSeverity.Error);
         }
       },
       next: () => {

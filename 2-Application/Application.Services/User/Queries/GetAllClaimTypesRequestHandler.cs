@@ -17,7 +17,7 @@ namespace Application.Services.User.Queries
             _serviceProvider = serviceProvider;
         }
 
-        [LogTrace]
+        [LogTrace(returnType: typeof(GetClaimTypesResponse))]
         public async Task<GetClaimTypesResponse> Handle(GetClaimTypesRequest request)
         {
             var claimTypeValues = typeof(ClaimTypes).GetFields().Where(type => type.IsPublic && type.IsStatic)

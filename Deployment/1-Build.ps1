@@ -1,5 +1,5 @@
 # Build AngularPresentation
-Write-Host "Building AngularPresentation" -ForegroundColor DarkCyan
+Write-Host "Building AuthService - WebUI" -ForegroundColor DarkCyan
 pushd ../1-Presentation/WebUI/
 ng build --configuration=production --output-path ../../Build/AuthService/wwwroot --delete-output-path
 popd

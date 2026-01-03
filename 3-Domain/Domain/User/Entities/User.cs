@@ -39,6 +39,12 @@ namespace Domain.User.Entities
         {
             var claim = new Claim(name, value, valueType);
             claim.AssignUser(_id);
+            
+            if(Claims.Any(c => c.Name.Equals(claim.Name)))
+            {
+                throw new InvalidOperationException($"Failure of adding Claim, Claim with Name: {name} already exists for user: {_id}.");
+            }
+
             Claims.Add(claim);
         }
 

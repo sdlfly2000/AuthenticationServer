@@ -6,5 +6,5 @@ namespace Application.Services.User.ReqRes
 
     public record GetClaimTypesResponse(string Message, bool Success, IList<ClaimTypeValues> ClaimTypes) : IResponse;
 
-    public record ClaimTypeValues(string TypeShortName, string? TypeName);
+    public record ClaimTypeValues(string TypeShortName, string TypeName);
 }
