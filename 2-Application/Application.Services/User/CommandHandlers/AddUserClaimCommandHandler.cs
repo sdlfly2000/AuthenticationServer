@@ -28,7 +28,8 @@ namespace Application.Services.User.CommandHandlers
         public async Task<AddUserClaimResponse> Handle(AddUserClaimRequest request)
         {
             var user = await _userRepository.Find((UserReference)request.UserId);
-            user!.AddClaim(request.ClaimType, request.ClaimValue);
+
+            user.AddClaim(request.ClaimType, request.ClaimValue);
 
             var updateResult = await _userPersistor.Update(user);
 
