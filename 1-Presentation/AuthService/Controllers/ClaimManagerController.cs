@@ -28,7 +28,7 @@ namespace AuthService.Controllers
             }
 
             var response = await _eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(
-                new AddUserClaimRequest(id, request.claimType.TypeName, request.value));
+                new AddUserClaimRequest(id, request.ClaimType.TypeName, request.Value));
 
             if (!response.Success) 
             { 
