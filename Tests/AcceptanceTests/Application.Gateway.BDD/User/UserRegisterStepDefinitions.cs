@@ -8,6 +8,7 @@ using EasyNetQ.Topology;
 using Infra.Database;
 using Microsoft.EntityFrameworkCore;
 using Reqnroll;
+using System.Security.Claims;
 using System.Text;
 
 namespace Application.Gateway.BDD.User
@@ -107,6 +108,14 @@ namespace Application.Gateway.BDD.User
             _userRegistered = users.Single(u => u.UserName == userName);
 
             Assert.IsNotNull(_userRegistered);
+        }
+
+        [Then("Claim NameIdentifier assigned to User {string} with its UserId")]
+        public void ThenClaimNameIdentifierAssignedToUserWithItsUserId(string userName)
+        {
+            Assert.IsTrue(_userRegistered.Claims.Any(c => 
+                c.Name.Equals(ClaimTypes.NameIdentifier) && 
+                c.Value.Equals(_userRegistered.Id.Code)));
         }
 
         [Then("UserRegisteredEvent with DisplayName {string} has been delivered to MessageBus")]

@@ -11,6 +11,7 @@ Scenario: User Registration Successful
 	Given UserName: "TestName", Password: "123456", DisplayName: "Test 1"
 	When Register
 	Then User "TestName" is registered successfully
+	Then Claim NameIdentifier assigned to User "TestName" with its UserId
 	And UserRegisteredEvent with DisplayName "Test 1" has been delivered to MessageBus
 
 @UserAcceptanceTest @UserRegistrationFailure
