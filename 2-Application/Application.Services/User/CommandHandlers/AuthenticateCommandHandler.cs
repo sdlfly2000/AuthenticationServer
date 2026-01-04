@@ -44,11 +44,6 @@ namespace Application.Services.User.CommandHandlers
 
             var user = await _userRepository.FindUserByUserNamePwd(request.UserName, passwordEncry);
 
-            if(user == null)
-            {
-                return new AuthenticateResponse("User Name or Password does not match.", false);
-            }
-
             var claims = user.Claims.Select(claim => new Claim(claim.Name, claim.Value, claim.ValueType)).ToList();
 
             claims.Add(new Claim(ClaimTypes.UserData, request.UserAgent));

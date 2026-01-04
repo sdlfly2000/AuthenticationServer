@@ -17,6 +17,8 @@ flowchart TB
 
         subgraph insert_user_database[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:48em'>Application.Services.User.Commands.RegisterUserCommandHandler</div>]
             direction TB
+            NewUser["New a ***User***"] -->
+            AddNameIdentifier["Add a ***NameIdentifier*** ***Claim*** to the new ***User***"] -->
             InsertUser["`Insert ***User*** with Repository`"]
             PublishUserMessage["`Publish ***UserRegisterdEvent*** to MessageBus`"]
         end
@@ -25,7 +27,7 @@ flowchart TB
     end_overall(end)
 
     %%{relationship}%%
-    start_overall --> PwdExtraction -->
+    start_overall --> PwdExtraction --> NewUser
     InsertUser --> PublishUserMessage -->
     end_overall
 
@@ -33,4 +35,46 @@ flowchart TB
     style user_register stroke-dasharray: 5 5;
     style password_extraction_verification stroke-dasharray: 5 5;
     style insert_user_database stroke-dasharray: 5 5;        
+```
+
+---
+
+```mermaid
+---
+config:
+    class:
+        hideEmptyMembersBox: true
+---
+
+classDiagram
+    %%{Class Definition}%%
+
+    class UserGateway {
+        - userPersistor: IUserPersistor
+        - userRepository: IUserRepository
+        - serviceProvider: IServiceProvider
+        + Register(request: RegisterUserRawRequest): RegisterUserResponse
+    }
+
+    class AppResponse {
+        <<abstract>>
+        + ErrorMessage: string
+        + Success: bool
+    }
+
+    class RegisterUserRawRequest { 
+        + UserName: string
+        + rawPassword: string
+        + DisplayName: string
+    }
+
+    class RegisterUserResponse {
+
+    }
+
+    %%{Class Relationship}%%
+    UserGateway --  RegisterUserRawRequest : use
+    UserGateway --  RegisterUserResponse : use
+    AppResponse <|-- RegisterUserResponse
+
 ```

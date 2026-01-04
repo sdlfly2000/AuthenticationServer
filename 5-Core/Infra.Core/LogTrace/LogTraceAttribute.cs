@@ -48,15 +48,13 @@ namespace Infra.Core.LogTrace
             {
                 logger?.Error(ex, $"Trace Id: {{TraceId}}, Executed fail {{MetricExecutionTargetFailure}}.", requestTraceService?.TraceId, context.Target);
                 
-                if (ReturnType is not null)
-                {
-                    var response = Activator.CreateInstance(ReturnType, ex.Message, false);
-                    context.ReturnValue = Task.FromResult(response);
-                }
-                else
+                if (ReturnType is null)
                 {
                     throw;
                 }
+
+                var response = Activator.CreateInstance(ReturnType, ex.Message, false);
+                context.ReturnValue = Task.FromResult(response);
             }
             finally
             {

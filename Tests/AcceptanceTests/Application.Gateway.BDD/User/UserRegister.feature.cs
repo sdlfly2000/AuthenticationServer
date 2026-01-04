@@ -171,6 +171,9 @@ await this.FeatureBackgroundAsync();
  await testRunner.ThenAsync("User \"TestName\" is registered successfully", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 14
+ await testRunner.ThenAsync("Claim NameIdentifier assigned to User \"TestName\" with its UserId", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 15
  await testRunner.AndAsync("UserRegisteredEvent with DisplayName \"Test 1\" has been delivered to MessageBus", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -194,7 +197,7 @@ await this.FeatureBackgroundAsync();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Registration Failed due to Existing User", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 18
+#line 19
 this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -207,13 +210,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 19
+#line 20
  await testRunner.GivenAsync("UserName: \"TestNameFailed\", Password: \"123456\", DisplayName: \"Test 2\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 20
+#line 21
  await testRunner.WhenAsync("Register", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 22
  await testRunner.ThenAsync("User \"TestName\" is registered unsuccessfully due to User already exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

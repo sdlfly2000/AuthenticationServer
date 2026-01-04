@@ -1,4 +1,4 @@
-# Application.Service.RegisterUserCommandHandler
+# Application.Service.RegisterUserCommandHandler (Deprecated)
 
 ```mermaid
 ---

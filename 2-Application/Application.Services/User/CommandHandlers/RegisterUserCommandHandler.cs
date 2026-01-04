@@ -6,6 +6,7 @@ using Domain.User.Persistors;
 using Infra.Core;
 using Infra.Core.LogTrace;
 using Infra.Core.MessageQueue.RabbitMQ.Services;
+using System.Security.Claims;
 
 namespace Application.Services.User.Commands
 {
@@ -26,11 +27,15 @@ namespace Application.Services.User.Commands
         [LogTrace(returnType: typeof(RegisterUserResponse))]
         public async Task<RegisterUserResponse> Handle(RegisterUserRequest request)
         {
-            var domainResult = await _userPersistor.Add(new Domain.User.Entities.User(request.UserName)
+            var newUser = new Domain.User.Entities.User(request.UserName)
             {
                 DisplayName = request.DisplayName,
                 PasswordHash = PasswordHelper.EncryptoPassword(request.Password)
-            });
+            };
+
+            newUser.AddClaim(ClaimTypes.NameIdentifier, newUser.Id.Code);
+            
+            var domainResult = await _userPersistor.Add(newUser);
 
             if (domainResult.Success)
             {
