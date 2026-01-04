@@ -1,44 +1,40 @@
 # Application.Service.AddUserClaimCommandHandler
 
 ```mermaid
----
-config:
-    layout: elk
----
 
 flowchart TB 
 
+    subgraph mainExceptions [<div style='display:flex; justify-content:flex-start; align-items:flex-start;'>Exceptions</div>]
+        direction TB
+        UserNotFound["Throw Not Found / Not Single Exception"] ~~~
+        DuplicatedClaim["Throw duplicated Exception [InvalidOperationException]"] 
+    end
+
     start_overall((start))
 
-    subgraph mainprocess[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:70em'>Application.Service.AddUserClaimCommandHandler</div>]
+    subgraph mainprocess[Application.Service.AddUserClaimCommandHandler]
         direction TB            
 
-        subgraph subprocess0 [<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:58em'>Infra.Database.Repositories.UserRepository.Find</div>]
+        subgraph subprocess0 [Infra.Database.Repositories.UserRepository.Find]
             direction TB
             
             FindUser["Find ***User*** By ***UserReference***"] -->
             check1{Found and Single?} 
         end       
 
-        subgraph subprocess1 [<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:58em'>Domain.User.Entities.User.AddClaim</div>]
+        subgraph subprocess1 [Domain.User.Entities.User.AddClaim]
             direction TB
             userFound{"Duplicated ***Name*** of ***Claim*** in ***User***?"}
             userFound --"no"-->       
             AddClaim["Add ***Claim*** to ***User***"]    
         end
 
-        subgraph subprocess2 [<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:58em'>Infra.Database.Persistors.UserPersistor.Update</div>]
+        subgraph subprocess2 [Infra.Database.Persistors.UserPersistor.Update]
             direction TB
             updateDatabase["Persist/Update to Database"]
         end
 
         return["return AddUserClaimResponse"]
-    end
-
-    subgraph mainExceptions [<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:60em'>Exceptions</div>]
-        direction TB
-        UserNotFound["Throw Not Found / Not Single Exception"]
-        DuplicatedClaim["Throw duplicated Exception [InvalidOperationException]"] 
     end
 
     end_overall(end)    
