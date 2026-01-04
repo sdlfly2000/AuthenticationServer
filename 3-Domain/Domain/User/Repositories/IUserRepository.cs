@@ -8,6 +8,6 @@ namespace Domain.User.Repositories
 
         Task<List<Entities.User>> GetAllUsers();
 
-        Task<Entities.User?> FindUserByUserNamePwd(string userName, string passwordHash);
+        Task<Entities.User> FindUserByUserNamePwd(string userName, string passwordHash);
     }
 }
