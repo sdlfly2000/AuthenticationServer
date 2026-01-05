@@ -43,7 +43,7 @@ namespace Domain.Tests.User.Entities
             _user.AddClaim(claimName, claimValue);
 
             // Assert
-            Assert.AreEqual(2, _user.Claims.Count);
+            Assert.HasCount(2, _user.Claims);
             Assert.IsTrue(_user.Claims.Any(claim => claim.Value.Equals(claimValue)));
             Assert.IsTrue(_user.Claims.Any(claim => claim.Name.Equals(claimName)));
         }
@@ -59,7 +59,7 @@ namespace Domain.Tests.User.Entities
             _user.UpdateClaim(claimName, claimValue);
 
             // Assert
-            Assert.AreEqual(1, _user.Claims.Count);
+            Assert.HasCount(1, _user.Claims);
             Assert.IsTrue(_user.Claims.Any(claim => claim.Value.Equals(claimValue)));
             Assert.IsTrue(_user.Claims.Any(claim => claim.Name.Equals(claimName)));
         }

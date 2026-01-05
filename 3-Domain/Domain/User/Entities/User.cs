@@ -50,14 +50,14 @@ namespace Domain.User.Entities
 
         public void UpdateClaim(string name, string value)
         {
-            var claim = Claims.Single(claim => claim.Name.Equals(name) && claim.IsFixed == true);
+            var claim = Claims.Single(claim => claim.Name.Equals(name) && claim.IsFixed == false);
             claim!.SetValue(value);
         }
 
         public bool DeleteClaim(string typeName, string value)
         {
             var claimToDelete = Claims
-                .Single(c => c.Name.Equals(typeName) && c.Value.Equals(value) && c.IsFixed == true);
+                .Single(c => c.Name.Equals(typeName) && c.Value.Equals(value) && c.IsFixed == false);
 
             return Claims.Remove(claimToDelete);
         } 

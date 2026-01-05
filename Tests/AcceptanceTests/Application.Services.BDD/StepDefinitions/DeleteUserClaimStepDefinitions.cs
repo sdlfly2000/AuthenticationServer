@@ -29,7 +29,7 @@ public class DeleteUserClaimStepDefinitions
     public async Task BeforeScenario()
     {
         // Add a Claim to user, with value version 2.0.1
-        await _dbContext.Database.ExecuteSqlRawAsync($"INSERT INTO [IdentityTest].[dbo].[Claim] (ClaimId, UserId, Name, Value, ValueType) VALUES ('{ClaimId}', '{UserId}', '{ClaimTypes.Version}', '2.0.1', '{ClaimValueTypes.String}')").ConfigureAwait(false);
+        await _dbContext.Database.ExecuteSqlRawAsync($"INSERT INTO [IdentityTest].[dbo].[Claim] (ClaimId, UserId, Name, Value, IsFixed) VALUES ('{ClaimId}', '{UserId}', '{ClaimTypes.Version}', '2.0.1', 0)").ConfigureAwait(false);
     }
 
     [Given("an DeleteUserClaimRequest with UserName {string} with UserId: {string}, ClaimType: {string}, ClaimValue: {string}")]
