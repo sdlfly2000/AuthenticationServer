@@ -33,7 +33,7 @@ namespace Application.Services.User.Commands
                 PasswordHash = PasswordHelper.EncryptoPassword(request.Password)
             };
 
-            newUser.AddClaim(ClaimTypes.NameIdentifier, newUser.Id.Code);
+            newUser.AddClaim(ClaimTypes.NameIdentifier, newUser.Id.Code, true);
             
             var domainResult = await _userPersistor.Add(newUser);
 

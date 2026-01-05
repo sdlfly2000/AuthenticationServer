@@ -44,7 +44,7 @@ namespace Application.Services.User.CommandHandlers
 
             var user = await _userRepository.FindUserByUserNamePwd(request.UserName, passwordEncry);
 
-            var claims = user.Claims.Select(claim => new Claim(claim.Name, claim.Value, claim.ValueType)).ToList();
+            var claims = user.Claims.Select(claim => new Claim(claim.Name, claim.Value, ClaimValueTypes.String)).ToList();
 
             claims.Add(new Claim(ClaimTypes.UserData, request.UserAgent));
 

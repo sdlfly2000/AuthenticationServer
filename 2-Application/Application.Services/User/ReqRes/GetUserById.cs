@@ -7,6 +7,10 @@ namespace Application.Services.User.ReqRes
 
     public record GetUserByIdResponse: AppResponse, IResponse
     {
+        public GetUserByIdResponse(string Message, bool Success) : base(Message, Success)
+        {
+        }
+
         public GetUserByIdResponse(string Message, bool Success, Domain.User.Entities.User? user) : base(Message, Success)
         {
             User = user;

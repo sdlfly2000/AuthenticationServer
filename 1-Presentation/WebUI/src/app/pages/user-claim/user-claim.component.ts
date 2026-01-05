@@ -36,10 +36,11 @@ export class UserClaimComponent implements OnInit{
 
   UserClaimSelected: UserClaim = {
     claimType: {
-        typeShortName: '',
-        typeName: ''
+      typeShortName: '',
+      typeName: ''
     },
-    value: ''
+    value: '',
+    isFixed: false
   };
   
   NewUserClaim: UserClaim = {
@@ -48,6 +49,7 @@ export class UserClaimComponent implements OnInit{
         typeName: ''
     },
     value: "",
+    isFixed: false
   };  
 
   constructor(
@@ -130,6 +132,7 @@ export class UserClaimComponent implements OnInit{
           typeName: ''
         },
         value: "",
+        isFixed: false
       };
     }
   }
@@ -143,6 +146,7 @@ export class UserClaimComponent implements OnInit{
           typeName: ''
         },
         value: "",
+        isFixed: false
       };
     }
   }
@@ -154,6 +158,7 @@ export class UserClaimComponent implements OnInit{
         typeName: userClaim.claimType.typeName
       },
       value: userClaim.value,
+      isFixed: userClaim.isFixed
     };  
   }
 }

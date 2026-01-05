@@ -88,7 +88,9 @@ namespace AuthService.Controllers
             var userClaims = userResponse.User!.Claims.Select(claim => 
                 new UserClaimModel { 
                     ClaimType = new ClaimTypeValues(TypeShortName: claim.Name.Split('/').Last(), TypeName: claim.Name), 
-                    Value = claim.Value });
+                    Value = claim.Value,
+                    IsFixed = claim.IsFixed
+                });
 
             return Ok(userClaims);
         }

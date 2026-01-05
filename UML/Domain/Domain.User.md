@@ -27,7 +27,7 @@ classDiagram
         <<ValueObject>>
         + Name: string
         + Value: string
-        + ValueType: string
+        + IsFixed: bool
     }
 
     class UserRegisterdEvent {

@@ -35,9 +35,9 @@ namespace Domain.User.Entities
             return new User(userName);
         }
 
-        public void AddClaim(string name, string value, string valueType = System.Security.Claims.ClaimValueTypes.String)
+        public void AddClaim(string name, string value, bool isFixed = false)
         {
-            var claim = new Claim(name, value, valueType);
+            var claim = new Claim(name, value, isFixed);
             claim.AssignUser(_id);
             
             if(Claims.Any(c => c.Name.Equals(claim.Name)))
@@ -50,14 +50,14 @@ namespace Domain.User.Entities
 
         public void UpdateClaim(string name, string value)
         {
-            var claim = Claims.SingleOrDefault(claim => claim.Name.Equals(name));
+            var claim = Claims.Single(claim => claim.Name.Equals(name) && claim.IsFixed == true);
             claim!.SetValue(value);
         }
 
         public bool DeleteClaim(string typeName, string value)
         {
             var claimToDelete = Claims
-                .Single(c => c.Name.Equals(typeName) && c.Value.Equals(value));
+                .Single(c => c.Name.Equals(typeName) && c.Value.Equals(value) && c.IsFixed == true);
 
             return Claims.Remove(claimToDelete);
         } 

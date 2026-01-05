@@ -1,15 +1,14 @@
 ﻿using Infra.Core.DomainBasics;
-using System.Security.Claims;
 
 namespace Domain.User.ValueObjects
 {
     public class Claim : DomainValueObject
     {
-        public Claim(string name, string value, string valueType = ClaimValueTypes.String)
+        public Claim(string name, string value, bool isFixed = false)
         {
             Name = name;
             Value = value;
-            ValueType = valueType;
+            IsFixed = isFixed;
 
             _id = Guid.NewGuid().ToString();
             _userId = string.Empty;
@@ -17,7 +16,7 @@ namespace Domain.User.ValueObjects
 
         public string Name { get; private set; }
         public string Value { get; private set; }
-        public string ValueType { get; private set; }
+        public bool IsFixed { get; private set; }
 
         #region Database Usage
 
