@@ -10,8 +10,10 @@
       </div>
       <div [style]="{width: '50%'}">   
         <input type="text" pInputText [id]="claim.claimType.typeName" class="user-claim-container-item-input" [value]="claim.value" disabled />
+        @if(claim.isFixed == false) {
         <p-button type="button" class="user-claim-container-item-button" (click)="UpdateSelected(claim)">Update</p-button>
         <p-button type="button" class="user-claim-container-item-button" (click)="DeleteClaim(claim)">Delete</p-button>
+        }
       </div>
     </div>
     }
