@@ -55,7 +55,7 @@ namespace Infra.Database.Tests.Persistors
             Assert.IsNotNull(userRepository);
 
             var user = await userRepository.Find((UserReference)"d3f2252e-6058-4d41-9de5-9d8c1f52abcb");
-            user!.AddClaim(ClaimTypes.Name, "Jay Shi", ClaimValueTypes.String);
+            user!.AddClaim(ClaimTypes.Name, "Jay Shi");
 
             // Action
             var result = await userPersistor.Update(user);
