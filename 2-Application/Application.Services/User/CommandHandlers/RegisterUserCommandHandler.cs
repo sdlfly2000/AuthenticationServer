@@ -1,5 +1,4 @@
-﻿using Application.Services.Events.Messages;
-using Application.Services.User.ReqRes;
+﻿using Application.Services.User.ReqRes;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
@@ -37,17 +36,6 @@ namespace Application.Services.User.Commands
             
             var domainResult = await _userPersistor.Add(newUser);
 
-            if (domainResult.Success)
-            {
-                await _busService.Publish(
-                    new UserRegisterdEvent
-                    {
-                        UserId = Guid.Parse(domainResult.Id.Code),
-                        DisplayName = request.DisplayName
-                    },
-                    UserRegisterdEvent.RoutingKeyRegister);
-            }
-            
             return new RegisterUserResponse(domainResult.Message, domainResult.Success);
         }
     }

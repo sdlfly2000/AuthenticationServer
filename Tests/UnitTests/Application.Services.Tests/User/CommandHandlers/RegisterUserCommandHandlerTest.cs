@@ -1,5 +1,4 @@
-﻿using Application.Services.Events.Messages;
-using Application.Services.User.Commands;
+﻿using Application.Services.User.Commands;
 using Application.Services.User.ReqRes;
 using Domain.User.Persistors;
 using Domain.User.ValueObjects;
@@ -46,10 +45,6 @@ namespace Application.Services.Tests.User.CommandHandlers
                     Message = string.Empty,
                     Success = true
                 }));
-
-            _busServiceMock
-                .Setup(p => p.Publish(It.IsAny<UserRegisterdEvent>(), It.IsAny<string>()))
-                .Returns(Task.CompletedTask);
 
             _registerUserCommandHandler = new RegisterUserCommandHandler(_userPersistorMock.Object, _busServiceMock.Object, _serviceProvider);
         }

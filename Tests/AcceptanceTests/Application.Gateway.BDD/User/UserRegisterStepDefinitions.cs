@@ -1,10 +1,7 @@
 using Application.Gateway.User;
 using Application.Gateway.User.Models;
-using Application.Services.Events.Messages;
 using Application.Services.User.ReqRes;
 using Domain.User.Repositories;
-using EasyNetQ;
-using EasyNetQ.Topology;
 using Infra.Database;
 using Microsoft.EntityFrameworkCore;
 using Reqnroll;
@@ -17,7 +14,6 @@ namespace Application.Gateway.BDD.User
     public class UserRegisterStepDefinitions
     {
         private readonly IdDbContext _dbContext;
-        private readonly IBus _messageBus;
         private readonly IUserGateway _userGateway;
         private readonly IUserRepository _userRepository;
 
@@ -31,11 +27,9 @@ namespace Application.Gateway.BDD.User
         public UserRegisterStepDefinitions(
             IUserGateway userGateway,
             IUserRepository userRepository,
-            IdDbContext dbContext, 
-            IBus messageBus)
+            IdDbContext dbContext)
         { 
             _dbContext = dbContext;
-            _messageBus = messageBus;
             _userGateway = userGateway;
             _userRepository = userRepository;
         }
@@ -43,25 +37,6 @@ namespace Application.Gateway.BDD.User
         [BeforeScenario]
         public async Task Initial()
         {
-            var bddQueueName = string.Concat(nameof(UserRegisterdEvent), "-", UserRegisterdEvent.RoutingKeyRegister);
-            
-            var bddQueue = await _messageBus.Advanced.QueueDeclareAsync(
-                bddQueueName,
-                (configuration) => configuration.AsDurable(true),
-                CancellationToken.None)
-                .ConfigureAwait(false);
-
-            var exchange = await _messageBus.Advanced.ExchangeDeclareAsync(
-                nameof(UserRegisterdEvent),
-                (configuration) => configuration.AsDurable(true).WithType(ExchangeType.Topic))
-                .ConfigureAwait(false);
-
-            await _messageBus.Advanced.BindAsync(exchange, bddQueue, UserRegisterdEvent.RoutingKeyRegister)
-                .ConfigureAwait(false);
-
-            _messageBus.Advanced.Consume(
-                bddQueue, 
-                OnRegisteredMessageReceiver);
         }
 
         [Given("Connect to Database {string}")]
@@ -73,11 +48,6 @@ namespace Application.Gateway.BDD.User
         [Given("Connect to MessageBus with host: {string}, Port: {int}, vhost: {string}")]
         public void GivenConnectToMessageBusWithHostPortVhost(string host, int port, string vhost)
         {
-            var msgBusConfigurations = _messageBus.Advanced.Container.Resolve<ConnectionConfiguration>();
-
-            Assert.AreEqual(host, msgBusConfigurations.Hosts.First().Host);
-            Assert.AreEqual(port, msgBusConfigurations.Hosts.First().Port);
-            Assert.AreEqual(vhost, msgBusConfigurations.VirtualHost);
         }
 
         [Given("UserName: {string}, Password: {string}, DisplayName: {string}")]
@@ -139,17 +109,6 @@ namespace Application.Gateway.BDD.User
                 _dbContext.Set<Domain.User.Entities.User>().Remove(_userRegistered);
                 await _dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
-        }
-
-        private async Task OnRegisteredMessageReceiver(ReadOnlyMemory<byte> body, MessageProperties properties, MessageReceivedInfo info)
-        {
-            var messageString = Encoding.UTF8.GetString(body.ToArray());
-            var messagePayload = Newtonsoft.Json.JsonConvert.DeserializeObject<UserRegisterdEvent>(messageString);
-
-            Assert.IsNotNull(messagePayload);
-
-            _userId = messagePayload.UserId;
-            _userDisplayName = messagePayload.DisplayName;
         }
     }
 }

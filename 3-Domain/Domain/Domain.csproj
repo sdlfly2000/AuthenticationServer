@@ -16,4 +16,8 @@
     <ProjectReference Include="..\..\5-Core\Infra.MessageQueue\Infra.Core.MessageQueue.RabbitMQ.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="User\Events\" />
+  </ItemGroup>
+
 </Project>

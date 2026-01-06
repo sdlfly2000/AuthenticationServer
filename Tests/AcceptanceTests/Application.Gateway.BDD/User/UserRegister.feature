@@ -4,7 +4,6 @@ User Register
 
 Background: 
 	Given Connect to Database "IdentityTest"
-	And Connect to MessageBus with host: "rabbitmq.activator.com", Port: 5672, vhost: "BDD"
 
 @UserAcceptanceTest @UserRegistrationSuccessfull
 Scenario: User Registration Successful
@@ -12,7 +11,6 @@ Scenario: User Registration Successful
 	When Register
 	Then User "TestName" is registered successfully
 	Then Claim NameIdentifier assigned to User "TestName" with its UserId
-	And UserRegisteredEvent with DisplayName "Test 1" has been delivered to MessageBus
 
 @UserAcceptanceTest @UserRegistrationFailure
 @Ignore
