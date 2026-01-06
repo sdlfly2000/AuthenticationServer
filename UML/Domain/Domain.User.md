@@ -30,13 +30,6 @@ classDiagram
         + IsFixed: bool
     }
 
-    class UserRegisterdEvent {
-        <<DomainEvent>>
-        + CreatedOnUTC: DateTime
-        + UserId: Guid
-        + UserName: string
-    }
-
     %%{{Relationship}}%%
     User --> UserReference : use
     User "1" --> "0..*" Claim
