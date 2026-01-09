@@ -3,7 +3,6 @@ using Application.Services.User.ReqRes;
 using Domain.User.Persistors;
 using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
-using Infra.Core.MessageQueue.RabbitMQ.Services;
 using Infra.Core.RequestTrace;
 using Infra.Core.Test;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +20,6 @@ namespace Application.Services.Tests.User.CommandHandlers
         private const string UserCode = "A898ABED-F8EE-4E7F-8E5A-8D408A6E16F0";
 
         private Mock<IUserPersistor> _userPersistorMock;
-        private Mock<IBusService> _busServiceMock;
         private IServiceProvider _serviceProvider;
 
         private RegisterUserCommandHandler _registerUserCommandHandler;
@@ -29,7 +27,6 @@ namespace Application.Services.Tests.User.CommandHandlers
         [TestInitialize]
         public void TestInitialize()
         {
-            _busServiceMock = new Mock<IBusService>();
             _userPersistorMock = new Mock<IUserPersistor>();
             
             var serviceCollection= new ServiceCollection();
@@ -46,7 +43,7 @@ namespace Application.Services.Tests.User.CommandHandlers
                     Success = true
                 }));
 
-            _registerUserCommandHandler = new RegisterUserCommandHandler(_userPersistorMock.Object, _busServiceMock.Object, _serviceProvider);
+            _registerUserCommandHandler = new RegisterUserCommandHandler(_userPersistorMock.Object, _serviceProvider);
         }
 
         [TestMethod, TestCategory(nameof(TestCategoryType.UnitTest))]

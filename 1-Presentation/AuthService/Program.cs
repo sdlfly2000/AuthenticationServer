@@ -1,7 +1,6 @@
 using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
-using Infra.Core.MessageQueue.RabbitMQ.Extentions;
 using Infra.Core.Middlewares;
 using Infra.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,9 +39,6 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
 
-// Add RabbitMQ support
-builder.Services.AddRabbitMQBus(builder.Configuration);
-
 // Add Local Cache Support
 builder.Services.AddMemoryCache();
 
@@ -51,7 +47,7 @@ builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
 
 // Register Services
 builder.Services
-    .RegisterDomain("AuthService", "Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services", "Application.Gateway")
+    .RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core", "Infra.Core", "Application.Services", "Application.Gateway")
     .RegisterNotifications("Application.Services");
 
 var app = builder.Build();

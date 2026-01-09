@@ -3,7 +3,6 @@ using Common.Core.CQRS;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Entities;
-using Infra.Core.MessageQueue.RabbitMQ.Extentions;
 using Infra.Core.Test;
 using Infra.Database;
 using Microsoft.EntityFrameworkCore;
@@ -37,16 +36,13 @@ namespace Application.Service.AutomationTest.CommandHandlers
 
             // Register Services
             serviceCollection
-                .RegisterDomain("Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services")
+                .RegisterDomain("Infra.Database", "Infra.Shared.Core", "Infra.Core", "Application.Services")
                 .RegisterNotifications("Application.Services");
 
             // Add Serilog
             serviceCollection.AddSerilog(
                 (configure) =>
                     configure.ReadFrom.Configuration(configuration));
-
-            // Add RabbitMQ support
-            serviceCollection.AddRabbitMQBus(configuration);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
 

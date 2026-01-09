@@ -31,7 +31,6 @@
     <ProjectReference Include="..\..\..\2-Application\Application.Services\Application.Services.csproj" />
     <ProjectReference Include="..\..\..\3-Domain\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\..\4-Infrastructure\Infra.Database\Infra.Database.csproj" />
-    <ProjectReference Include="..\..\..\5-Core\Infra.MessageQueue\Infra.Core.MessageQueue.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\..\5-Core\Infra.Shared.Core\Infra.Shared.Core.csproj" />
   </ItemGroup>
   

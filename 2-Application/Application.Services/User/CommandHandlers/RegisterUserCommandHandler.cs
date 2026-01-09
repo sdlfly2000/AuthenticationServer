@@ -4,7 +4,6 @@ using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
 using Infra.Core;
 using Infra.Core.LogTrace;
-using Infra.Core.MessageQueue.RabbitMQ.Services;
 using System.Security.Claims;
 
 namespace Application.Services.User.Commands
@@ -13,13 +12,11 @@ namespace Application.Services.User.Commands
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserRequest, RegisterUserResponse>
     {
         private readonly IUserPersistor _userPersistor;
-        private readonly IBusService _busService;
         private readonly IServiceProvider _serviceProvider;
 
-        public RegisterUserCommandHandler(IUserPersistor userPersistor, IBusService busService, IServiceProvider serviceProvider)
+        public RegisterUserCommandHandler(IUserPersistor userPersistor, IServiceProvider serviceProvider)
         {
             _userPersistor = userPersistor;
-            _busService = busService;
             _serviceProvider = serviceProvider;
         }
 

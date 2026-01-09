@@ -5,7 +5,6 @@ using Domain.User.Entities;
 using Domain.User.Persistors;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
-using Infra.Core.MessageQueue.RabbitMQ.Extentions;
 using Infra.Core.Test;
 using Infra.Database;
 using Microsoft.EntityFrameworkCore;
@@ -42,15 +41,12 @@ namespace Application.Service.AutomationTest.CommandHandlers
 
             // Register Services
             serviceCollection
-                .RegisterDomain("AuthService", "Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core", "Application.Services");
+                .RegisterDomain("AuthService", "Infra.Database", "Infra.Shared.Core", "Infra.Core", "Application.Services");
 
             // Add Serilog
             serviceCollection.AddSerilog(
                 (configure) =>
                     configure.ReadFrom.Configuration(configuration));
-
-            // Add RabbitMQ support
-            serviceCollection.AddRabbitMQBus(configuration);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
