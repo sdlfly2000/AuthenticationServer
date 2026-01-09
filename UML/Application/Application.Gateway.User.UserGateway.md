@@ -20,7 +20,6 @@ flowchart TB
             NewUser["New a ***User***"] -->
             AddNameIdentifier["Add a ***NameIdentifier*** ***Claim*** to the new ***User***"] -->
             InsertUser["`Insert ***User*** with Repository`"]
-            PublishUserMessage["`Publish ***UserRegisterdEvent*** to MessageBus`"]
         end
     end
 
@@ -28,7 +27,7 @@ flowchart TB
 
     %%{relationship}%%
     start_overall --> PwdExtraction --> NewUser
-    InsertUser --> PublishUserMessage -->
+    InsertUser --> 
     end_overall
 
     %% Custom Styles

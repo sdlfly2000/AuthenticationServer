@@ -1,7 +1,6 @@
 ﻿using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
-using Infra.Core.MessageQueue.RabbitMQ.Extentions;
 using Infra.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +26,7 @@ namespace Application.Services.BDD.Support
 
             // Register Services
             serviceCollection
-                .RegisterDomain("Application.Services", "Infra.Database", "Infra.Core.MessageQueue.RabbitMQ", "Infra.Shared.Core", "Infra.Core")
+                .RegisterDomain("Application.Services", "Infra.Database", "Infra.Shared.Core", "Infra.Core")
                 .RegisterNotifications("Application.Services");
 
             // Test Database
@@ -42,9 +41,6 @@ namespace Application.Services.BDD.Support
             serviceCollection.AddSerilog(
                 (configure) =>
                     configure.ReadFrom.Configuration(configuration));
-
-            // Add RabbitMQ support
-            serviceCollection.AddRabbitMQBus(configuration);
 
             return serviceCollection;
         }
