@@ -1,8 +1,17 @@
 ﻿using Common.Core.CQRS.Request;
+using Infra.Core.ApplicationBasics;
 
 namespace Application.Services.User.ReqRes
 {
-    public record GetAllUsersQueryRequest() : IRequest;
+    public record GetAllUsersQueryRequest() : AppRequest, IRequest;
 
-    public record GetAllUsersQueryResponse(string Message, bool Success, List<Domain.User.Entities.User> Users): IResponse;
+    public record GetAllUsersQueryResponse : AppResponse, IResponse
+    {
+        public GetAllUsersQueryResponse(string Message, bool Success, List<Domain.User.Entities.User> UsersInput) : base(Message, Success)
+        {
+            Users = UsersInput;
+        }
+
+        public List<Domain.User.Entities.User> Users { get; init; }
+    };
 }

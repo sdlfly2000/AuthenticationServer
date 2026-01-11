@@ -73,7 +73,7 @@ namespace AuthService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
             {
                 return BadRequest(ModelState);
             }

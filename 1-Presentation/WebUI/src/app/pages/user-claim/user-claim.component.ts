@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusMessageService, EnumInfoSeverity, StatusMessageModel } from '../../../services/statusmessage.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -56,8 +57,9 @@ export class UserClaimComponent implements OnInit{
       private route: ActivatedRoute,
       private router: Router,
       private userClaimService: UserClaimService,
-      private statusMessageService: StatusMessageService) {
-    this.UserId = this.route.snapshot.queryParamMap.get("userid");
+      private statusMessageService: StatusMessageService,
+      private authService: AuthService) {
+    this.UserId = this.route.snapshot.queryParamMap.get("userid") ?? this.authService.UserId;
   }
 
   ngOnInit(): void {
