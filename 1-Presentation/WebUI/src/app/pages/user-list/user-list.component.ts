@@ -24,6 +24,7 @@ export class UserListComponent implements OnInit{
 
     Users: UserModel[] = [];
     Users$: Observable<UserModel[]> | undefined;
+    SelectedUsers: UserModel[] = [];
 
     constructor(
         private userListService: UserListService,

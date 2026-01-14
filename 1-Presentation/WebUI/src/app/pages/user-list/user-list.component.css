@@ -5,15 +5,5 @@
     margin-bottom: 10px;
 }
 
-.dialog-add-claim-sec-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    width: 100%;
-}
-
-.dialog-add-claim-button {
-    margin-left: 10px;
-}
 
 /*------------------------*/
