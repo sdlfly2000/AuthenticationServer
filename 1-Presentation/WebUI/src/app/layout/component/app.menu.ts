@@ -33,7 +33,7 @@ export class AppMenu {
             {
                 label: 'User Management',
                 items: [
-                    { label: 'list', icon: 'pi pi-fw pi-id-card', routerLink: ['/app/list'] },
+                    { label: 'List', icon: 'pi pi-fw pi-id-card', routerLink: ['/app/list'] },
                 ]
             },
         ];
