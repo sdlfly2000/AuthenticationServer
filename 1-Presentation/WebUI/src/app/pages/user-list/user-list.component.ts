@@ -11,6 +11,7 @@ import { StatusMessageService, EnumInfoSeverity, StatusMessageModel } from '../.
 import { UserModel } from './models/UserModel';
 import { UserListService } from './user-list.service';
 import { AsyncPipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -33,10 +34,16 @@ export class UserListComponent implements OnInit{
 
     ngOnInit(): void {
         this.Users$ = this.userListService.GetAllUsers();
-        this.Users$.subscribe(users =>
-        {
-            this.Users = users;
-            this.IsLoading = false;
+        this.Users$.subscribe({
+            next: (users) => {
+                this.Users = users;
+                this.IsLoading = false;
+            },
+            error: (errorResponse) => {
+                if (errorResponse instanceof HttpErrorResponse) {
+                    this.statusMessageService.StatusMessage = new StatusMessageModel(errorResponse.message, EnumInfoSeverity.Error);
+                }
+            }
         });
     }
 

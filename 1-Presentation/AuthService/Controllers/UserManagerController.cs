@@ -45,7 +45,7 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("Users")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IEnumerable<User>> GetUsers()
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();
