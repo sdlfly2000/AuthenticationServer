@@ -5,14 +5,15 @@
     <div class="card">
         <p-table #UserTable
                  [value]="Users"
-                 dataKey="Id.Code"
+                 [(selection)]="SelectedUsers"
+                 selectionMode="multiple"
+                 dataKey="id.code"
                  [rows]="10"
                  [rowsPerPageOptions]="[10, 25, 50]"
                  [loading]="IsLoading"
                  [paginator]="true"
                  [globalFilterFields]="['userName', 'displayName']"
-                 [tableStyle]="{ 'min-width': '50rem' }">
-                 [(selection)]="SelectedUsers">
+                 [tableStyle]="{ 'min-width': '50rem' }" >
             <ng-template #caption>
                 <div class="flex">
                     <p-iconfield iconPosition="left" class="ml-auto">
