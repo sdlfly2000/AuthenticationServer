@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
@@ -23,8 +23,7 @@ export class UserListComponent implements OnInit{
     title = 'User List';
     IsLoading: boolean = true;
 
-    Users: UserModel[] = [];
-    Users$: Observable<UserModel[]> | undefined;
+    Users: WritableSignal<UserModel[]> = signal<UserModel[]>([]);
     SelectedUsers: UserModel[] = [];
 
     constructor(
@@ -33,10 +32,9 @@ export class UserListComponent implements OnInit{
     }
 
     ngOnInit(): void {
-        this.Users$ = this.userListService.GetAllUsers();
-        this.Users$.subscribe({
+        this.userListService.GetAllUsers().subscribe({
             next: (users) => {
-                this.Users = users;
+                this.Users.set(users);
                 this.IsLoading = false;
             },
             error: (errorResponse) => {

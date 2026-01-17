@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserClaimService } from './user-claim.service';
 import { UserClaim } from './models/UserClaim';
@@ -26,11 +26,8 @@ import { AuthService } from '../../../services/auth.service';
 export class UserClaimComponent implements OnInit{
   title = 'User Claims';
   UserId: string | null;
-  UserClaims: UserClaim[] | undefined;
-  ClaimTypes: ClaimTypeValues[] | undefined;
-
-  UserClaims$: Observable<UserClaim[]> | undefined;
-  ClaimTypes$: Observable<ClaimTypeValues[]> | undefined;
+  UserClaims: WritableSignal<UserClaim[]> = signal<UserClaim[]>([]);
+  ClaimTypes: WritableSignal<ClaimTypeValues[]> = signal<ClaimTypeValues[]>([]);
 
   isPopupAddClaimDialog: boolean = false;
   isPopupUpdateClaimDialog: boolean = false;
@@ -63,11 +60,8 @@ export class UserClaimComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.UserClaims$ = this.userClaimService.GetUserClaims(this.UserId!);      
-    this.ClaimTypes$ = this.userClaimService.GetAllClaimTypes();
-
-    this.UserClaims$.subscribe(claims => this.UserClaims = claims);
-    this.ClaimTypes$.subscribe(types => this.ClaimTypes = types);
+    this.userClaimService.GetUserClaims(this.UserId!).subscribe(claims => this.UserClaims.set(claims));    
+    this.userClaimService.GetAllClaimTypes().subscribe(types => this.ClaimTypes.set(types));
   }
 
   UpdateSelected(userClaim: UserClaim): void {
