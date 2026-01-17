@@ -29,7 +29,13 @@ export class AppMenu {
                 items: [
                     { label: 'Claims', icon: 'pi pi-fw pi-id-card', routerLink: ['/app/claim'] },
                 ]
-            }
+            },
+            {
+                label: 'User Management',
+                items: [
+                    { label: 'List', icon: 'pi pi-fw pi-id-card', routerLink: ['/app/list'] },
+                ]
+            },
         ];
     }
 }

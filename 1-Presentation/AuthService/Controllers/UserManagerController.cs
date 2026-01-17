@@ -45,7 +45,7 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("Users")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IEnumerable<User>> GetUsers()
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();
@@ -64,6 +64,25 @@ namespace AuthService.Controllers
             return response.Success 
                 ? new UserModel(response.User!.Id.Code, response.User.DisplayName)
                 : default;
+        }
+
+        [HttpGet("Rights")]
+        public async Task<bool> GetRight([FromQuery] string id, [FromQuery] string[] rights)
+        {
+            if (!ModelState.IsValid)
+            {
+                return false;
+            }
+            
+            var request = new GetUserByIdRequest(id);
+            var response = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(request);
+            
+            if (!response.Success || response.User == null)
+            {
+                return false;
+            }
+
+            return response.User.HasRight(rights);
         }
     }
 }

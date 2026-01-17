@@ -1,5 +1,7 @@
-import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Injectable, Inject} from "@angular/core";
 import { Observable, Subject, filter } from "rxjs";
+import { BASE_URL } from "../app/app.config";
 
 @Injectable({
   providedIn: "root"
@@ -10,7 +12,7 @@ export class AuthService {
   private isLogin: Subject<boolean>;
   private returnUrl: string | null;
  
-  constructor() {
+  constructor(private httpClient: HttpClient, @Inject(BASE_URL) private baseUrl: string) {
     this.displayNameSubject = new Subject<string>();
     this.isLogin = new Subject<boolean>();
     this.returnUrl = null;
@@ -103,6 +105,16 @@ export class AuthService {
     } else {
       this.LoginStatus = false;
     }
+  }
+
+  // Check Rights
+  IsAuthorizedTo(rightNames: string[]): Observable<boolean> {
+    return this.httpClient.get<boolean>(this.baseUrl + "api/UserManager/Rights", {
+      params: {
+        id: this.UserId || "",
+        rights: rightNames
+      }
+    });
   }
 
   // Clean up
