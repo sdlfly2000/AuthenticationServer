@@ -1,5 +1,7 @@
 ﻿using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
+using System.Security.Claims;
+using Claim = Domain.User.ValueObjects.Claim;
 
 namespace Domain.User.Entities
 {
@@ -61,6 +63,14 @@ namespace Domain.User.Entities
 
             return Claims.Remove(claimToDelete);
         } 
+        
+        public bool HasRight(string[] rights)
+        {
+            var roleClaim = Claims.SingleOrDefault(c => c.Name.Equals(ClaimTypes.Role));
+            return roleClaim == null 
+                ? false
+                : roleClaim.Value.Equals("admin", StringComparison.InvariantCultureIgnoreCase);
+        }
 
         #endregion
     }
