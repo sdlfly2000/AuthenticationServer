@@ -12,6 +12,8 @@ namespace Infra.Database.EntityConfigurations
             builder.Property(c => c.RoleName).HasColumnName("RoleName").HasColumnType("nvarchar(256)");
 
             builder.HasKey(c => c.Id);
+            builder.HasMany(role => role.Rights)
+                   .WithMany();
 
             builder.ToTable(nameof(Role));
         }

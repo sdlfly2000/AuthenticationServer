@@ -47,7 +47,6 @@ namespace AuthService.Controllers
 
         [HttpGet("Users")]
         [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
-        [Authorize(Policy = nameof(AuthorizationEx.VerifyAdminRole))]
         public async Task<IEnumerable<User>> GetUsers()
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();

@@ -22,5 +22,5 @@ classDiagram
     }
 
     %%{{Relationship}}%%
-    Role "1..*"--> "0..*" Right
+    Role --> "0..*" Right
 ```

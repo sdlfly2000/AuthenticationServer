@@ -40,11 +40,9 @@ builder.Services.AddDataProtection();
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
-builder.Services.AddAuthorization(option =>
-{
-    option.AddPolicy(nameof(AuthorizationEx.VerifyAppName), policy => policy.RequireAssertion(AuthorizationEx.VerifyAppName));
-    option.AddPolicy(nameof(AuthorizationEx.VerifyAdminRole), policy => policy.RequireAssertion(AuthorizationEx.VerifyAdminRole));
-});
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(nameof(AuthorizationEx.VerifyAppName), policy => policy.RequireAssertion(AuthorizationEx.VerifyAppName))
+    .AddPolicy(nameof(AuthorizationEx.VerifyAdminRole), policy => policy.RequireAssertion(AuthorizationEx.VerifyAdminRole));
 
 // Add Local Cache Support
 builder.Services.AddMemoryCache();
