@@ -69,7 +69,7 @@ namespace Domain.User.Entities
             var roleClaim = Claims.SingleOrDefault(c => c.Name.Equals(ClaimTypes.Role));
             return roleClaim == null 
                 ? false
-                : roleClaim.Value.Equals("admin", StringComparison.InvariantCultureIgnoreCase);
+                : roleClaim.Value.Split(",").ToList().Contains("AuthenticationSerivce:Admin");
         }
 
         #endregion

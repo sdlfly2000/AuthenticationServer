@@ -4,6 +4,7 @@ using Application.Services.User.ReqRes;
 using AuthService.Models;
 using Common.Core.CQRS;
 using Domain.User.Entities;
+using Infra.Core.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -45,8 +46,8 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("Users")]
-        [Authorize(Policy = "AppPolicy")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAdminRole))]
         public async Task<IEnumerable<User>> GetUsers()
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();
@@ -56,7 +57,7 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("User")]
-        [Authorize(Policy = "AppPolicy")]
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
         public async Task<UserModel?> GetUserByUserId([FromQuery] string id)
         {
             var request = new GetUserByIdRequest(id);
@@ -68,7 +69,7 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("Rights")]
-        [Authorize(Policy = "AppPolicy")]
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
         public async Task<bool> GetRight([FromQuery] string id, [FromQuery] string[] rights)
         {
             if (!ModelState.IsValid)

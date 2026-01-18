@@ -42,10 +42,8 @@ builder.Services
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
 builder.Services.AddAuthorization(option =>
 {
-    option.AddPolicy("AppPolicy", policy => 
-    {
-        policy.RequireAssertion(AuthorizationEx.VerifyAppName);
-    });
+    option.AddPolicy(nameof(AuthorizationEx.VerifyAppName), policy => policy.RequireAssertion(AuthorizationEx.VerifyAppName));
+    option.AddPolicy(nameof(AuthorizationEx.VerifyAdminRole), policy => policy.RequireAssertion(AuthorizationEx.VerifyAdminRole));
 });
 
 // Add Local Cache Support

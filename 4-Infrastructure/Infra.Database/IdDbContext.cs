@@ -27,7 +27,7 @@ namespace Infra.Database
 
         DbSet<User> Users { get; set; }
         DbSet<Claim> Claims { get; set; }
-        DbSet<Role> Roles { get; set; }
-        DbSet<Right> Rights { get; set; }
+        //DbSet<Role> Roles { get; set; }
+        //DbSet<Right> Rights { get; set; }
     }
 }
