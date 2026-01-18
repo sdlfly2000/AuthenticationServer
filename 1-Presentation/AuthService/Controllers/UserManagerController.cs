@@ -45,6 +45,7 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("Users")]
+        [Authorize(Policy = "AppPolicy")]
         [Authorize(Roles = "admin")]
         public async Task<IEnumerable<User>> GetUsers()
         {
@@ -55,7 +56,7 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("User")]
-        [Authorize]
+        [Authorize(Policy = "AppPolicy")]
         public async Task<UserModel?> GetUserByUserId([FromQuery] string id)
         {
             var request = new GetUserByIdRequest(id);
@@ -67,6 +68,7 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("Rights")]
+        [Authorize(Policy = "AppPolicy")]
         public async Task<bool> GetRight([FromQuery] string id, [FromQuery] string[] rights)
         {
             if (!ModelState.IsValid)

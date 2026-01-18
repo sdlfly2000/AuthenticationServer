@@ -1,11 +1,13 @@
 using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
+using Infra.Core.Authorization;
 using Infra.Core.Middlewares;
 using Infra.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,13 @@ builder.Services.AddDataProtection();
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtCusScheme(builder.Configuration.GetSection("JWT").Get<JWTOptions>()!);
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("AppPolicy", policy => 
+    {
+        policy.RequireAssertion(AuthorizationEx.VerifyAppName);
+    });
+});
 
 // Add Local Cache Support
 builder.Services.AddMemoryCache();
