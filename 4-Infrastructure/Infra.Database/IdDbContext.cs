@@ -1,4 +1,5 @@
-﻿using Domain.User.Entities;
+﻿using Domain.Role.Entities;
+using Domain.User.Entities;
 using Domain.User.ValueObjects;
 using Infra.Database.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
@@ -26,5 +27,7 @@ namespace Infra.Database
 
         DbSet<User> Users { get; set; }
         DbSet<Claim> Claims { get; set; }
+        DbSet<Role> Roles { get; set; }
+        DbSet<Right> Rights { get; set; }
     }
 }

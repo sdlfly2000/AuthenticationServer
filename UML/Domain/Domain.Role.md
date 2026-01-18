@@ -9,12 +9,15 @@ config:
 
 classDiagram
     class Role {
+        <<Entity>>
         + Id: Guid
         + RoleName: string
         + Rights: List~Right~
     }
 
     class Right {
+        <<Entity>>
+        + Id: Guid
         + RightName: string
     }
 
