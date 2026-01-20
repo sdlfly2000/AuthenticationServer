@@ -7,7 +7,6 @@ using Infra.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,9 +71,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("AllowPolicy");
-app.MapControllers();
 
 // Generate TraceId
 app.UseMiddleware<RequestArrivalMiddleware>();
+
+app.MapControllers();
 
 app.Run();

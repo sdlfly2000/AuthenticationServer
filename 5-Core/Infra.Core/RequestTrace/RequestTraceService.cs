@@ -6,5 +6,7 @@ namespace Infra.Core.RequestTrace
     public class RequestTraceService : IRequestTraceService
     {
         public string TraceId { get; set; }
+        public Guid CurrentUserId { get; set; }
+        public string CurrentUserRole { get; set; }
     }
 }

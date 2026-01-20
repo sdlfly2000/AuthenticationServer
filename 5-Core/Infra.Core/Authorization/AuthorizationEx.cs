@@ -11,7 +11,7 @@ public static class AuthorizationEx
         var configuration = ConfigurationService.GetConfiguration();
         var appName = configuration["Application:Properties:Name"];
 
-        var appClaim = context.User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypesEx.AppsAuthencated))?.Value;
+        var appClaim = context.User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypesEx.AppsAuthenticated))?.Value;
 
         return appClaim?.Split(',').ToList().Contains(appName) ?? false;
     }

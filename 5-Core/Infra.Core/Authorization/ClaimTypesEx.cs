@@ -2,5 +2,5 @@
 
 public static class ClaimTypesEx
 {
-    public const string AppsAuthencated = "AppsAuthencated";
+    public const string AppsAuthenticated = "AppsAuthenticated";
 }
