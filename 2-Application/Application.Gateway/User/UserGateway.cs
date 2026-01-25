@@ -31,7 +31,7 @@ namespace Application.Gateway.User
                 pwdExtracted,
                 request.DisplayName);
 
-            return await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest);
+            return await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest, token);
         }
     }
 }

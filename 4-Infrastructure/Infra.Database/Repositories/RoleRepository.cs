@@ -51,7 +51,7 @@ public class RoleRepository : IRoleRepository
     {
         var role = await _context.Set<Role>()
                                 .Include(r => r.Rights)
-                                .SingleOrDefaultAsync(r => r.RoleName.Equals(roleName));
+                                .SingleOrDefaultAsync(r => r.RoleName.Equals(roleName, StringComparison.InvariantCultureIgnoreCase));
 
         DomainNotFoundException.ThrowIfNull(role, nameof(Role), roleName);
 

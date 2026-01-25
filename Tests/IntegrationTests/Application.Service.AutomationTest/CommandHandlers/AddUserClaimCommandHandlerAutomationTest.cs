@@ -90,7 +90,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
             var request = new AddUserClaimRequest(UserNameId!, claimType, claimValue);
 
             // Action
-            var response = _handler.Handle(request).Result;
+            var response = _handler.Handle(request, CancellationToken.None).Result;
 
             // Assert
             Assert.IsNotNull(response);

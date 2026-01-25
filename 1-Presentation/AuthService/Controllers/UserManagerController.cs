@@ -47,10 +47,10 @@ namespace AuthService.Controllers
 
         [HttpGet("Users")]
         [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
-        public async Task<IEnumerable<User>>? GetUsers()
+        public async Task<IEnumerable<User>>? GetUsers(CancellationToken token)
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();
-            var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest);
+            var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest, token);
             
             return response.Success == true 
                             ? response.Users
@@ -59,10 +59,10 @@ namespace AuthService.Controllers
 
         [HttpGet("User")]
         [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
-        public async Task<UserModel?> GetUserByUserId([FromQuery] string id)
+        public async Task<UserModel?> GetUserByUserId([FromQuery] string id, CancellationToken token)
         {
             var request = new GetUserByIdRequest(id);
-            var response = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(request);
+            var response = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(request, token);
 
             return response.Success 
                 ? new UserModel(response.User!.Id.Code, response.User.DisplayName)
@@ -71,22 +71,22 @@ namespace AuthService.Controllers
 
         [HttpGet("Rights")]
         [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
-        public async Task<bool> GetRight([FromQuery] string id, [FromQuery] string[] rights)
+        public async Task<bool> GetRight([FromQuery] string[] rights, CancellationToken token)
         {
             if (!ModelState.IsValid)
             {
                 return false;
             }
             
-            var request = new GetUserByIdRequest(id);
-            var response = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(request);
+            var request = new AuthorizeRequest(rights);
+            var response = await _eventBus.Send<AuthorizeRequest, AuthorizeResponse>(request, token);
             
-            if (!response.Success || response.User == null)
+            if (response.Success && response.IsAuthorized)
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

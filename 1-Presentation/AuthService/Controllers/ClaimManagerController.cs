@@ -20,7 +20,7 @@ namespace AuthService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUserClaim([FromQuery] string id, [FromBody] AddUserClaimRequestModel request)
+        public async Task<IActionResult> AddUserClaim([FromQuery] string id, [FromBody] AddUserClaimRequestModel request, CancellationToken token)
         {
             if (!ModelState.IsValid)
             {
@@ -28,7 +28,7 @@ namespace AuthService.Controllers
             }
 
             var response = await _eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(
-                new AddUserClaimRequest(id, request.ClaimType.TypeName, request.Value));
+                new AddUserClaimRequest(id, request.ClaimType.TypeName, request.Value), token);
 
             if (!response.Success) 
             { 
@@ -39,7 +39,7 @@ namespace AuthService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUserClaim([FromQuery] string id, [FromBody] UpdateUserClaimRequestModel request)
+        public async Task<IActionResult> UpdateUserClaim([FromQuery] string id, [FromBody] UpdateUserClaimRequestModel request, CancellationToken token)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +47,7 @@ namespace AuthService.Controllers
             }
 
             var response = await _eventBus.Send<UpdateUserClaimRequest, UpdateUserClaimResponse>(
-                new UpdateUserClaimRequest(id, request.ClaimType.TypeName, request.Value));
+                new UpdateUserClaimRequest(id, request.ClaimType.TypeName, request.Value), token);
 
             return response.Success
                 ? Ok()
@@ -55,7 +55,7 @@ namespace AuthService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteUserClaim([FromQuery] string id, [FromBody] DeleteUserClaimRequestModel request)
+        public async Task<IActionResult> DeleteUserClaim([FromQuery] string id, [FromBody] DeleteUserClaimRequestModel request, CancellationToken token)
         {
             if (!ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace AuthService.Controllers
             }
 
             var response = await _eventBus.Send<DeleteUserClaimRequest, DeleteUserClaimResponse>(
-                new DeleteUserClaimRequest(id, request.ClaimType.TypeName, request.Value));
+                new DeleteUserClaimRequest(id, request.ClaimType.TypeName, request.Value), token);
 
             return response.Success
                 ? Ok()
@@ -71,14 +71,14 @@ namespace AuthService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClaimByUserId([FromQuery] string id)
+        public async Task<IActionResult> GetClaimByUserId([FromQuery] string id, CancellationToken token)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(id))
             {
                 return BadRequest(ModelState);
             }
 
-            var userResponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id));
+            var userResponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id), token);
 
             if (!userResponse.Success) 
             { 
@@ -96,9 +96,9 @@ namespace AuthService.Controllers
         }
 
         [HttpGet]
-        public async Task<IList<ClaimTypeValues>> GetClaimTypes()
+        public async Task<IList<ClaimTypeValues>> GetClaimTypes(CancellationToken token)
         {
-            var response = await _eventBus.Send<GetClaimTypesRequest, GetClaimTypesResponse>(new GetClaimTypesRequest());
+            var response = await _eventBus.Send<GetClaimTypesRequest, GetClaimTypesResponse>(new GetClaimTypesRequest(), token);
             
             return response.Success 
                 ? response.ClaimTypes

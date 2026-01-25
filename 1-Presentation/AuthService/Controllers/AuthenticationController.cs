@@ -29,7 +29,7 @@ namespace AuthService.Controllers
 
         [HttpPost]
         [EnableCors("AllowPolicy")]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequestModel request)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequestModel request, CancellationToken token)
         {
             if (!ModelState.IsValid)
             {
@@ -40,7 +40,7 @@ namespace AuthService.Controllers
                 new AuthenticateRequest(
                     request.UserName,
                     request.Password, 
-                    HttpContext.Request.Headers.UserAgent.ToString()));
+                    HttpContext.Request.Headers.UserAgent.ToString()), token);
 
             if(authenticateResponse != null && authenticateResponse.Success)
             {

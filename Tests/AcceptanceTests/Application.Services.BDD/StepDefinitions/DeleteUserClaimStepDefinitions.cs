@@ -42,7 +42,7 @@ public class DeleteUserClaimStepDefinitions
     [When("DeleteUserClaim\\(Handle) is called")]
     public async Task WhenDeleteUserClaimHandleIsCalled()
     {
-        _deleteUserClaimResponse = await _handler.Handle(_deleteUserClaimRequest).ConfigureAwait(false);
+        _deleteUserClaimResponse = await _handler.Handle(_deleteUserClaimRequest, CancellationToken.None).ConfigureAwait(false);
 
         Assert.IsTrue(_deleteUserClaimResponse.Success);
     }

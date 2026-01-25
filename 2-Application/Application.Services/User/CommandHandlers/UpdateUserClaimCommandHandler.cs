@@ -26,7 +26,7 @@ namespace Application.Services.User.CommandHandlers
         }
 
         [LogTrace(returnType: typeof(UpdateUserClaimResponse))]
-        public async Task<UpdateUserClaimResponse> Handle(UpdateUserClaimRequest request)
+        public async Task<UpdateUserClaimResponse> Handle(UpdateUserClaimRequest request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.Find((UserReference)request.UserId);
 

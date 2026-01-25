@@ -30,7 +30,7 @@ namespace Application.Services.BDD.StepDefinitions
         public async Task WhenAuthenticateHandleIsCalled()
         {
             Debug.Assert(_authenticateRequest != null, "_authenticateRequest should not be null");
-            _authenticateResponse = await _handler.Handle(_authenticateRequest).ConfigureAwait(false);
+            _authenticateResponse = await _handler.Handle(_authenticateRequest, CancellationToken.None).ConfigureAwait(false);
         }
 
         [Then("the response should indicate successful authentication")]

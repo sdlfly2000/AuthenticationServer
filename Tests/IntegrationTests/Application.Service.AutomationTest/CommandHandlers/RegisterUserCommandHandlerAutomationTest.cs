@@ -78,7 +78,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
             var request = new RegisterUserRequest(UserName, Password, DisplayName);
 
             // Action
-            var response = await _handler.Handle(request);
+            var response = await _handler.Handle(request, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(response);

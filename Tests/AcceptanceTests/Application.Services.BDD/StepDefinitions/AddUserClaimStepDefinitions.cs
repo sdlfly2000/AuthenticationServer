@@ -40,7 +40,7 @@ namespace Application.Services.BDD.StepDefinitions
         [When("AddUserClaim\\(Handle) is called")]
         public async Task WhenAddUserClaimHandleIsCalled()
         {
-            _addUserClaimResponse = await _handler.Handle(_addUserClaimRequest).ConfigureAwait(false);
+            _addUserClaimResponse = await _handler.Handle(_addUserClaimRequest, CancellationToken.None).ConfigureAwait(false);
 
             Assert.IsTrue(_addUserClaimResponse.Success);
         }

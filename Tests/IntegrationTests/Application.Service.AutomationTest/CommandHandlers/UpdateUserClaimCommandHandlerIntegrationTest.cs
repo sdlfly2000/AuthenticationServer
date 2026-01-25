@@ -93,7 +93,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
             var request = new UpdateUserClaimRequest(UserId, claimType, NewClaimValue);
 
             // Action
-            var response = await _handler.Handle(request).ConfigureAwait(false);
+            var response = await _handler.Handle(request, CancellationToken.None).ConfigureAwait(false);
 
             // Assert
             Assert.IsNotNull(response);

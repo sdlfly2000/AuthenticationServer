@@ -19,7 +19,7 @@ namespace Application.Services.User.Queries
         }
 
         [LogTrace(returnType: typeof(GetClaimTypesResponse))]
-        public async Task<GetClaimTypesResponse> Handle(GetClaimTypesRequest request)
+        public async Task<GetClaimTypesResponse> Handle(GetClaimTypesRequest request, CancellationToken cancellationToken)
         {
             var claimTypeValues = typeof(ClaimTypes).GetFields().Where(type => type.IsPublic && type.IsStatic)
                 .Select(type => new ClaimTypeValues(type.Name, type.GetValue(type.Name)?.ToString()))

@@ -21,7 +21,7 @@ namespace Application.Services.User.Commands
         }
 
         [LogTrace(returnType: typeof(RegisterUserResponse))]
-        public async Task<RegisterUserResponse> Handle(RegisterUserRequest request)
+        public async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
         {
             var newUser = new Domain.User.Entities.User(request.UserName)
             {
