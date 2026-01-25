@@ -13,6 +13,7 @@
     <PackageReference Include="EasyNetQ.Serialization.SystemTextJson" Version="7.8.0" />
     <PackageReference Include="IdeaActivator.Common.Core" Version="1.1.18" />
     <PackageReference Include="IdeaActivator.Common.Core.AOP" Version="1.0.3" />
+    <PackageReference Include="MockQueryable.Moq" Version="10.0.1" />
     <PackageReference Include="MrAdvice" Version="2.20.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageReference Include="Serilog.Formatting.Elasticsearch" Version="10.0.0" />

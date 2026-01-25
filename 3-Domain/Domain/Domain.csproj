@@ -7,16 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="User\Events\**" />
+    <EmbeddedResource Remove="User\Events\**" />
+    <None Remove="User\Events\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MrAdvice" Version="2.20.0" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\5-Core\Infra.Core\Infra.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="User\Events\" />
   </ItemGroup>
 
 </Project>
