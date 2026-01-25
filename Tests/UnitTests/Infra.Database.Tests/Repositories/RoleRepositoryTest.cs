@@ -1,8 +1,8 @@
 ﻿using Common.Core.Authentication;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
-using Domain.Role.Entities;
-using Domain.Role.Repositories;
+using Domain.Authorizations.Entities;
+using Domain.Authorizations.Repositories;
 using Infra.Core.Exceptions;
 using Infra.Core.Test;
 using Infra.Database.Repositories;

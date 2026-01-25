@@ -64,14 +64,6 @@ namespace Domain.User.Entities
             return Claims.Remove(claimToDelete);
         } 
         
-        public bool HasRight(string[] rights)
-        {
-            var roleClaim = Claims.SingleOrDefault(c => c.Name.Equals(ClaimTypes.Role));
-            return roleClaim == null 
-                ? false
-                : roleClaim.Value.Split(",").ToList().Contains("AuthenticationSerivce:Admin");
-        }
-
         #endregion
     }
 }

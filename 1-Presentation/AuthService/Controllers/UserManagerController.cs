@@ -47,12 +47,14 @@ namespace AuthService.Controllers
 
         [HttpGet("Users")]
         [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<IEnumerable<User>>? GetUsers()
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();
             var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest);
             
-            return response.Users;
+            return response.Success == true 
+                            ? response.Users
+                            : new List<User>();
         }
 
         [HttpGet("User")]
@@ -84,7 +86,7 @@ namespace AuthService.Controllers
                 return false;
             }
 
-            return response.User.HasRight(rights);
+            return true;
         }
     }
 }

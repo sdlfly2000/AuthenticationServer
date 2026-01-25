@@ -1,4 +1,4 @@
-﻿using Domain.Role.Entities;
+﻿using Domain.Authorizations.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

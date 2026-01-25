@@ -1,6 +1,6 @@
 ﻿using Common.Core.DependencyInjection;
-using Domain.Role.Entities;
-using Domain.Role.Repositories;
+using Domain.Authorizations.Entities;
+using Domain.Authorizations.Repositories;
 using Infra.Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,5 +45,16 @@ public class RoleRepository : IRoleRepository
     public void Delete(Role role)
     {
         _context.Remove(role);
+    }
+
+    public async Task<Role> GetByRoleName(string roleName, CancellationToken cancellationToken)
+    {
+        var role = await _context.Set<Role>()
+                                .Include(r => r.Rights)
+                                .SingleOrDefaultAsync(r => r.RoleName.Equals(roleName));
+
+        DomainNotFoundException.ThrowIfNull(role, nameof(Role), roleName);
+
+        return role;
     }
 }

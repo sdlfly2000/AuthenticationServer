@@ -1,8 +1,10 @@
-﻿namespace Domain.Role.Repositories;
+﻿namespace Domain.Authorizations.Repositories;
 
 public interface IRoleRepository
 {
     Task<Entities.Role> Get(Guid id, CancellationToken cancellationToken);
+
+    Task<Entities.Role> GetByRoleName(string roleName, CancellationToken cancellationToken);
 
     Task<Entities.Role> Add(Entities.Role role, CancellationToken cancellationToken);
 
