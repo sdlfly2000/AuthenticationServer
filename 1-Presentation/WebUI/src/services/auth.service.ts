@@ -111,7 +111,6 @@ export class AuthService {
   IsAuthorizedTo(rightNames: string[]): Observable<boolean> {
     return this.httpClient.get<boolean>(this.baseUrl + "api/UserManager/Rights", {
       params: {
-        id: this.UserId || "",
         rights: rightNames
       }
     });

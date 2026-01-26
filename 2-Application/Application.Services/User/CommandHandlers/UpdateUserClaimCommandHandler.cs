@@ -1,4 +1,4 @@
-﻿using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Persistors;
@@ -26,7 +26,7 @@ namespace Application.Services.User.CommandHandlers
         }
 
         [LogTrace(returnType: typeof(UpdateUserClaimResponse))]
-        public async Task<UpdateUserClaimResponse> Handle(UpdateUserClaimRequest request)
+        public async Task<UpdateUserClaimResponse> Handle(UpdateUserClaimRequest request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.Find((UserReference)request.UserId);
 

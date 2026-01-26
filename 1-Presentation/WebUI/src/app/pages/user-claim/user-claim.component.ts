@@ -1,27 +1,25 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, WritableSignal, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserClaimService } from './user-claim.service';
-import { UserClaim } from './models/UserClaim';
-import { ClaimTypeValues } from './models/ClaimTypeValues';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Dialog } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
-import { Dialog } from 'primeng/dialog';
 import { Select } from 'primeng/select';
-import { Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
-import { StatusMessageService, EnumInfoSeverity, StatusMessageModel } from '../../../services/statusmessage.service';
 import { AuthService } from '../../../services/auth.service';
+import { EnumInfoSeverity, StatusMessageModel, StatusMessageService } from '../../../services/statusmessage.service';
+import { ClaimTypeValues } from './models/ClaimTypeValues';
+import { UserClaim } from './models/UserClaim';
+import { UserClaimService } from './user-claim.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './user-claim.component.html',
   styleUrls: ['./user-claim.component.css'],
-  imports: [FormsModule, ConfirmDialogModule, InputTextModule, FloatLabelModule, ButtonModule, DividerModule, Dialog, Select, AsyncPipe ]
+  imports: [FormsModule, ConfirmDialogModule, InputTextModule, FloatLabelModule, ButtonModule, DividerModule, Dialog, Select ]
 })
 export class UserClaimComponent implements OnInit{
   title = 'User Claims';

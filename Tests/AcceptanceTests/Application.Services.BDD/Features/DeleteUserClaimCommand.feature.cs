@@ -120,7 +120,7 @@ namespace Application.Services.BDD.Features
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/DeleteUserClaimCommand.feature.ndjson", 3);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="Delete User Claim Successful")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(callerLineNumber: 6, DisplayName="Delete User Claim Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete User Claim Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Delete User Claim")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]

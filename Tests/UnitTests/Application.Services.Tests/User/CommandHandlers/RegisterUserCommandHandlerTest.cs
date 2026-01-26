@@ -1,5 +1,5 @@
-﻿using Application.Services.User.Commands;
-using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
+using Application.Services.User.Commands;
 using Domain.User.Persistors;
 using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
@@ -53,7 +53,7 @@ namespace Application.Services.Tests.User.CommandHandlers
             var request = new RegisterUserRequest(UserName, Pwd, DisplayName);
 
             // Action
-            var response = await _registerUserCommandHandler.Handle(request);
+            var response = await _registerUserCommandHandler.Handle(request, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(response);

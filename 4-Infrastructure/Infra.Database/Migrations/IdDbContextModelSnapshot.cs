@@ -21,6 +21,39 @@ namespace Infra.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Role.Entities.Right", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(36)")
+                        .HasColumnName("RightId");
+
+                    b.Property<string>("RightName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Right", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Role.Entities.Role", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(36)")
+                        .HasColumnName("RoleId");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("RoleName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role", (string)null);
+                });
+
             modelBuilder.Entity("Domain.User.Entities.User", b =>
                 {
                     b.Property<string>("_id")
@@ -81,11 +114,41 @@ namespace Infra.Database.Migrations
                     b.ToTable("Claim", (string)null);
                 });
 
+            modelBuilder.Entity("RightRole", b =>
+                {
+                    b.Property<string>("RightsId")
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(36)");
+
+                    b.HasKey("RightsId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RightRole");
+                });
+
             modelBuilder.Entity("Domain.User.ValueObjects.Claim", b =>
                 {
                     b.HasOne("Domain.User.Entities.User", null)
                         .WithMany("Claims")
                         .HasForeignKey("_userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RightRole", b =>
+                {
+                    b.HasOne("Domain.Role.Entities.Right", null)
+                        .WithMany()
+                        .HasForeignKey("RightsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Role.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

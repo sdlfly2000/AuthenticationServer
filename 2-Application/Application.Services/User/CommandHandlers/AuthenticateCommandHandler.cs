@@ -1,4 +1,4 @@
-﻿using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
 using Common.Core.Authentication;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
@@ -31,7 +31,7 @@ namespace Application.Services.User.CommandHandlers
         }
 
         [LogTrace(returnType: typeof(AuthenticateResponse))]
-        public async Task<AuthenticateResponse> Handle(AuthenticateRequest request)
+        public async Task<AuthenticateResponse> Handle(AuthenticateRequest request, CancellationToken cancellationToken)
         {
             var password = PasswordHelper.ExtractPwdWithTimeVerification(request.RawPassword);
 

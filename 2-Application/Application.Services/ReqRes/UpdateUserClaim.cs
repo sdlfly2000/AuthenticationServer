@@ -1,6 +1,6 @@
 ﻿using Common.Core.CQRS.Request;
 
-namespace Application.Services.User.ReqRes
+namespace Application.Services.ReqRes
 {
     public record UpdateUserClaimRequest(string UserId, string ClaimType, string ClaimValue) : IRequest;
 

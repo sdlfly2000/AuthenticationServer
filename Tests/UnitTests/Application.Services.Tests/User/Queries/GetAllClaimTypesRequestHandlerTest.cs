@@ -1,5 +1,5 @@
-﻿using Application.Services.User.Queries;
-using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
+using Application.Services.User.Queries;
 using Infra.Core.RequestTrace;
 using Infra.Core.Test;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +30,7 @@ namespace Application.Services.Tests.User.Queries
             // Arrange
 
             // Action
-            var response = await _getAllClaimTypesRequestHandler.Handle(new GetClaimTypesRequest());
+            var response = await _getAllClaimTypesRequestHandler.Handle(new GetClaimTypesRequest(), CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(response);

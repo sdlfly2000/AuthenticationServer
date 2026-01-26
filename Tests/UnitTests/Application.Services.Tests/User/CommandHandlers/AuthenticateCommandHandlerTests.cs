@@ -1,5 +1,5 @@
-﻿using Application.Services.User.CommandHandlers;
-using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
+using Application.Services.User.CommandHandlers;
 using Common.Core.Authentication;
 using Domain.User.Repositories;
 using Infra.Core.Test;
@@ -58,7 +58,7 @@ namespace Application.Services.Tests.User.CommandHandlers
             var request = new AuthenticateRequest(UserName, Pwd, DisplayName);
 
             // Action
-            var response = await _authenticateCommandHandler.Handle(request);
+            var response = await _authenticateCommandHandler.Handle(request, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(response);

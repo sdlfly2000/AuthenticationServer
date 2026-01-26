@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MrAdvice" Version="2.20.0" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.1" />
+    <PackageReference Include="MrAdvice" Version="2.20.1" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\3-Domain\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\5-Core\Infra.Core\Infra.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Authorization\" />
   </ItemGroup>
 </Project>

@@ -121,7 +121,7 @@ namespace Application.Services.BDD.Features
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/AddUserClaimCommand.feature.ndjson", 3);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(DisplayName="Add User Claim Successful")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute(callerLineNumber: 6, DisplayName="Add User Claim Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Add User Claim Successful")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Add User Claim")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("UserAcceptanceTest")]

@@ -1,7 +1,8 @@
-﻿using Common.Core.CQRS.Request;
-using Domain.User.Repositories;
-using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
+using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
+using Domain.Authorizations.Attributes;
+using Domain.User.Repositories;
 using Infra.Core.LogTrace;
 
 namespace Application.Services.User.Queries
@@ -19,7 +20,8 @@ namespace Application.Services.User.Queries
         }
 
         [LogTrace(returnType: typeof(GetAllUsersQueryResponse))]
-        public async Task<GetAllUsersQueryResponse> Handle(GetAllUsersQueryRequest request)
+        [ActiAuthorize(Right: "UserList")]
+        public async Task<GetAllUsersQueryResponse> Handle(GetAllUsersQueryRequest request, CancellationToken cancellationToken)
         {
             var users = await _userRepository.GetAllUsers();
 

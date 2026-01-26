@@ -1,5 +1,5 @@
 ﻿using Application.Gateway.User.Models;
-using Application.Services.User.ReqRes;
+using Application.Services.ReqRes;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core;
@@ -31,7 +31,7 @@ namespace Application.Gateway.User
                 pwdExtracted,
                 request.DisplayName);
 
-            return await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest);
+            return await _eventBus.Send<RegisterUserRequest, RegisterUserResponse>(registerUserRequest, token);
         }
     }
 }

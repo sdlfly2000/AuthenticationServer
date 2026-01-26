@@ -1,9 +1,10 @@
 using Application.Gateway.User;
 using Application.Gateway.User.Models;
-using Application.Services.User.ReqRes;
+using Application.Services.ReqRes;
 using AuthService.Models;
 using Common.Core.CQRS;
 using Domain.User.Entities;
+using Infra.Core.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -45,21 +46,23 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("Users")]
-        [Authorize(Roles = "admin")]
-        public async Task<IEnumerable<User>> GetUsers()
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
+        public async Task<IActionResult> GetUsers(CancellationToken token)
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();
-            var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest);
+            var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest, token);
             
-            return response.Users;
+            return response.Success == true 
+                            ? Ok(response.Users)
+                            : Problem(response.ErrorMessage);
         }
 
         [HttpGet("User")]
-        [Authorize]
-        public async Task<UserModel?> GetUserByUserId([FromQuery] string id)
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
+        public async Task<UserModel?> GetUserByUserId([FromQuery] string id, CancellationToken token)
         {
             var request = new GetUserByIdRequest(id);
-            var response = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(request);
+            var response = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(request, token);
 
             return response.Success 
                 ? new UserModel(response.User!.Id.Code, response.User.DisplayName)
@@ -67,22 +70,23 @@ namespace AuthService.Controllers
         }
 
         [HttpGet("Rights")]
-        public async Task<bool> GetRight([FromQuery] string id, [FromQuery] string[] rights)
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
+        public async Task<bool> GetRight([FromQuery] string[] rights, CancellationToken token)
         {
             if (!ModelState.IsValid)
             {
                 return false;
             }
             
-            var request = new GetUserByIdRequest(id);
-            var response = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(request);
+            var request = new AuthorizeRequest(rights);
+            var response = await _eventBus.Send<AuthorizeRequest, AuthorizeResponse>(request, token);
             
-            if (!response.Success || response.User == null)
+            if (response.Success && response.IsAuthorized)
             {
-                return false;
+                return true;
             }
 
-            return response.User.HasRight(rights);
+            return false;
         }
     }
 }
