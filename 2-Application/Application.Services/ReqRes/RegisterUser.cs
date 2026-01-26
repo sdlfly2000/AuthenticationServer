@@ -1,6 +1,6 @@
 ﻿using Common.Core.CQRS.Request;
 
-namespace Application.Services.User.ReqRes
+namespace Application.Services.ReqRes
 {
     public record RegisterUserRequest(string UserName, string Password, string DisplayName): IRequest;
 

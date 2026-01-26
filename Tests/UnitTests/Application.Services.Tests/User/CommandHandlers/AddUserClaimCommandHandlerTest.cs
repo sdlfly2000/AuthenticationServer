@@ -1,5 +1,5 @@
-﻿using Application.Services.User.CommandHandlers;
-using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
+using Application.Services.User.CommandHandlers;
 using Domain.User.Persistors;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
@@ -61,7 +61,7 @@ namespace Application.Services.Tests.User.CommandHandlers
             var claimValue = "ClaimValue";
 
             // Action
-            var response = await _addUserClaimCommandHandler.Handle(new AddUserClaimRequest(_user.Id.Code, claimType, claimValue));
+            var response = await _addUserClaimCommandHandler.Handle(new AddUserClaimRequest(_user.Id.Code, claimType, claimValue), CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(response);

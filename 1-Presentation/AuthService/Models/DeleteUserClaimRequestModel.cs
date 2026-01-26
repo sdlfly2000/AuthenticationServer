@@ -1,4 +1,4 @@
-﻿using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
 
 namespace AuthService.Models
 {

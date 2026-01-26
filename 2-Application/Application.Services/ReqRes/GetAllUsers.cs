@@ -1,7 +1,7 @@
 ﻿using Common.Core.CQRS.Request;
 using Infra.Core.ApplicationBasics;
 
-namespace Application.Services.User.ReqRes
+namespace Application.Services.ReqRes
 {
     public record GetAllUsersQueryRequest() : AppRequest, IRequest;
 

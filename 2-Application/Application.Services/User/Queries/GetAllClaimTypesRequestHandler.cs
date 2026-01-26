@@ -1,9 +1,9 @@
 ﻿using Common.Core.CQRS.Request;
-using Application.Services.User.ReqRes;
 using System.Security.Claims;
 using Infra.Core.LogTrace;
 using Common.Core.DependencyInjection;
 using Infra.Core.Authorization;
+using Application.Services.ReqRes;
 
 namespace Application.Services.User.Queries
 {

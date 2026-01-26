@@ -1,4 +1,4 @@
-﻿using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
 using Common.Core.Authentication;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;

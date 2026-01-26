@@ -1,4 +1,4 @@
-﻿using Application.Services.User.ReqRes;
+﻿using Application.Services.ReqRes;
 using AuthService.Models;
 using Common.Core.CQRS;
 using Microsoft.AspNetCore.Cors;

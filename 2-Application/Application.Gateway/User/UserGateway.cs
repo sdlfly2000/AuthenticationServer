@@ -1,5 +1,5 @@
 ﻿using Application.Gateway.User.Models;
-using Application.Services.User.ReqRes;
+using Application.Services.ReqRes;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core;
