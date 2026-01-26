@@ -47,14 +47,14 @@ namespace AuthService.Controllers
 
         [HttpGet("Users")]
         [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
-        public async Task<IEnumerable<User>>? GetUsers(CancellationToken token)
+        public async Task<IActionResult> GetUsers(CancellationToken token)
         {
             var getAllUsersRequest = new GetAllUsersQueryRequest();
             var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest, token);
             
             return response.Success == true 
-                            ? response.Users
-                            : new List<User>();
+                            ? Ok(response.Users)
+                            : Problem(response.ErrorMessage);
         }
 
         [HttpGet("User")]

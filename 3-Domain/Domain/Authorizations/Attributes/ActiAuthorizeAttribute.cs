@@ -1,6 +1,7 @@
 ﻿using ArxOne.MrAdvice.Advice;
 using Common.Core.AOP;
 using Domain.Authorizations.Repositories;
+using Infra.Core.Exceptions;
 using Infra.Core.RequestTrace;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -40,7 +41,7 @@ public class ActiAuthorizeAttribute : Attribute, IMethodAsyncAdvice
         if (!string.IsNullOrEmpty(_right) && !currentRole.HasRight(_right))
         {
             logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Right:{_right} .", requestTraceService?.TraceId);
-            return;
+            UnauthorizedException.Throw(_right);
         }
 
         await context.ProceedAsync().ConfigureAwait(false);
