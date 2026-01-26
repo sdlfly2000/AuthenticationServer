@@ -20,7 +20,7 @@ namespace Application.Services.User.Queries
         }
 
         [LogTrace(returnType: typeof(GetAllUsersQueryResponse))]
-        [ActiAuthorize(Right: "ListAllUser", Role: null)]
+        [ActiAuthorize(Right: "UserList")]
         public async Task<GetAllUsersQueryResponse> Handle(GetAllUsersQueryRequest request, CancellationToken cancellationToken)
         {
             var users = await _userRepository.GetAllUsers();

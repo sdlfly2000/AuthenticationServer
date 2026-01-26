@@ -31,7 +31,7 @@ namespace Infra.Core.Middlewares
             var currentUserRoles = context.User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.Role))?.Value;
             _requestTraceService.CurrentUserId = string.IsNullOrEmpty(currentUserId) ? Guid.Empty : Guid.Parse(currentUserId);
             _requestTraceService.CurrentUserRole = GetRoleFromClaim(appName, currentUserRoles);
-                ;
+
             await next.Invoke(context);
         }
 

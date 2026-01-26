@@ -4,19 +4,16 @@ using Domain.Authorizations.Repositories;
 using Infra.Core.RequestTrace;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using System.Reflection;
 
 namespace Domain.Authorizations.Attributes;
 
 public class ActiAuthorizeAttribute : Attribute, IMethodAsyncAdvice
 {
-    private string _role;
     private string _right;
 
-    public ActiAuthorizeAttribute(string? Role, string? Right)
+    public ActiAuthorizeAttribute(string Right)
     {
-        _role = Role ?? string.Empty;
-        _right = Right ?? string.Empty;
+        _right = Right;
     }
 
     public async Task Advise(MethodAsyncAdviceContext context)
@@ -40,9 +37,9 @@ public class ActiAuthorizeAttribute : Attribute, IMethodAsyncAdvice
 
         var currentRole = await roleRepository.GetByRoleName(currentUserRole, cancellationToken).ConfigureAwait(false);
 
-        if ( !_role.Equals(currentUserRole) || !currentRole.HasRight(_right))
+        if (!string.IsNullOrEmpty(_right) && !currentRole.HasRight(_right))
         {
-            logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Role:{_role} or Right:{_right} .", requestTraceService?.TraceId);
+            logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Right:{_right} .", requestTraceService?.TraceId);
             return;
         }
 
