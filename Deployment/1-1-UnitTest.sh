@@ -11,8 +11,11 @@ for TestProject in "${TestProjects[@]}"; do
     fi
 
     echo "Running Unit Tests on $TestProject"
+
     dotnet test "$TestProject" --filter "TestCategory=UnitTest"
 
+    echo
+    
     if [[ $? -ne 0 ]]; then
         echo "error" > devops.status
         exit $?

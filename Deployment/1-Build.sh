@@ -8,9 +8,12 @@ cd ../../Deployment
 
 # Build AuthService
 echo "---Building AuthService---"
+
 cd ../1-Presentation/AuthService/
 dotnet build --configuration release --output ../../Build/AuthService/ || (echo "error" > ../../Deployment/devops.status; exit 1)
 cd ../../Deployment
+
+echo
 
 # Version
 echo "---Versioning AuthService---"
