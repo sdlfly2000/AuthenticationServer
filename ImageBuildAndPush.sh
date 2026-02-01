@@ -13,4 +13,4 @@ docker image build -t registry.activator.com/authservice/authservice:$version /h
 docker push registry.activator.com/authservice/authservice:$version
 
 ## Executable to DeployImage.sh
-chmod + x /home/devops/Projects/AuthenticationService/DeployImage.sh
+chmod +x /home/devops/Projects/AuthenticationService/DeployImage.sh
