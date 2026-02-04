@@ -2,8 +2,8 @@
 
 namespace Infra.Core.RequestTrace
 {
-    [ServiceLocate(typeof(IRequestTraceService), ServiceType.Scoped)]
-    public class RequestTraceService : IRequestTraceService
+    [ServiceLocate(typeof(IRequestContext), ServiceType.Scoped)]
+    public class RequestContext : IRequestContext
     {
         public string TraceId { get; set; }
         public Guid CurrentUserId { get; set; }
