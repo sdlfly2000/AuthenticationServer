@@ -11,26 +11,26 @@ namespace Infra.Core.Middlewares
     public class RequestArrivalMiddleware : IMiddleware
     {
         private readonly ILogger<RequestArrivalMiddleware> _logger;
-        private readonly IRequestTraceService _requestTraceService;
+        private readonly IRequestContext _requestContext;
 
         public RequestArrivalMiddleware(
             ILogger<RequestArrivalMiddleware> logger,
-            IRequestTraceService requestTraceService,
+            IRequestContext requestContext,
             IServiceProvider serviceProvider)
         {
             _logger = logger;
-            _requestTraceService = requestTraceService;
+            _requestContext = requestContext;
         }
 
         async Task IMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            _requestTraceService.TraceId = Guid.NewGuid().ToString();
+            _requestContext.TraceId = Guid.NewGuid().ToString();
             var appName = ConfigurationService.GetConfiguration()["Application:Properties:Name"];
 
             var currentUserId = context.User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
             var currentUserRoles = context.User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.Role))?.Value;
-            _requestTraceService.CurrentUserId = string.IsNullOrEmpty(currentUserId) ? Guid.Empty : Guid.Parse(currentUserId);
-            _requestTraceService.CurrentUserRole = GetRoleFromClaim(appName, currentUserRoles);
+            _requestContext.CurrentUserId = string.IsNullOrEmpty(currentUserId) ? Guid.Empty : Guid.Parse(currentUserId);
+            _requestContext.CurrentUserRole = GetRoleFromClaim(appName, currentUserRoles);
 
             await next.Invoke(context);
         }

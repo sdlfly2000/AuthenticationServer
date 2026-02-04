@@ -1,6 +1,6 @@
 ﻿namespace Infra.Core.RequestTrace
 {
-    public interface IRequestTraceService
+    public interface IRequestContext
     {
         public string TraceId {  get; set; }
         public Guid CurrentUserId { get; set; }
