@@ -13,19 +13,19 @@ namespace Application.Services.User.Queries
         // Keep the IServiceProvider which is used in AOP
         private readonly IServiceProvider _serviceProvider;
         private readonly IRoleRepository _roleRepository;
-        private readonly IRequestTraceService _requestTraceService;
+        private readonly IRequestContext _requestContext;
 
-        public GetAuthorizeRequestHandler(IRoleRepository roleRepository, IRequestTraceService requestTraceService, IServiceProvider serviceProvider)
+        public GetAuthorizeRequestHandler(IRoleRepository roleRepository, IRequestContext requestContext, IServiceProvider serviceProvider)
         {
             _roleRepository = roleRepository;
-            _requestTraceService = requestTraceService;
+            _requestContext = requestContext;
             _serviceProvider = serviceProvider;
         }
 
         [LogTrace(returnType: typeof(AuthorizeResponse))]
         public async Task<AuthorizeResponse> Handle(AuthorizeRequest request, CancellationToken cancellationToken)
         {
-            var roleName = _requestTraceService.CurrentUserRole;
+            var roleName = _requestContext.CurrentUserRole;
             var role = await _roleRepository.GetByRoleName(roleName, cancellationToken).ConfigureAwait(false);
             foreach (string right in request.Rights)
             {

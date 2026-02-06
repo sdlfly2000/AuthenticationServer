@@ -8,19 +8,19 @@ namespace Infra.Core.LogTrace
     public class LogTraceService
     {
         private static ILogger<LogTraceService> _logger;
-        private static IRequestTraceService _requestTraceService;
+        private static IRequestContext _requestContext;
 
         public LogTraceService(
             ILogger<LogTraceService> logger,
-            IRequestTraceService requestTraceService)
+            IRequestContext requestContext)
         {
             _logger = logger;
-            _requestTraceService = requestTraceService;
+            _requestContext = requestContext;
         }
         
         public static void LogInformation(string message)
         {
-            _logger.LogInformation($"{message}, Trace Id: {{TraceId}}", _requestTraceService.TraceId);
+            _logger.LogInformation($"{message}, Trace Id: {{TraceId}}", _requestContext.TraceId);
         }
     }
 }

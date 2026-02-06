@@ -31,7 +31,7 @@ namespace Application.Services.Tests.User.CommandHandlers
             
             var serviceCollection= new ServiceCollection();
             serviceCollection.AddTransient<ILogger>((service) => Log.Logger);
-            serviceCollection.AddTransient<IRequestTraceService>((service) => new RequestTraceService { TraceId = "TraceId" });
+            serviceCollection.AddTransient<IRequestContext>((service) => new RequestContext { TraceId = "TraceId" });
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
             _userPersistorMock

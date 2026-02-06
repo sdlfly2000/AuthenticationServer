@@ -27,21 +27,21 @@ public class ActiAuthorizeAttribute : Attribute, IMethodAsyncAdvice
                                     : CancellationToken.None;
 
         var serviceProvider = context.GetMemberServiceProvider();
-        var requestTraceService = serviceProvider?.GetRequiredService<IRequestTraceService>();
+        var requestContext = serviceProvider?.GetRequiredService<IRequestContext>();
         var roleRepository = serviceProvider?.GetRequiredService<IRoleRepository>();
-        var currentUserRole = requestTraceService?.CurrentUserRole;
+        var currentUserRole = requestContext?.CurrentUserRole;
         var logger = serviceProvider?.GetRequiredService<ILogger>();
 
-        ArgumentNullException.ThrowIfNull(requestTraceService, $"{nameof(RequestTraceService)} is null");
+        ArgumentNullException.ThrowIfNull(requestContext, $"{nameof(RequestContext)} is null");
         ArgumentNullException.ThrowIfNull(roleRepository, $"{nameof(IRoleRepository)} is null");
-        ArgumentNullException.ThrowIfNull(currentUserRole, $"{nameof(currentUserRole)} in {nameof(RequestTraceService)} is null");
+        ArgumentNullException.ThrowIfNull(currentUserRole, $"{nameof(currentUserRole)} in {nameof(RequestContext)} is null");
         ArgumentNullException.ThrowIfNull(logger, $"{nameof(ILogger)} is null");
 
         var currentRole = await roleRepository.GetByRoleName(currentUserRole, cancellationToken).ConfigureAwait(false);
 
         if (!string.IsNullOrEmpty(_right) && !currentRole.HasRight(_right))
         {
-            logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Right:{_right} .", requestTraceService?.TraceId);
+            logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Right:{_right} .", requestContext?.TraceId);
             UnauthorizedException.Throw(_right);
         }
 
