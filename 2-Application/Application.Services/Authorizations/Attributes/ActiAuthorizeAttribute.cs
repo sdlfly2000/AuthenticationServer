@@ -1,20 +1,21 @@
 ﻿using ArxOne.MrAdvice.Advice;
 using Common.Core.AOP;
+using Domain.Authorizations.Enum;
 using Domain.Authorizations.Repositories;
 using Infra.Core.Exceptions;
 using Infra.Core.RequestTrace;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Domain.Authorizations.Attributes;
+namespace Application.Services.Authorizations.Attributes;
 
 public class ActiAuthorizeAttribute : Attribute, IMethodAsyncAdvice
 {
     private string _right;
 
-    public ActiAuthorizeAttribute(string Right)
+    public ActiAuthorizeAttribute(EnumRights Right)
     {
-        _right = Right;
+        _right = Right.ToString();
     }
 
     public async Task Advise(MethodAsyncAdviceContext context)

@@ -1,4 +1,5 @@
 ﻿namespace Domain.Authorizations.Entities;
+
 public class Right
 {
     public Guid Id { get; set; }
