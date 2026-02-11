@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DATETIME=$(date +"%Y.%m.%d.%H%M")
+
 # Build AngularPresentation
 echo "---Building AuthService - WebUI---"
 cd ../1-Presentation/WebUI/
@@ -10,13 +12,12 @@ cd ../../Deployment
 echo "---Building AuthService---"
 
 cd ../1-Presentation/AuthService/
-dotnet build --configuration release --output ../../Build/AuthService/ || (echo "error" > ../../Deployment/devops.status; exit 1)
+dotnet build --configuration release -p Version=$DATETIME --output ../../Build/AuthService/ || (echo "error" > ../../Deployment/devops.status; exit 1)
 cd ../../Deployment
 
 echo
 
 # Version
 echo "---Versioning AuthService---"
-DATETIME=$(date +"%Y%m%d-%H%M%S")
 echo "Build timestamp: $DATETIME"
 $(echo $DATETIME > ../Build/AuthService/version) || (echo "error" > ../../Deployment/devops.status; exit 1)
