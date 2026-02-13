@@ -1,3 +1,5 @@
+$datetime = Get-Date -Format "yyyy.MM.dd.HHmm"
+
 # Build AngularPresentation
 Write-Host "Building AuthService - WebUI" -ForegroundColor DarkCyan
 pushd ../1-Presentation/WebUI/
@@ -12,11 +14,10 @@ if ($LASTEXITCODE -ne 0) {
 # Build AuthService
 Write-Host "Building AuthService" -ForegroundColor DarkCyan
 pushd ../1-Presentation/AuthService/
-dotnet build --configuration release --output ../../Build/AuthService/
+dotnet build --configuration release -p Version=$datetime --output ../../Build/AuthService/
 popd
 
 # Version
-$datetime = Get-Date -Format "yyyyMMdd-HHmmss"
 Set-Content -Path "../Build/AuthService/version" -Value $datetime -NoNewline
 
 if ($LASTEXITCODE -ne 0) {

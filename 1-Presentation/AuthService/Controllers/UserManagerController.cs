@@ -3,7 +3,6 @@ using Application.Gateway.User.Models;
 using Application.Services.ReqRes;
 using AuthService.Models;
 using Common.Core.CQRS;
-using Domain.User.Entities;
 using Infra.Core.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;

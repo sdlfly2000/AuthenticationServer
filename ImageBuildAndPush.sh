@@ -1,5 +1,5 @@
 # /user/bin/bash
-
+ 
 ## Setup version from file
 version=$(</home/devops/Projects/AuthenticationService/version)
 
