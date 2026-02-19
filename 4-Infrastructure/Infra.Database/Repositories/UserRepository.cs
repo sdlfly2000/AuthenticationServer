@@ -7,14 +7,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Infra.Database.Repositories
 {
     [ServiceLocate(typeof(IUserRepository))]
-    public class UserRepository : IUserRepository
+    public class UserRepository(IdDbContext context) : IUserRepository
     {
-        private readonly IdDbContext _context;
-
-        public UserRepository(IdDbContext context)
-        {
-            _context = context;
-        }
+        private readonly IdDbContext _context = context;
 
         public async Task<User> FindUserByUserNamePwd(string userName, string passwordHash)
         {

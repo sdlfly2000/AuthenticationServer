@@ -7,14 +7,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Infra.Database.Repositories;
 
 [ServiceLocate(typeof(IRightRepository))]
-public class RightRepository : IRightRepository
+public class RightRepository(IdDbContext context) : IRightRepository
 {
-    private readonly IdDbContext _context;
-
-    public RightRepository(IdDbContext context)
-    {
-        _context = context;
-    }
+    private readonly IdDbContext _context = context;
 
     public async Task<Right> Get(Guid id, CancellationToken cancellationToken)
     {

@@ -1,16 +1,20 @@
-﻿namespace Domain.Authorizations.Repositories;
+﻿using Domain.Authorizations.Entities;
+
+namespace Domain.Authorizations.Repositories;
 
 public interface IRoleRepository
 {
-    Task<Entities.Role> Get(Guid id, CancellationToken cancellationToken);
+    Task<Role> Get(Guid id, CancellationToken cancellationToken);
 
-    Task<Entities.Role> GetByRoleName(string roleName, CancellationToken cancellationToken);
+    Task<Role> GetByRoleName(string roleName, CancellationToken cancellationToken);
 
-    Task<Entities.Role> Add(Entities.Role role, CancellationToken cancellationToken);
+    Task<IList<Role>> GetByRoleNames(IList<string> roleNames, CancellationToken cancellationToken);
 
-    Entities.Role Update(Entities.Role role);
+    Task<Role> Add(Role role, CancellationToken cancellationToken);
 
-    void Delete(Entities.Role role);
+    Role Update(Role role);
+
+    void Delete(Role role);
 
     Task<int> Save(CancellationToken cancellationToken);
 }

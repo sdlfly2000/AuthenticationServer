@@ -1,6 +1,5 @@
 ﻿using Domain.Authorizations.Entities;
 using Domain.User.Entities;
-using Domain.User.ValueObjects;
 using Infra.Database.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 

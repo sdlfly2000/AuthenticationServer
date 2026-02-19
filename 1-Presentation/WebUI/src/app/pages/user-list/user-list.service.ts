@@ -14,7 +14,11 @@ export class UserListService {
 
   }
 
-  GetAllUsers(): Observable<UserModel[]> {
+  public GetAllUsers(): Observable<UserModel[]> {
     return this.httpClient.get<UserModel[]>(this.BaseUrl + "api/UserManager/Users");
+  }
+
+  public AssignApp(userId: string, appName: string): Observable<string> {
+    return this.httpClient.get<string>(this.BaseUrl + "api/UserManager/AppAssign?userId=" + userId + "&appName=" + appName);
   }
 }

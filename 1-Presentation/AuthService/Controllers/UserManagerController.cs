@@ -87,5 +87,25 @@ namespace AuthService.Controllers
 
             return false;
         }
+
+        [HttpGet("AppAssign")]
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
+        public async Task<IActionResult> AssignApp([FromQuery] string userid, [FromQuery] string appName, CancellationToken token)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var request = new AssignAppRequest(userid, appName);
+            var response = await _userGateway.AssignApp(request, token).ConfigureAwait(false);
+
+            if (response.Success)
+            {
+                return Ok();
+            }
+
+            return Problem(response.ErrorMessage);
+        }
     }
 }

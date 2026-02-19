@@ -25,15 +25,10 @@ namespace Application.Services.User.Queries
         [LogTrace(returnType: typeof(AuthorizeResponse))]
         public async Task<AuthorizeResponse> Handle(AuthorizeRequest request, CancellationToken cancellationToken)
         {
-            var roleNames = _requestContext.CurrentUserRoles;
-            
-            var rights = new List<string>();
-            
-            foreach (var roleName in roleNames)
-            {
-                var role = await _roleRepository.GetByRoleName(roleName, cancellationToken).ConfigureAwait(false);
-                rights.AddRange(role.Rights.Select(r => r.RightName));
-            }
+            var roleNames = _requestContext.CurrentUserRoles;           
+          
+            var roles = await _roleRepository.GetByRoleNames(roleNames, cancellationToken).ConfigureAwait(false);
+            var rights = roles.SelectMany(r => r.Rights.Select(r => r.RightName)).ToList();
             
             foreach (var right in request.Rights)
             {
