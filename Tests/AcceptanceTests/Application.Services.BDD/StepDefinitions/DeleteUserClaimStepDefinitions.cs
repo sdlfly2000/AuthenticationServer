@@ -4,6 +4,7 @@ using Infra.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Security.Claims;
+using Claim = Domain.User.Entities.Claim;
 
 namespace Application.Services.BDD.StepDefinitions;
 
@@ -50,6 +51,6 @@ public class DeleteUserClaimStepDefinitions
     [Then("the response should indicate successful claim deletion")]
     public void ThenTheResponseShouldIndicateSuccessfulClaimDeletion()
     {
-        Assert.IsFalse(_dbContext.Set<Domain.User.ValueObjects.Claim>().Any(claim => claim.Name.Equals(ClaimTypes.Version) && claim.Value.Equals(_version)));
+        Assert.IsFalse(_dbContext.Set<Claim>().Any(claim => claim.Name.Equals(ClaimTypes.Version) && claim.Value.Equals(_version)));
     }
 }

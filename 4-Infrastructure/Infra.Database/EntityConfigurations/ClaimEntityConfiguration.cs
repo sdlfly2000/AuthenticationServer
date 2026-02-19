@@ -1,4 +1,5 @@
-﻿using Domain.User.ValueObjects;
+﻿using Domain.User.Entities;
+using Domain.User.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +16,8 @@ namespace Infra.Database.EntityConfigurations
             builder.Property(c => c.IsFixed).HasColumnName("IsFixed").HasColumnType("bit").HasDefaultValue(0);
             builder.Property(c => c.Value).HasColumnName("Value").HasColumnType("nvarchar(max)");
 
+            builder.Ignore(c => c.Id);
+            
             builder.HasKey("_id");
             builder.HasIndex("_userId");
             builder.ToTable(nameof(Claim));

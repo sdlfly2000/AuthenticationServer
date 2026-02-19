@@ -29,22 +29,33 @@ public class ActiAuthorizeAttribute : Attribute, IMethodAsyncAdvice
         var serviceProvider = context.GetMemberServiceProvider();
         var requestContext = serviceProvider?.GetRequiredService<IRequestContext>();
         var roleRepository = serviceProvider?.GetRequiredService<IRoleRepository>();
-        var currentUserRole = requestContext?.CurrentUserRole;
+        var currentUserRoles = requestContext?.CurrentUserRoles;
         var logger = serviceProvider?.GetRequiredService<ILogger>();
+        var authorized = false;
 
         ArgumentNullException.ThrowIfNull(requestContext, $"{nameof(RequestContext)} is null");
         ArgumentNullException.ThrowIfNull(roleRepository, $"{nameof(IRoleRepository)} is null");
-        ArgumentNullException.ThrowIfNull(currentUserRole, $"{nameof(currentUserRole)} in {nameof(RequestContext)} is null");
+        ArgumentNullException.ThrowIfNull(currentUserRoles, $"{nameof(currentUserRoles)} in {nameof(RequestContext)} is null");
         ArgumentNullException.ThrowIfNull(logger, $"{nameof(ILogger)} is null");
 
-        var currentRole = await roleRepository.GetByRoleName(currentUserRole, cancellationToken).ConfigureAwait(false);
-
-        if (!string.IsNullOrEmpty(_right) && !currentRole.HasRight(_right))
+        foreach (var currentUserRole in currentUserRoles)
         {
-            logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Right:{_right} .", requestContext?.TraceId);
-            UnauthorizedException.Throw(_right);
+            var currentRole = await roleRepository.GetByRoleName(currentUserRole, cancellationToken)
+                .ConfigureAwait(false);
+
+            if (!string.IsNullOrEmpty(_right) && currentRole.HasRight(_right))
+            {
+                authorized = true;
+            }
         }
 
+        if (!authorized)
+        {
+            logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Right:{_right}.",
+                requestContext?.TraceId);
+            UnauthorizedException.Throw(_right);
+        }
+        
         await context.ProceedAsync().ConfigureAwait(false);
     }
 }

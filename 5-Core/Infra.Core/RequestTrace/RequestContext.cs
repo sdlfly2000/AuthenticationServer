@@ -7,6 +7,6 @@ namespace Infra.Core.RequestTrace
     {
         public string TraceId { get; set; }
         public Guid CurrentUserId { get; set; }
-        public string CurrentUserRole { get; set; }
+        public List<string> CurrentUserRoles { get; set; }
     }
 }

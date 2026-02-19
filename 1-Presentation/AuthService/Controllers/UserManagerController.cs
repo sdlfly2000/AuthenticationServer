@@ -65,7 +65,7 @@ namespace AuthService.Controllers
 
             return response.Success 
                 ? new UserModel(response.User!.Id.Code, response.User.DisplayName)
-                : default;
+                : null;
         }
 
         [HttpGet("Rights")]

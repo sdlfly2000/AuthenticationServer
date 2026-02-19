@@ -1,13 +1,13 @@
 ﻿using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
 using System.Security.Claims;
-using Claim = Domain.User.ValueObjects.Claim;
+using Claim = Domain.User.Entities.Claim;
 
 namespace Domain.User.Entities
 {
     public class User : DomainEntity<UserReference>
     {
-        public UserReference Id { get => UserReference.Create(_id); }
+        public UserReference Id => UserReference.Create(_id);
 
         public string UserName { get; set; }
 
@@ -42,7 +42,7 @@ namespace Domain.User.Entities
             var claim = new Claim(name, value, isFixed);
             claim.AssignUser(_id);
             
-            if(Claims.Any(c => c.Name.Equals(claim.Name)))
+            if(Claims.Any(c => c.Name.Equals(claim.Name) && c.Value.Equals(claim.Value)))
             {
                 throw new InvalidOperationException($"Failure of adding Claim, Claim with Name: {name} already exists for user: {_id}.");
             }
