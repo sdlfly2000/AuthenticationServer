@@ -39,7 +39,7 @@ namespace AuthService.Controllers
             }
 
             var response = await eventBus.Send<UpdateUserClaimRequest, UpdateUserClaimResponse>(
-                new UpdateUserClaimRequest(id, request.ClaimType.TypeName, request.Value), token);
+                new UpdateUserClaimRequest(id, request.ClaimId, request.ClaimType.TypeName, request.Value), token);
 
             return response.Success
                 ? Ok()
@@ -79,7 +79,8 @@ namespace AuthService.Controllers
 
             var userClaims = userResponse.User!.Claims.Select(claim => 
                 new UserClaimModel { 
-                    ClaimType = new ClaimTypeValues(TypeShortName: claim.Name.Split('/').Last(), TypeName: claim.Name), 
+                    ClaimType = new ClaimTypeValues(TypeShortName: claim.Name.Split('/').Last(), TypeName: claim.Name),
+                    ClaimId = claim.Id.Code,
                     Value = claim.Value,
                     IsFixed = claim.IsFixed
                 });

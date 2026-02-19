@@ -20,9 +20,9 @@ namespace Application.Services.User.CommandHandlers
         [LogTrace(returnType: typeof(UpdateUserClaimResponse))]
         public async Task<UpdateUserClaimResponse> Handle(UpdateUserClaimRequest request, CancellationToken cancellationToken)
         {
-            var user = await userRepository.Find((UserReference)request.UserId);
+            var user = await userRepository.Find((UserReference)request.UserId, cancellationToken);
 
-            user!.UpdateClaim(request.ClaimType, request.ClaimValue);
+            user!.UpdateClaim(request.ClaimId, request.ClaimValue);
 
             var result = await userPersistor.Update(user);
 

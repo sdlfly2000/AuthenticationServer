@@ -25,16 +25,17 @@ namespace Infra.Database.Repositories
                     user.PasswordHash!.Equals(passwordHash));
         }
 
-        public async Task<User> Find(UserReference reference)
+        public async Task<User> Find(UserReference reference, CancellationToken token)
         {
             return await _context.Set<User>()
                 .Include(user => user.Claims)
-                .SingleAsync(user => EF.Property<string>(user, "_id").Equals(reference.Code));
+                .SingleAsync(user => EF.Property<string>(user, "_id").Equals(reference.Code), token)
+                .ConfigureAwait(false);
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers(CancellationToken token)
         {
-            return await _context.Set<User>().ToListAsync();
+            return await _context.Set<User>().ToListAsync(token).ConfigureAwait(false);
         }
     }
 }

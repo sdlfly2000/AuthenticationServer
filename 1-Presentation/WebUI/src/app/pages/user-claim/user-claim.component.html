@@ -3,7 +3,7 @@
   <p-divider />
   @if (UserClaims()){
   <form #UserForm="ngForm">
-    @for (claim of UserClaims(); track claim.value) {
+    @for (claim of UserClaims(); track claim.claimId) {
     <div class="user-claim-container">
       <div class="user-claim-container-item-label">
         <label [for]="claim.claimType.typeName" class="form-label form-element">{{claim.claimType.typeShortName}}</label>

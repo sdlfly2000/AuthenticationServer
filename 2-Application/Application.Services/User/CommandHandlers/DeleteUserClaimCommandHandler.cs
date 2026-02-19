@@ -28,7 +28,7 @@ namespace Application.Services.User.CommandHandlers
         [LogTrace(returnType: typeof(DeleteUserClaimResponse))]
         public async Task<DeleteUserClaimResponse> Handle(DeleteUserClaimRequest request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.Find((UserReference)request.UserId);
+            var user = await _userRepository.Find((UserReference)request.UserId, cancellationToken);
 
             ArgumentNullException.ThrowIfNull(user, $"Cannot find User by {request.UserId}.");
              

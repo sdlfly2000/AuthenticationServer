@@ -50,9 +50,10 @@ namespace Domain.User.Entities
             Claims.Add(claim);
         }
 
-        public void UpdateClaim(string name, string value)
+        public void UpdateClaim(string claimId, string value)
         {
-            var claim = Claims.Single(claim => claim.Name.Equals(name) && claim.IsFixed == false);
+            var claimReference = ClaimReference.Create(claimId);
+            var claim = Claims.Single(claim => claim.Id.Equals(claimReference) && claim.IsFixed == false);
             claim!.SetValue(value);
         }
 
