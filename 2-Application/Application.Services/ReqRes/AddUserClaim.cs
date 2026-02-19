@@ -5,10 +5,6 @@ namespace Application.Services.ReqRes
 {
     public record AddUserClaimRequest(string UserId, string ClaimType, string ClaimValue) : AppRequest, IRequest;
 
-    public record AddUserClaimResponse: AppResponse, IResponse
-    {
-        public AddUserClaimResponse(string Message, bool Success) : base(Message, Success)
-        {
-        }
-    }
+    public record AddUserClaimResponse(string ErrorMessage, bool Success)
+        : AppResponse(ErrorMessage, Success), IResponse;
 }

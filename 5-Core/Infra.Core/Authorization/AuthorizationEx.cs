@@ -9,7 +9,7 @@ public static class AuthorizationEx
     public static bool VerifyAppName(AuthorizationHandlerContext context)
     {
         var configuration = ConfigurationService.GetConfiguration();
-        var appName = configuration["Application:Properties:Name"];
+        var appName = configuration["Application:Properties:Name"] ?? string.Empty;
 
         var appClaim = context.User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypesEx.AppsAuthenticated))?.Value;
 

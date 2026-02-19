@@ -25,11 +25,10 @@ public class RoleRepository : IRoleRepository
     {
         var role = await _context.Set<Role>()
             .Include(r => r.Rights)
-            .SingleOrDefaultAsync(r => r.Id == id);
+            .SingleOrDefaultAsync(r => r.Id == id, cancellationToken)
+            .ConfigureAwait(false);
 
-        return role is null 
-            ? throw new DomainNotFoundException(nameof(Role), id.ToString()) 
-            : role;
+        return role ?? throw new DomainNotFoundException(nameof(Role), id.ToString());
     }
 
     public Role Update(Role role)

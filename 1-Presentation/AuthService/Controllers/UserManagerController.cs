@@ -36,7 +36,7 @@ namespace AuthService.Controllers
 
             var result =  await _userGateway.Register(registerUserRequest, token);
 
-            if (result != null && !result.Success)
+            if (!result.Success)
             {
                 return BadRequest(result.Message);
             }
@@ -51,7 +51,7 @@ namespace AuthService.Controllers
             var getAllUsersRequest = new GetAllUsersQueryRequest();
             var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest, token);
             
-            return response.Success == true 
+            return response.Success 
                             ? Ok(response.Users)
                             : Problem(response.ErrorMessage);
         }
