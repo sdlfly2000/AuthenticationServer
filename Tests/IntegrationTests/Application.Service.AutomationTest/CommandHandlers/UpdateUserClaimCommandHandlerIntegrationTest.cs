@@ -26,6 +26,8 @@ namespace Application.Service.AutomationTest.CommandHandlers
         private static IdDbContext? _dbContext;
         private IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse> _handler;
 
+        private string _userClaimId;
+
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
@@ -62,11 +64,12 @@ namespace Application.Service.AutomationTest.CommandHandlers
             _handler = _serviceProvider.GetRequiredService<IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse>>();
             var userPersistor = _serviceProvider.GetRequiredService<IUserPersistor>();
             var userRepository = _serviceProvider.GetRequiredService<IUserRepository>();
-            var user = await userRepository.Find(UserReference.Create(UserId)).ConfigureAwait(false);
+            var user = await userRepository.Find(UserReference.Create(UserId), CancellationToken.None).ConfigureAwait(false);
 
             Debug.Assert(user != null, $"user {UserId} is null in db IdentityTest.");
 
             user.AddClaim(ClaimTypes.Email, "TestEmail");
+            _userClaimId = user.Claims.FirstOrDefault(c => c.Name.Equals(ClaimTypes.Email) && c.Value.Equals("TestEmail")).Id.Code;
             await userPersistor.Update(user).ConfigureAwait(false);
         }
 
@@ -90,7 +93,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
         {
             // Arrange
             var claimType = ClaimTypes.Email;
-            var request = new UpdateUserClaimRequest(UserId, claimType, NewClaimValue);
+            var request = new UpdateUserClaimRequest(UserId, _userClaimId, claimType, NewClaimValue);
 
             // Action
             var response = await _handler.Handle(request, CancellationToken.None).ConfigureAwait(false);

@@ -52,16 +52,16 @@ namespace Domain.Tests.User.Entities
         public void Given_NameAndValue_When_Update_Then_Claim_updated()
         {
             // Arrange
-            var claimName = ClaimTypes.Name;
+            var claim = _user.Claims.FirstOrDefault(claim => claim.Name.Equals(ClaimType));
             var claimValue = "claimValueUpdated";
 
             // Action
-            _user.UpdateClaim(claimName, claimValue);
+            _user.UpdateClaim(claim?.Id?.Code, claimValue);
 
             // Assert
             Assert.HasCount(1, _user.Claims);
             Assert.IsTrue(_user.Claims.Any(claim => claim.Value.Equals(claimValue)));
-            Assert.IsTrue(_user.Claims.Any(claim => claim.Name.Equals(claimName)));
+            Assert.IsTrue(_user.Claims.Any(claim => claim.Name.Equals(ClaimType)));
         }
     }
 }
