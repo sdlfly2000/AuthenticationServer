@@ -2,6 +2,7 @@
 using Domain.User.Entities;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
+using Infra.Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Database.Repositories
@@ -22,10 +23,14 @@ namespace Infra.Database.Repositories
 
         public async Task<User> Find(UserReference reference, CancellationToken token)
         {
-            return await _context.Set<User>()
+            var user = await _context.Set<User>()
                 .Include(user => user.Claims)
-                .SingleAsync(user => EF.Property<string>(user, "_id").Equals(reference.Code), token)
+                .SingleOrDefaultAsync(user => EF.Property<string>(user, "_id").Equals(reference.Code), token)
                 .ConfigureAwait(false);
+
+            DomainNotFoundException.ThrowIfNull(user, nameof(User), reference.Code);
+
+            return user;
         }
 
         public async Task<List<User>> GetAllUsers(CancellationToken token)

@@ -107,5 +107,25 @@ namespace AuthService.Controllers
 
             return Problem(response.ErrorMessage);
         }
+
+        [HttpGet("RoleAssign")]
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
+        public async Task<IActionResult> AssignRole([FromQuery] string userid, [FromQuery] string appName, [FromQuery] string roleName, CancellationToken token)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var request = new AssignRoleRequest(userid, appName, roleName);
+            var response = await _userGateway.AssignRole(request, token).ConfigureAwait(false);
+
+            if (response.Success)
+            {
+                return Ok();
+            }
+
+            return Problem(response.ErrorMessage);
+        }
     }
 }

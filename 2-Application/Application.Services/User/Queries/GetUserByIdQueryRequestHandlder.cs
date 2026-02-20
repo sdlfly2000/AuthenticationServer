@@ -24,11 +24,6 @@ namespace Application.Services.User.Queries
         {
             var user = await _userRepository.Find(UserReference.Create(request.userId), cancellationToken);
 
-            if (user == null) 
-            {
-                return new GetUserByIdResponse($"User {request.userId} is Not Found", false, default);
-            }
-
             return new GetUserByIdResponse(string.Empty, true, user);
         }
     }

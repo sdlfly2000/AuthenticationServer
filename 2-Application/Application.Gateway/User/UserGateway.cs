@@ -5,6 +5,7 @@ using Common.Core.DependencyInjection;
 using Infra.Core;
 using Infra.Core.Authorization;
 using Infra.Core.LogTrace;
+using System.Security.Claims;
 
 namespace Application.Gateway.User;
 
@@ -20,6 +21,29 @@ public class UserGateway(IEventBus eventBus, IServiceProvider serviceProvider) :
         var response = await eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(addUserClaimequest, token).ConfigureAwait(false);
 
         return new AssignAppResponse(response.ErrorMessage, response.Success);
+    }
+
+    [LogTrace(returnType: typeof(AssignRoleResponse))]
+    public async Task<AssignRoleResponse> AssignRole(AssignRoleRequest request, CancellationToken token)
+    {
+        var getUserByIdRequest = new GetUserByIdRequest(request.UserId);
+        var user = (await eventBus
+                        .Send<GetUserByIdRequest, GetUserByIdResponse>(getUserByIdRequest, token)
+                        .ConfigureAwait(false))
+                        .User;
+
+        if (!user.Claims.Any(c => 
+                c.Name.Equals(ClaimTypesEx.AppsAuthenticated) && 
+                c.Value.Equals(request.AppName)))
+        {
+            throw new InvalidOperationException($"User:{user.UserName} is not authorized to app {request.AppName}.");
+        }
+
+        var roleClaimValue = $"{request.AppName}:{request.RoleName}";
+        var addUserClaimRequest = new AddUserClaimRequest(request.UserId, ClaimTypes.Role, roleClaimValue);
+        var response = await eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(addUserClaimRequest, token).ConfigureAwait(false);
+
+        return new AssignRoleResponse(response.ErrorMessage, response.Success);
     }
 
     [LogTrace(returnType: typeof(RegisterUserResponse))]

@@ -49,14 +49,18 @@ export class UserListCommandAssignRoleComponent implements OnChanges {
 
     AssignRole(): void {
         this.selectedUsers()?.forEach(user => {
-            this.userListCommandService.AssignApp(user.id.code, this.assignAppName).subscribe({
+            this.userListCommandService.AssignRole(user.id.code, this.assignAppName, this.assignRoleName).subscribe({
                 next: () => {
-                    this.statusMessageService.StatusMessage = new StatusMessageModel("Successfully Assign App", EnumInfoSeverity.Info);
+                    this.statusMessageService.StatusMessage = new StatusMessageModel("Successfully Assign Role for " + user.userName, EnumInfoSeverity.Info);
                 },
                 error: (errorResponse) => {
                     if (errorResponse instanceof HttpErrorResponse) {
-                        this.statusMessageService.StatusMessage = new StatusMessageModel(errorResponse.error.detail, EnumInfoSeverity.Error);
+                        this.statusMessageService.StatusMessage = new StatusMessageModel(errorResponse.error.detail + " for " + user.userName, EnumInfoSeverity.Error);
                     }
+                },
+                complete: () => {
+                    this.assignRoleName = '';
+                    this.assignAppName = '';
                 }
             });
         });

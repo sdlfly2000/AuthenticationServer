@@ -3,7 +3,6 @@ import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { Dialog } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
@@ -11,10 +10,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { EnumInfoSeverity, StatusMessageModel, StatusMessageService } from '../../../services/statusmessage.service';
-import { UserModel } from './models/UserModel';
-import { UserListService } from './user-list.service';
 import { UserListCommandAssignAppComponent } from '../user-list-cmd/user-list-cmd-assign-app/user-list-cmd-assign-app.component';
 import { UserListCommandAssignRoleComponent } from '../user-list-cmd/user-list-cmd-assign-role/user-list-cmd-assign-role.component';
+import { UserModel } from './models/UserModel';
+import { UserListService } from './user-list.service';
 
 @Component({
   selector: 'app-root',
