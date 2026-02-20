@@ -13,12 +13,15 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { EnumInfoSeverity, StatusMessageModel, StatusMessageService } from '../../../services/statusmessage.service';
 import { UserModel } from './models/UserModel';
 import { UserListService } from './user-list.service';
+import { UserListCommandAssignAppComponent } from '../user-list-cmd/user-list-cmd-assign-app/user-list-cmd-assign-app.component';
+import { UserListCommandAssignRoleComponent } from '../user-list-cmd/user-list-cmd-assign-role/user-list-cmd-assign-role.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css'],
-    imports: [FormsModule, TableModule, InputIconModule, IconFieldModule, ConfirmDialogModule, InputTextModule, ButtonModule, DividerModule, ToolbarModule, Dialog]
+  imports: [FormsModule, TableModule, InputIconModule, IconFieldModule, ConfirmDialogModule, InputTextModule, ButtonModule, DividerModule, ToolbarModule,
+      UserListCommandAssignAppComponent, UserListCommandAssignRoleComponent]
 })
 export class UserListComponent implements OnInit{
     title = 'User List';
@@ -47,28 +50,5 @@ export class UserListComponent implements OnInit{
                 }
             }
         });
-    }
-
-    AssignApp(): void {
-
-        this.SelectedUsers.forEach(user => {
-            this.userListService.AssignApp(user.id.code, this.assignAppName).subscribe({
-                error: (errorResponse) => {
-                    if (errorResponse instanceof HttpErrorResponse) {
-                        this.statusMessageService.StatusMessage = new StatusMessageModel(errorResponse.error.detail, EnumInfoSeverity.Error);
-                    }
-                }
-            });
-        });
-
-        this.ShowAssignAppDialog(false);
-    }
-
-
-    ShowAssignAppDialog(isShow: boolean) {
-        this.isPopupAssignAppDialog = isShow;
-        if (!isShow) {
-            this.assignAppName = '';
-        }
     }
 }

@@ -32,5 +32,12 @@ namespace Infra.Database.Repositories
         {
             return await _context.Set<User>().ToListAsync(token).ConfigureAwait(false);
         }
+
+        public async Task<List<User>> GetAllUsersWithClaims(CancellationToken token)
+        {
+            return await _context.Set<User>()
+                .Include(user => user.Claims)
+                .ToListAsync(token).ConfigureAwait(false);
+        }
     }
 }

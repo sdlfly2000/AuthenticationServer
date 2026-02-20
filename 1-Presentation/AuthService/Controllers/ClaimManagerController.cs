@@ -97,5 +97,15 @@ namespace AuthService.Controllers
                 ? response.ClaimTypes
                 : new List<ClaimTypeValues>();
         }
+
+        [HttpGet]
+        public async Task<IList<string>> GetAppNames(CancellationToken token)
+        {
+            var response = await eventBus.Send<GetAllAppNamesRequest, GetAllAppNamesResponse>(new GetAllAppNamesRequest(), token);
+
+            return response.Success
+                ? response.appNames
+                : new List<string>();
+        }
     }
 }

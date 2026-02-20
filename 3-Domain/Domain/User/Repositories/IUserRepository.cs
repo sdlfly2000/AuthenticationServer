@@ -8,6 +8,8 @@ namespace Domain.User.Repositories
 
         Task<List<Entities.User>> GetAllUsers(CancellationToken token);
 
+        Task<List<Entities.User>> GetAllUsersWithClaims(CancellationToken token);
+
         Task<Entities.User> FindUserByUserNamePwd(string userName, string passwordHash);
     }
 }

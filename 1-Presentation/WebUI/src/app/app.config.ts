@@ -15,6 +15,7 @@ import { LoginService } from './pages/login/login.service';
 import { UserClaimService } from './pages/user-claim/user-claim.service';
 import { UserListGuard } from './pages/user-list/user-list.guard';
 import { UserListService } from './pages/user-list/user-list.service';
+import { UserListCommandService } from './pages/user-list-cmd/user-list-cmd.service';
 
 export const BASE_URL = new InjectionToken<string>('BASE_URL');
 
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
     { provide: UserListGuard },
     { provide: UserClaimService },
     { provide: UserListService },
+    { provide: UserListCommandService },
     { provide: LoginService },
     { provide: AuthService },
     { provide: StatusMessageService },
