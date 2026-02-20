@@ -6,5 +6,9 @@ namespace Application.Gateway.User
     public interface IUserGateway
     {
         Task<RegisterUserResponse> Register(RegisterUserRawRequest request, CancellationToken token);
+
+        Task<AssignAppResponse> AssignApp(AssignAppRequest request, CancellationToken token);
+
+        Task<AssignRoleResponse> AssignRole(AssignRoleRequest request, CancellationToken token);
     }
 }

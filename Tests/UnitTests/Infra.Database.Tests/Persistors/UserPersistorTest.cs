@@ -54,7 +54,7 @@ namespace Infra.Database.Tests.Persistors
             Assert.IsNotNull(userPersistor);
             Assert.IsNotNull(userRepository);
 
-            var user = await userRepository.Find((UserReference)"d3f2252e-6058-4d41-9de5-9d8c1f52abcb");
+            var user = await userRepository.Find((UserReference)"d3f2252e-6058-4d41-9de5-9d8c1f52abcb", CancellationToken.None).ConfigureAwait(false);
             user!.AddClaim(ClaimTypes.Name, "Jay Shi");
 
             // Action
@@ -74,7 +74,7 @@ namespace Infra.Database.Tests.Persistors
             Assert.IsNotNull(userPersistor);
             Assert.IsNotNull(userRepository);
 
-            var user = await userRepository.Find((UserReference)"d3f2252e-6058-4d41-9de5-9d8c1f52abcb");
+            var user = await userRepository.Find((UserReference)"d3f2252e-6058-4d41-9de5-9d8c1f52abcb", CancellationToken.None).ConfigureAwait(false);
             user!.UpdateClaim(ClaimTypes.Name, "Jay Shi 02");
 
             // Action

@@ -36,7 +36,7 @@ namespace AuthService.Controllers
 
             var result =  await _userGateway.Register(registerUserRequest, token);
 
-            if (result != null && !result.Success)
+            if (!result.Success)
             {
                 return BadRequest(result.Message);
             }
@@ -51,7 +51,7 @@ namespace AuthService.Controllers
             var getAllUsersRequest = new GetAllUsersQueryRequest();
             var response = await _eventBus.Send<GetAllUsersQueryRequest, GetAllUsersQueryResponse>(getAllUsersRequest, token);
             
-            return response.Success == true 
+            return response.Success 
                             ? Ok(response.Users)
                             : Problem(response.ErrorMessage);
         }
@@ -65,7 +65,7 @@ namespace AuthService.Controllers
 
             return response.Success 
                 ? new UserModel(response.User!.Id.Code, response.User.DisplayName)
-                : default;
+                : null;
         }
 
         [HttpGet("Rights")]
@@ -86,6 +86,46 @@ namespace AuthService.Controllers
             }
 
             return false;
+        }
+
+        [HttpGet("AppAssign")]
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
+        public async Task<IActionResult> AssignApp([FromQuery] string userid, [FromQuery] string appName, CancellationToken token)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var request = new AssignAppRequest(userid, appName);
+            var response = await _userGateway.AssignApp(request, token).ConfigureAwait(false);
+
+            if (response.Success)
+            {
+                return Ok();
+            }
+
+            return Problem(response.ErrorMessage);
+        }
+
+        [HttpGet("RoleAssign")]
+        [Authorize(Policy = nameof(AuthorizationEx.VerifyAppName))]
+        public async Task<IActionResult> AssignRole([FromQuery] string userid, [FromQuery] string appName, [FromQuery] string roleName, CancellationToken token)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var request = new AssignRoleRequest(userid, appName, roleName);
+            var response = await _userGateway.AssignRole(request, token).ConfigureAwait(false);
+
+            if (response.Success)
+            {
+                return Ok();
+            }
+
+            return Problem(response.ErrorMessage);
         }
     }
 }

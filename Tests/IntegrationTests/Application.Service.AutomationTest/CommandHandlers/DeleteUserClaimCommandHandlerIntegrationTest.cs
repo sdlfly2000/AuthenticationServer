@@ -61,7 +61,7 @@ namespace Application.Service.AutomationTest.CommandHandlers
             _handler = _serviceProvider.GetRequiredService<IRequestHandler<DeleteUserClaimRequest, DeleteUserClaimResponse>>();
             var userPersistor = _serviceProvider.GetRequiredService<IUserPersistor>();
             var userRepository = _serviceProvider.GetRequiredService<IUserRepository>();
-            var user = await userRepository.Find(UserReference.Create(UserId)).ConfigureAwait(false);
+            var user = await userRepository.Find(UserReference.Create(UserId), CancellationToken.None).ConfigureAwait(false);
 
             Debug.Assert(user != null, $"user {UserId} is null in db IdentityTest.");
 

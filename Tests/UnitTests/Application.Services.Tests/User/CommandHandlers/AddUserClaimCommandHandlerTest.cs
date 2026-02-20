@@ -39,8 +39,8 @@ namespace Application.Services.Tests.User.CommandHandlers
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
             _userRepositoryMock
-                .Setup(repository => repository.Find(It.IsAny<UserReference>()))
-                .Returns(Task.FromResult<Domain.User.Entities.User?>(_user));
+                .Setup(repository => repository.Find(It.IsAny<UserReference>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(_user));
 
             _userPersistorMock
                 .Setup(p => p.Update(It.IsAny<Domain.User.Entities.User>()))
@@ -65,7 +65,7 @@ namespace Application.Services.Tests.User.CommandHandlers
 
             // Assert
             Assert.IsNotNull(response);
-            Assert.AreEqual(1, _user.Claims.Count);
+            Assert.HasCount(1, _user.Claims);
             Assert.IsTrue(_user.Claims.Any(claim => claim.Name.Equals(claimType)));
             Assert.IsTrue(_user.Claims.Any(claim => claim.Value.Equals(claimValue)));
         }

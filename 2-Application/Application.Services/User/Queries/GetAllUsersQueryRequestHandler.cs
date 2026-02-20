@@ -24,7 +24,7 @@ namespace Application.Services.User.Queries
         [ActiAuthorize(Right: EnumRights.UserList)]
         public async Task<GetAllUsersQueryResponse> Handle(GetAllUsersQueryRequest request, CancellationToken cancellationToken)
         {
-            var users = await _userRepository.GetAllUsers();
+            var users = await _userRepository.GetAllUsers(cancellationToken);
 
             return new GetAllUsersQueryResponse(string.Empty, true, users);
         }

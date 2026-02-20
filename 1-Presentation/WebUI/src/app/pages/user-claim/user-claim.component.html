@@ -3,14 +3,14 @@
   <p-divider />
   @if (UserClaims()){
   <form #UserForm="ngForm">
-    @for (claim of UserClaims(); track claim.claimType.typeName) {
+    @for (claim of UserClaims(); track claim.claimId) {
     <div class="user-claim-container">
-      <div class="user-claim-container-item-label">  
+      <div class="user-claim-container-item-label">
         <label [for]="claim.claimType.typeName" class="form-label form-element">{{claim.claimType.typeShortName}}</label>
       </div>
-      <div [style]="{width: '50%'}">   
+      <div [style]="{width: '50%'}">
         <input type="text" pInputText [id]="claim.claimType.typeName" class="user-claim-container-item-input" [value]="claim.value" disabled />
-        @if(claim.isFixed == false) {
+        @if(!claim.isFixed) {
         <p-button type="button" class="user-claim-container-item-button" (click)="UpdateSelected(claim)">Update</p-button>
         <p-button type="button" class="user-claim-container-item-button" (click)="DeleteClaim(claim)">Delete</p-button>
         }

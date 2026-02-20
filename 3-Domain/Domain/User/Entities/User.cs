@@ -1,34 +1,25 @@
 ﻿using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
-using System.Security.Claims;
-using Claim = Domain.User.ValueObjects.Claim;
 
 namespace Domain.User.Entities
 {
-    public class User : DomainEntity<UserReference>
+    public class User(string userName) : DomainEntity<UserReference>
     {
-        public UserReference Id { get => UserReference.Create(_id); }
+        public UserReference Id => UserReference.Create(_id);
 
-        public string UserName { get; set; }
+        public string UserName { get; set; } = userName;
 
         public string PasswordHash { get; set; }
 
         public string DisplayName { get;set;}
 
-        public IList<Claim> Claims { get; private set; }
+        public IList<Claim> Claims { get; private set; } = new List<Claim>();
 
         #region Database Usage
 
-        private string _id { get; set; }
+        private string _id { get; set; } = Guid.NewGuid().ToString();
 
         #endregion
-
-        public User(string userName)
-        { 
-            UserName = userName;
-            Claims = new List<Claim>();
-            _id = Guid.NewGuid().ToString();
-        }
 
         #region Service Methods
 
@@ -42,7 +33,7 @@ namespace Domain.User.Entities
             var claim = new Claim(name, value, isFixed);
             claim.AssignUser(_id);
             
-            if(Claims.Any(c => c.Name.Equals(claim.Name)))
+            if(Claims.Any(c => c.Name.Equals(claim.Name) && c.Value.Equals(claim.Value)))
             {
                 throw new InvalidOperationException($"Failure of adding Claim, Claim with Name: {name} already exists for user: {_id}.");
             }
@@ -50,9 +41,10 @@ namespace Domain.User.Entities
             Claims.Add(claim);
         }
 
-        public void UpdateClaim(string name, string value)
+        public void UpdateClaim(string claimId, string value)
         {
-            var claim = Claims.Single(claim => claim.Name.Equals(name) && claim.IsFixed == false);
+            var claimReference = ClaimReference.Create(claimId);
+            var claim = Claims.Single(claim => claim.Id.Equals(claimReference) && claim.IsFixed == false);
             claim!.SetValue(value);
         }
 

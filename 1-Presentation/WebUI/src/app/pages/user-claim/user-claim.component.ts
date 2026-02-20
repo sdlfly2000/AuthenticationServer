@@ -35,6 +35,7 @@ export class UserClaimComponent implements OnInit{
       typeShortName: '',
       typeName: ''
     },
+    claimId: '',
     value: '',
     isFixed: false
   };
@@ -44,6 +45,7 @@ export class UserClaimComponent implements OnInit{
         typeShortName: '',
         typeName: ''
     },
+    claimId: '',
     value: "",
     isFixed: false
   };  
@@ -125,6 +127,7 @@ export class UserClaimComponent implements OnInit{
           typeShortName: '',
           typeName: ''
         },
+        claimId: '',
         value: "",
         isFixed: false
       };
@@ -139,6 +142,7 @@ export class UserClaimComponent implements OnInit{
           typeShortName: '',
           typeName: ''
         },
+        claimId: '',
         value: "",
         isFixed: false
       };
@@ -151,6 +155,7 @@ export class UserClaimComponent implements OnInit{
         typeShortName: userClaim.claimType.typeShortName,
         typeName: userClaim.claimType.typeName
       },
+      claimId: userClaim.claimId,
       value: userClaim.value,
       isFixed: userClaim.isFixed
     };  

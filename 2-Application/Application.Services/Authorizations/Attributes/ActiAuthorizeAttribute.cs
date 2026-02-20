@@ -29,22 +29,23 @@ public class ActiAuthorizeAttribute : Attribute, IMethodAsyncAdvice
         var serviceProvider = context.GetMemberServiceProvider();
         var requestContext = serviceProvider?.GetRequiredService<IRequestContext>();
         var roleRepository = serviceProvider?.GetRequiredService<IRoleRepository>();
-        var currentUserRole = requestContext?.CurrentUserRole;
+        var currentUserRoles = requestContext?.CurrentUserRoles;
         var logger = serviceProvider?.GetRequiredService<ILogger>();
 
         ArgumentNullException.ThrowIfNull(requestContext, $"{nameof(RequestContext)} is null");
         ArgumentNullException.ThrowIfNull(roleRepository, $"{nameof(IRoleRepository)} is null");
-        ArgumentNullException.ThrowIfNull(currentUserRole, $"{nameof(currentUserRole)} in {nameof(RequestContext)} is null");
+        ArgumentNullException.ThrowIfNull(currentUserRoles, $"{nameof(currentUserRoles)} in {nameof(RequestContext)} is null");
         ArgumentNullException.ThrowIfNull(logger, $"{nameof(ILogger)} is null");
 
-        var currentRole = await roleRepository.GetByRoleName(currentUserRole, cancellationToken).ConfigureAwait(false);
+        var roles = await roleRepository.GetByRoleNames(currentUserRoles, cancellationToken).ConfigureAwait(false);
+        var rights = roles.SelectMany(r => r.Rights.Select(r => r.RightName)).ToList();
 
-        if (!string.IsNullOrEmpty(_right) && !currentRole.HasRight(_right))
+        if (!rights.Contains(_right))
         {
-            logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Right:{_right} .", requestContext?.TraceId);
+            logger.Warning($"Trace Id: {{TraceId}}, Not Authorized to operate via Right:{_right}.", requestContext?.TraceId);
             UnauthorizedException.Throw(_right);
         }
-
+        
         await context.ProceedAsync().ConfigureAwait(false);
     }
 }

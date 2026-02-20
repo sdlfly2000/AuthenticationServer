@@ -9,30 +9,22 @@ using Infra.Core.LogTrace;
 namespace Application.Services.User.CommandHandlers
 {
     [ServiceLocate(typeof(IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse>))]
-    public class UpdateUserClaimCommandHandler : IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse>
+    public class UpdateUserClaimCommandHandler(
+        IUserRepository userRepository,
+        IUserPersistor userPersistor,
+        IServiceProvider serviceProvider)
+        : IRequestHandler<UpdateUserClaimRequest, UpdateUserClaimResponse>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUserPersistor _userPersistor;
-        private readonly IServiceProvider _serviceProvider;
-
-        public UpdateUserClaimCommandHandler(
-            IUserRepository userRepository,
-            IUserPersistor userPersistor,
-            IServiceProvider serviceProvider)
-        {
-            _userRepository = userRepository;
-            _userPersistor = userPersistor;
-            _serviceProvider = serviceProvider;
-        }
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         [LogTrace(returnType: typeof(UpdateUserClaimResponse))]
         public async Task<UpdateUserClaimResponse> Handle(UpdateUserClaimRequest request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.Find((UserReference)request.UserId);
+            var user = await userRepository.Find((UserReference)request.UserId, cancellationToken);
 
-            user!.UpdateClaim(request.ClaimType, request.ClaimValue);
+            user!.UpdateClaim(request.ClaimId, request.ClaimValue);
 
-            var result = await _userPersistor.Update(user);
+            var result = await userPersistor.Update(user);
 
             return new UpdateUserClaimResponse(result.Message, result.Success);
         }

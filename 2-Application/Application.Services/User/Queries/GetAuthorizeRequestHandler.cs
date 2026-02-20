@@ -25,13 +25,16 @@ namespace Application.Services.User.Queries
         [LogTrace(returnType: typeof(AuthorizeResponse))]
         public async Task<AuthorizeResponse> Handle(AuthorizeRequest request, CancellationToken cancellationToken)
         {
-            var roleName = _requestContext.CurrentUserRole;
-            var role = await _roleRepository.GetByRoleName(roleName, cancellationToken).ConfigureAwait(false);
-            foreach (string right in request.Rights)
+            var roleNames = _requestContext.CurrentUserRoles;           
+          
+            var roles = await _roleRepository.GetByRoleNames(roleNames, cancellationToken).ConfigureAwait(false);
+            var rights = roles.SelectMany(r => r.Rights.Select(r => r.RightName)).ToList();
+            
+            foreach (var right in request.Rights)
             {
-                if (!role.HasRight(right))
+                if (!rights.Contains(right))
                 {
-                    return new AuthorizeResponse($"Role:{role.RoleName} does not authorize right:{right}.", true, false);
+                    return new AuthorizeResponse($"Role:{roleNames} does not authorize right:{right}.", true, false);
                 }
             }
             return new AuthorizeResponse("Authorized.", true, true);

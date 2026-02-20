@@ -22,12 +22,7 @@ namespace Application.Services.User.Queries
         [LogTrace(returnType: typeof(GetUserByIdResponse))]
         public async Task<GetUserByIdResponse> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.Find(UserReference.Create(request.userId));
-
-            if (user == null) 
-            {
-                return new GetUserByIdResponse($"User {request.userId} is Not Found", false, default);
-            }
+            var user = await _userRepository.Find(UserReference.Create(request.userId), cancellationToken);
 
             return new GetUserByIdResponse(string.Empty, true, user);
         }

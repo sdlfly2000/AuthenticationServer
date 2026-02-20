@@ -4,9 +4,11 @@ namespace Domain.User.Repositories
 {
     public interface IUserRepository
     {
-        Task<Entities.User> Find(UserReference reference);
+        Task<Entities.User> Find(UserReference reference, CancellationToken token);
 
-        Task<List<Entities.User>> GetAllUsers();
+        Task<List<Entities.User>> GetAllUsers(CancellationToken token);
+
+        Task<List<Entities.User>> GetAllUsersWithClaims(CancellationToken token);
 
         Task<Entities.User> FindUserByUserNamePwd(string userName, string passwordHash);
     }

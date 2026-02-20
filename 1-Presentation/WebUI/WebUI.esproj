@@ -9,7 +9,7 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\AngularPresentation</BuildOutputFolder>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(OS)' == 'Unix' " >
+  <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
     <FrameworkPathOverride>/usr/lib/dotnet/shared/Microsoft.NETCore.App/10.0.0/mscorlib.dll</FrameworkPathOverride>
   </PropertyGroup>
 </Project>

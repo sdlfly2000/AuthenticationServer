@@ -11,11 +11,14 @@ using System.Text;
 namespace Application.Gateway.BDD.User
 {
     [Binding]
-    public class UserRegisterStepDefinitions
+    public class UserRegisterStepDefinitions(
+        IUserGateway userGateway,
+        IUserRepository userRepository,
+        IdDbContext dbContext)
     {
-        private readonly IdDbContext _dbContext;
-        private readonly IUserGateway _userGateway;
-        private readonly IUserRepository _userRepository;
+        private readonly IdDbContext _dbContext = dbContext;
+        private readonly IUserGateway _userGateway = userGateway;
+        private readonly IUserRepository _userRepository = userRepository;
 
         private RegisterUserRawRequest? _request;
         private RegisterUserResponse _response;
@@ -23,16 +26,6 @@ namespace Application.Gateway.BDD.User
         private Guid _userId;
         private Domain.User.Entities.User _userRegistered;
         private string _userDisplayName;
-
-        public UserRegisterStepDefinitions(
-            IUserGateway userGateway,
-            IUserRepository userRepository,
-            IdDbContext dbContext)
-        { 
-            _dbContext = dbContext;
-            _userGateway = userGateway;
-            _userRepository = userRepository;
-        }
 
         [BeforeScenario]
         public async Task Initial()
@@ -72,9 +65,9 @@ namespace Application.Gateway.BDD.User
         [Then("User {string} is registered successfully")]
         public async Task ThenUserIsRegisteredSuccessfully(string userName)
         {
-            Assert.AreEqual(true, _response.Success);
+            Assert.IsTrue(_response.Success);
 
-            var users = await _userRepository.GetAllUsers();
+            var users = await _userRepository.GetAllUsers(CancellationToken.None);
             _userRegistered = users.Single(u => u.UserName == userName);
 
             Assert.IsNotNull(_userRegistered);
@@ -98,7 +91,7 @@ namespace Application.Gateway.BDD.User
         [Then("User {string} is registered unsuccessfully due to User already exists")]
         public void ThenUserIsRegisteredUnsuccessfullyDueToUserAlreadyExists(string userName)
         {
-            Assert.AreEqual(false, _response.Success);
+            Assert.IsFalse(_response.Success);
         }
 
         [AfterScenario("@UserAcceptanceTest","@UserRegistrationSuccessfull")]

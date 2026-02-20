@@ -3,6 +3,7 @@ using Common.Core.CQRS.Request;
 using Infra.Database;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Claim = Domain.User.Entities.Claim;
 
 namespace Application.Services.BDD.StepDefinitions
 {
@@ -48,7 +49,7 @@ namespace Application.Services.BDD.StepDefinitions
         [Then("the response should indicate successful claim added")]
         public void ThenTheResponseShouldIndicateSuccessfulClaimAdded()
         {
-            Assert.IsTrue(_dbContext.Set<Domain.User.ValueObjects.Claim>().Any(claim => claim.Name.Equals(ClaimTypes.Version) && claim.Value.Equals(_version)));
+            Assert.IsTrue(_dbContext.Set<Claim>().Any(claim => claim.Name.Equals(ClaimTypes.Version) && claim.Value.Equals(_version)));
         }
     }
 }

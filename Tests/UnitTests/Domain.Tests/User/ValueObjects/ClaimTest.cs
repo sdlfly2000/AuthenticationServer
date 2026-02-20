@@ -1,4 +1,5 @@
-﻿using Domain.User.ValueObjects;
+﻿using Domain.User.Entities;
+using Domain.User.ValueObjects;
 using Infra.Core.Test;
 
 namespace Domain.Tests.User.ValueObjects

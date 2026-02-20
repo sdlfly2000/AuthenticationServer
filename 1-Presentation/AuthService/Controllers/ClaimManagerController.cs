@@ -9,16 +9,8 @@ namespace AuthService.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     [EnableCors("AllowPolicy")]
-    public class ClaimManagerController : ControllerBase
+    public class ClaimManagerController(IEventBus eventBus) : ControllerBase
     {
-        private readonly IEventBus _eventBus;
-
-        public ClaimManagerController(
-            IEventBus eventBus )
-        {
-            _eventBus = eventBus;
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddUserClaim([FromQuery] string id, [FromBody] AddUserClaimRequestModel request, CancellationToken token)
         {
@@ -27,7 +19,7 @@ namespace AuthService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await _eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(
+            var response = await eventBus.Send<AddUserClaimRequest, AddUserClaimResponse>(
                 new AddUserClaimRequest(id, request.ClaimType.TypeName, request.Value), token);
 
             if (!response.Success) 
@@ -46,8 +38,8 @@ namespace AuthService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await _eventBus.Send<UpdateUserClaimRequest, UpdateUserClaimResponse>(
-                new UpdateUserClaimRequest(id, request.ClaimType.TypeName, request.Value), token);
+            var response = await eventBus.Send<UpdateUserClaimRequest, UpdateUserClaimResponse>(
+                new UpdateUserClaimRequest(id, request.ClaimId, request.ClaimType.TypeName, request.Value), token);
 
             return response.Success
                 ? Ok()
@@ -62,7 +54,7 @@ namespace AuthService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await _eventBus.Send<DeleteUserClaimRequest, DeleteUserClaimResponse>(
+            var response = await eventBus.Send<DeleteUserClaimRequest, DeleteUserClaimResponse>(
                 new DeleteUserClaimRequest(id, request.ClaimType.TypeName, request.Value), token);
 
             return response.Success
@@ -78,7 +70,7 @@ namespace AuthService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userResponse = await _eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id), token);
+            var userResponse = await eventBus.Send<GetUserByIdRequest, GetUserByIdResponse>(new GetUserByIdRequest(id), token);
 
             if (!userResponse.Success) 
             { 
@@ -87,7 +79,8 @@ namespace AuthService.Controllers
 
             var userClaims = userResponse.User!.Claims.Select(claim => 
                 new UserClaimModel { 
-                    ClaimType = new ClaimTypeValues(TypeShortName: claim.Name.Split('/').Last(), TypeName: claim.Name), 
+                    ClaimType = new ClaimTypeValues(TypeShortName: claim.Name.Split('/').Last(), TypeName: claim.Name),
+                    ClaimId = claim.Id.Code,
                     Value = claim.Value,
                     IsFixed = claim.IsFixed
                 });
@@ -98,11 +91,21 @@ namespace AuthService.Controllers
         [HttpGet]
         public async Task<IList<ClaimTypeValues>> GetClaimTypes(CancellationToken token)
         {
-            var response = await _eventBus.Send<GetClaimTypesRequest, GetClaimTypesResponse>(new GetClaimTypesRequest(), token);
+            var response = await eventBus.Send<GetClaimTypesRequest, GetClaimTypesResponse>(new GetClaimTypesRequest(), token);
             
             return response.Success 
                 ? response.ClaimTypes
                 : new List<ClaimTypeValues>();
+        }
+
+        [HttpGet]
+        public async Task<IList<string>> GetAppNames(CancellationToken token)
+        {
+            var response = await eventBus.Send<GetAllAppNamesRequest, GetAllAppNamesResponse>(new GetAllAppNamesRequest(), token);
+
+            return response.Success
+                ? response.appNames
+                : new List<string>();
         }
     }
 }

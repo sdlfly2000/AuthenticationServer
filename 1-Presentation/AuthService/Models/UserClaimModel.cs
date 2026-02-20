@@ -6,7 +6,7 @@ namespace AuthService.Models
     {
         public ClaimTypeValues ClaimType { get; set; }
         public string Value { get; set; }
-
+        public string ClaimId { get; set; }
         public bool IsFixed { get; set; }
     }
 }

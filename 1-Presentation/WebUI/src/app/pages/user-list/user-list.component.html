@@ -3,6 +3,12 @@
     <p-divider />
     @if (Users()){
     <div class="card">
+        <p-toolbar>
+            <ng-template #start>
+                <user-list-cmd-assign-app [selectedUsers]="SelectedUsers"></user-list-cmd-assign-app>                
+                <user-list-cmd-assign-role [selectedUsers]="SelectedUsers"></user-list-cmd-assign-role>
+            </ng-template>
+        </p-toolbar>
         <p-table #UserTable
                  [value]="Users()"
                  [(selection)]="SelectedUsers"
@@ -13,7 +19,7 @@
                  [loading]="IsLoading"
                  [paginator]="true"
                  [globalFilterFields]="['userName', 'displayName']"
-                 [tableStyle]="{ 'min-width': '50rem' }" >
+                 [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template #caption>
                 <div class="flex">
                     <p-iconfield iconPosition="left" class="ml-auto">
