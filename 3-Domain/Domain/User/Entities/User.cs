@@ -1,5 +1,6 @@
 ﻿using Domain.User.ValueObjects;
 using Infra.Core.DomainBasics;
+using System.Text.Json.Serialization;
 
 namespace Domain.User.Entities
 {
@@ -9,6 +10,7 @@ namespace Domain.User.Entities
 
         public string UserName { get; set; } = userName;
 
+        [JsonIgnore]
         public string PasswordHash { get; set; }
 
         public string DisplayName { get;set;}
