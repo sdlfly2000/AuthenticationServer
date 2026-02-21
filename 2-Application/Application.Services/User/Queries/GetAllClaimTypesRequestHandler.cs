@@ -28,7 +28,9 @@ namespace Application.Services.User.Queries
                 .ToList();
 
             claimTypeValues.AddRange(
-                typeof(ClaimTypesEx).GetFields().Where(type => type.IsPublic && type.IsStatic)
+                typeof(ClaimTypesEx).GetFields()
+                .Where(type => type.IsPublic && type.IsStatic)
+                .Where(type => !type.Name.Equals(nameof(ClaimTypesEx.AppsAuthenticated)))
                 .Select(type => new ClaimTypeValues(type.Name, type.GetValue(type.Name)?.ToString()))
                 .ToList());
 
