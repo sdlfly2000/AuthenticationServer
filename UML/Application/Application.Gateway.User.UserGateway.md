@@ -19,7 +19,7 @@ flowchart TB
             direction TB
             NewUser["New a ***User***"] -->
             AddNameIdentifier["Add a ***NameIdentifier*** ***Claim*** to the new ***User***"] -->
-            InsertUser["`Insert ***User*** with Repository`"]
+            InsertUser["`Add ***User*** with Repository`"]
         end
     end
 
@@ -35,7 +35,86 @@ flowchart TB
     style password_extraction_verification stroke-dasharray: 5 5;
     style insert_user_database stroke-dasharray: 5 5;        
 ```
+---
+# Application.Gateway.User - UserGateway.AssignApp
 
+```mermaid
+---
+title: "Procedure: Assign User Authenticated App Procedure"
+---
+
+flowchart TB
+    start_overall((start))
+
+    subgraph maing[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:50em'>Application.Gateway.User.UserGateway.AssignApp</div>]
+
+        subgraph subg1[<div style='display:flex; justify-content:flex-start; align-items:flex-start;width:48em'>Application.Services.User.CommandHandlers.AddUserClaimCommandHandler</div>]
+            direction TB
+            AddUserClaimCommandHandler[Add ***ClaimTypesEx.AppsAuthenticated*** with value ***AppName*** to ***User*** ]
+        end
+    end
+
+    end_overall(end)
+
+    %%{Note}%%
+    
+    %%{relationship}%%
+    start_overall --> AddUserClaimCommandHandler --> 
+    end_overall
+
+    %% Custom Styles
+    style maing stroke-dasharray: 5 5;
+    style subg1 stroke-dasharray: 5 5;
+```
+---
+# Application.Gateway.User - UserGateway.AssignRole
+
+```mermaid
+---
+title: "Procedure: Assign User Role Procedure"
+---
+
+flowchart TB
+
+    subgraph mainExceptions [Exceptions]
+        direction TB
+        InvalidOperationException1["Throw ***InvalidOperationException*** (***User.UserName*** is not authorized to ***AppName***) Exception"]
+    end
+
+    start_overall((start))
+
+    subgraph maing[Application.Gateway.User.UserGateway.AssignRole]
+
+        subgraph subg1[GetUserByIdQueryRequestHandlder]
+            direction TB
+            GetUserByIdQueryRequestHandlder[Find ***User*** with ***UserId*** ]
+        end
+
+        check1{***AppName*** is assigned to ***User***?}
+
+        subgraph subg2[AddUserClaimCommandHandler]
+            direction TB
+            AddUserClaimCommandHandler[Add ***AppName***:***RoleName*** as value to ***ClaimTypes.Role*** of ***User*** ]
+        end
+
+    end
+
+    end_overall(end)
+
+    %%{Note}%%
+    
+    %%{relationship}%%
+    start_overall --> GetUserByIdQueryRequestHandlder -->
+    check1 --"no"--> InvalidOperationException1
+    check1 --"yes"--> AddUserClaimCommandHandler -->
+    end_overall
+
+    %% Custom Styles
+    style maing stroke-dasharray: 5 5;
+    style subg1 stroke-dasharray: 5 5;
+    style subg2 stroke-dasharray: 5 5;
+    style mainExceptions stroke-dasharray: 5 5;
+```
 ---
 
 ```mermaid
@@ -48,12 +127,17 @@ config:
 classDiagram
     %%{Class Definition}%%
 
+
+
     class UserGateway {
         - userPersistor: IUserPersistor
         - userRepository: IUserRepository
         - serviceProvider: IServiceProvider
         + Register(request: RegisterUserRawRequest): RegisterUserResponse
+        + AssignApp(request: AssignAppRequest): AssignAppResponse
+        + AssignRole(request: AssignRoleRequest): AssignRoleResponse
     }
+    class AppRequest { }
 
     class AppResponse {
         <<abstract>>
@@ -67,13 +151,31 @@ classDiagram
         + DisplayName: string
     }
 
-    class RegisterUserResponse {
-
+    class AssignAppRequest { 
+        + UserId: string
+        + AppName: string
     }
 
+    class AssignRoleRequest { 
+        + UserId: string
+        + AppName: string
+        + roleName: string
+    }
+
+    class RegisterUserResponse {}
+
+    class AssignAppResponse {}
+
+    class AssignRoleResponse {}
+
     %%{Class Relationship}%%
-    UserGateway --  RegisterUserRawRequest : use
-    UserGateway --  RegisterUserResponse : use
+
+    AppRequest <|-- RegisterUserRawRequest
+    AppRequest <|-- AssignAppRequest
+    AppRequest <|-- AssignRoleRequest
+
     AppResponse <|-- RegisterUserResponse
+    AppResponse <|-- AssignAppResponse
+    AppResponse <|-- AssignRoleResponse
 
 ```
