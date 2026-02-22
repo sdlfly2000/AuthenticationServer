@@ -1,9 +1,10 @@
 ﻿using Application.Services.ReqRes;
 using Application.Services.User.CommandHandlers;
+using Common.Core.AOP.LogTrace;
+using Common.Core.Domain;
 using Domain.User.Persistors;
 using Domain.User.Repositories;
 using Domain.User.ValueObjects;
-using Infra.Core.DomainBasics;
 using Infra.Core.RequestTrace;
 using Infra.Core.Test;
 using Microsoft.Extensions.DependencyInjection;

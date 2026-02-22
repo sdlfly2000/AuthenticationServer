@@ -19,12 +19,12 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageReference Include="MrAdvice" Version="2.20.1" />
-    <PackageReference Include="Reqnroll" Version="3.3.2" />
-    <PackageReference Include="Reqnroll.MsTest" Version="3.3.2" />
-    <PackageReference Include="Reqnroll.Microsoft.Extensions.DependencyInjection" Version="3.3.2" />
-    <PackageReference Include="MSTest" Version="4.0.2" />
-    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" Version="3.3.2" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.2" />
+    <PackageReference Include="Reqnroll" Version="3.3.3" />
+    <PackageReference Include="Reqnroll.MsTest" Version="3.3.3" />
+    <PackageReference Include="Reqnroll.Microsoft.Extensions.DependencyInjection" Version="3.3.3" />
+    <PackageReference Include="MSTest" Version="4.1.0" />
+    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" Version="3.3.3" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.3" />
   </ItemGroup>
   
   <ItemGroup>

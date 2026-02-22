@@ -1,8 +1,7 @@
-﻿using Common.Core.DependencyInjection;
+﻿using Common.Core.AOP.LogTrace;
+using Common.Core.DependencyInjection;
 using Infra.Core.Configurations;
-using Infra.Core.RequestTrace;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace Infra.Core.Middlewares

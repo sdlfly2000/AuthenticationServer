@@ -4,7 +4,7 @@ namespace Infra.Core.Configurations;
 
 public static class ConfigurationService
 {
-    private static IConfiguration _configuration;
+    private static IConfiguration? _configuration;
     private static object _lock = new();
     public static IConfiguration GetConfiguration()
     {

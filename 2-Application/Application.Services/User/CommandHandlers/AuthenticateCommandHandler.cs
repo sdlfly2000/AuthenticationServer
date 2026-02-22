@@ -1,10 +1,10 @@
 ﻿using Application.Services.ReqRes;
+using Common.Core.AOP.LogTrace;
 using Common.Core.Authentication;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
 using Infra.Core;
-using Infra.Core.LogTrace;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

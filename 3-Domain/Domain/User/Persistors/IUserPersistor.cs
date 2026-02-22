@@ -1,5 +1,5 @@
-﻿using Domain.User.ValueObjects;
-using Infra.Core.DomainBasics;
+﻿using Common.Core.Domain;
+using Domain.User.ValueObjects;
 
 namespace Domain.User.Persistors
 {

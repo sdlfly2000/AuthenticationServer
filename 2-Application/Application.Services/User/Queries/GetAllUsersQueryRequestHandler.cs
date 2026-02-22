@@ -1,10 +1,10 @@
 ﻿using Application.Services.Authorizations.Attributes;
 using Application.Services.ReqRes;
+using Common.Core.AOP.LogTrace;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.Authorizations.Enum;
 using Domain.User.Repositories;
-using Infra.Core.LogTrace;
 
 namespace Application.Services.User.Queries
 {
