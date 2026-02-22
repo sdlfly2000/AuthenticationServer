@@ -1,10 +1,10 @@
 ﻿using Application.Gateway.User.Models;
 using Application.Services.ReqRes;
+using Common.Core.AOP.LogTrace;
 using Common.Core.CQRS;
 using Common.Core.DependencyInjection;
 using Infra.Core;
 using Infra.Core.Authorization;
-using Infra.Core.LogTrace;
 using System.Security.Claims;
 
 namespace Application.Gateway.User;

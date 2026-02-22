@@ -1,8 +1,8 @@
 ﻿using Common.Core.DependencyInjection;
+using Common.Core.Domain;
 using Domain.User.Entities;
 using Domain.User.Persistors;
 using Domain.User.ValueObjects;
-using Infra.Core.DomainBasics;
 
 namespace Infra.Database.Persistors
 {

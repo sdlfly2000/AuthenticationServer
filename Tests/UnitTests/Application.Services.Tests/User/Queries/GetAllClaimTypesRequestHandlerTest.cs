@@ -1,5 +1,6 @@
 ﻿using Application.Services.ReqRes;
 using Application.Services.User.Queries;
+using Common.Core.AOP.LogTrace;
 using Infra.Core.RequestTrace;
 using Infra.Core.Test;
 using Microsoft.Extensions.DependencyInjection;

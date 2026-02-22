@@ -1,5 +1,6 @@
 ﻿using ArxOne.MrAdvice.Advice;
 using Common.Core.AOP;
+using Common.Core.AOP.LogTrace;
 using Domain.Authorizations.Enum;
 using Domain.Authorizations.Repositories;
 using Infra.Core.Exceptions;

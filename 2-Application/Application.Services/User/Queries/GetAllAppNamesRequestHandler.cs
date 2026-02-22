@@ -1,8 +1,8 @@
 ﻿using Application.Services.ReqRes;
+using Common.Core.AOP.LogTrace;
 using Common.Core.CQRS.Request;
 using Common.Core.DependencyInjection;
 using Domain.User.Repositories;
-using Infra.Core.LogTrace;
 using System.Security.Claims;
 
 namespace Application.Services.User.Queries;
