@@ -8,7 +8,7 @@ using Reqnroll;
 using System.Security.Claims;
 using System.Text;
 
-namespace Application.Gateway.BDD.User
+namespace Application.Gateway.BDD.StepDefinitions
 {
     [Binding]
     public class UserRegisterStepDefinitions(

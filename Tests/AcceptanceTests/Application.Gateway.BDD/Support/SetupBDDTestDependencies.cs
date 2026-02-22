@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Application.Gateway.BDD
+namespace Application.Gateway.BDD.Support
 {
     internal class SetupBDDTestDependencies
     {
