@@ -1,5 +1,5 @@
 ﻿using Common.Core.Domain.Marks;
-using Infra.Core.CacheFieldNames;
+using Infra.Core.Cache;
 
 namespace Domain.User.ValueObjects;
 

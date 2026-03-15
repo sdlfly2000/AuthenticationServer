@@ -46,6 +46,13 @@ builder.Services.AddAuthorizationBuilder()
 // Add Local Cache Support
 builder.Services.AddMemoryCache();
 
+// Add Local Redis Cache Support
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = builder.Configuration["Application:Properties:Name"];
+});
+
 // Add JWT Options
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWT"));
 
