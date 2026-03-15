@@ -61,8 +61,9 @@ namespace Application.Services.User.CommandHandlers
                 jwtOptions = new JWTOptions
                 {
                     ExpireSeconds = 86400, // 24 hr
+                    LiveTimeMin = 1440,
                     Issuer = "AuthenticationService",
-                    SigningKey = "fasdfad&9045dafz222#fadpio@0232121582"
+                    SigningKey = "fasdfad&9045dafz222#fadpio@0232121582"                    
                 };
             }
 

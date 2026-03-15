@@ -28,13 +28,23 @@ public class MemoryCacheRedisService : IMemoryCacheService
         return (true, cachedValue);
     }
 
+    public async Task<bool> InsertIfNotExist<T>(string cacheKeyUnique, T jsonValue, TimeSpan expire, CancellationToken? token)
+    {
+        var value = await _redisCache.GetAsync(cacheKeyUnique, token ?? CancellationToken.None).ConfigureAwait(false);
+        if(value is null)
+        {
+            return await Upsert(cacheKeyUnique, jsonValue, expire, token).ConfigureAwait(false);
+        }
+        return true;
+    }
+
     public async Task<bool> Upsert<T>(string cacheKeyUnique, T jsonValue, TimeSpan expire, CancellationToken? token)
     {
         await _redisCache.SetStringAsync(cacheKeyUnique, JsonSerializer.Serialize(jsonValue), new DistributedCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = expire
         }, token ?? CancellationToken.None).ConfigureAwait(false);
-
+        
         return true;
     }
 }
