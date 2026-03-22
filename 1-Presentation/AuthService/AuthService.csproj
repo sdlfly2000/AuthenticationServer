@@ -8,6 +8,7 @@
     <SpaRoot>..\AngularPresentation</SpaRoot>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
+    <UserSecretsId>8c39191f-024b-4f32-a120-10ccc280d630</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
