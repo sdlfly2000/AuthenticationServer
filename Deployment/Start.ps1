@@ -16,6 +16,10 @@ Start-Sleep -Seconds 2
 ./1-3-IntegrationTest.ps1
 Start-Sleep -Seconds 2
 
+# Deploy Configurations
+./1-4-DeployConfigurations.ps1
+Start-Sleep -Seconds 2
+
 # step Zip Buid
 ./2-ZipBuilt.ps1
 Start-Sleep -Seconds 2
