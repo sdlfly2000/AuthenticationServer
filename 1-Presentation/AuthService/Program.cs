@@ -17,11 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 // Add Database
 var connectionString = builder.Configuration.GetConnectionString("IdentityDatabase");
-builder.Services.AddDbContextPool<IdDbContext>(
-    options => options.UseSqlServer(
-        connectionString,
-        b => b.MigrationsAssembly("Infra.Database"))
-);
+builder.Services.AddDatabase(connectionString);
 
 // Add CORS to allow cross domain query
 builder.Services.AddCors(option =>
