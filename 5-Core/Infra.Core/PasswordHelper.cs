@@ -16,12 +16,13 @@ namespace Infra.Core
             var datetimeSent = long.Parse(pwdCompounds[1]) / 1000;
 
             var currentDatetime = DateTime.UtcNow;
+            var asbDiffInSec =  Math.Abs((currentDatetime - DateTime.UnixEpoch).TotalSeconds - datetimeSent);
 
             AllowDelayInSec = GetConfiguration().GetValue<int>("AuthServiceConfigure:AllowMaxDelayInSec", DEFAULT_ALLOW_DELAY_IN_SEC);
 
-            Log.Information($"{nameof(PasswordHelper)}: CurrentDatetime: {currentDatetime}, UnixEpoch: {DateTime.UnixEpoch}, DatetimeSent: {datetimeSent}, ALLOW_DELAY_IN_SEC: {AllowDelayInSec}, result: {(currentDatetime - DateTime.UnixEpoch).TotalSeconds - datetimeSent}");
+            Log.Information($"{nameof(PasswordHelper)}: CurrentDatetime: {currentDatetime}, UnixEpoch: {DateTime.UnixEpoch}, DatetimeSent: {datetimeSent}, ALLOW_DELAY_IN_SEC: {AllowDelayInSec}, result: {asbDiffInSec}");
 
-            if (((currentDatetime - DateTime.UnixEpoch).TotalSeconds - datetimeSent) > AllowDelayInSec)
+            if (asbDiffInSec > AllowDelayInSec)
             {
                 return null;
             }

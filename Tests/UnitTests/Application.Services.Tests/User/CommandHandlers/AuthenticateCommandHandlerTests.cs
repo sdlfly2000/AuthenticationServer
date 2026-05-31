@@ -17,7 +17,7 @@ namespace Application.Services.Tests.User.CommandHandlers
 
         private string Pwd = Convert.ToBase64String(
             System.Text.Encoding.UTF8.GetBytes(
-                string.Concat("Password", "|", DateTime.Now.Ticks.ToString())));
+                string.Concat("Password", "|", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString())));
 
         private Mock<IUserRepository> _userRepositoryMock;
         private IServiceProvider _serviceProvider;
