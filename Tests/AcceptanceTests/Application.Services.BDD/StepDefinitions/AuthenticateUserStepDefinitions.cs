@@ -22,7 +22,7 @@ namespace Application.Services.BDD.StepDefinitions
         {
             var pwdEncoded = Convert.ToBase64String(
             System.Text.Encoding.UTF8.GetBytes(
-                string.Concat(pwd, "|", DateTime.Now.Ticks.ToString())));
+                string.Concat(pwd, "|", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString())));
             _authenticateRequest = new AuthenticateRequest(testUser, pwdEncoded, userAgent);
         }
 
