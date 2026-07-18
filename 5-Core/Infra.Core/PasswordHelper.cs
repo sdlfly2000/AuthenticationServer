@@ -20,7 +20,7 @@ namespace Infra.Core
 
             AllowDelayInSec = GetConfiguration().GetValue<int>("AuthServiceConfigure:AllowMaxDelayInSec", DEFAULT_ALLOW_DELAY_IN_SEC);
 
-            Log.Information($"{nameof(PasswordHelper)}: CurrentDatetime: {currentDatetime}, UnixEpoch: {DateTime.UnixEpoch}, DatetimeSent: {datetimeSent}, ALLOW_DELAY_IN_SEC: {AllowDelayInSec}, result: {asbDiffInSec}");
+            Log.Information($"{nameof(PasswordHelper)}: CurrentDatetime (server): {currentDatetime}, UnixEpoch: {DateTime.UnixEpoch}, DatetimeSent (client): {datetimeSent} ({DateTime.UnixEpoch.AddSeconds(datetimeSent)}), ALLOW_DELAY_IN_SEC: {AllowDelayInSec}, result: {asbDiffInSec}");
 
             if (asbDiffInSec > AllowDelayInSec)
             {
